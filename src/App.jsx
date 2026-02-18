@@ -543,8 +543,13 @@ export default function PhiloSim() {
         {/* ═══ PHASE 3: SCENARIO SELECT ═══ */}
         {view === "scenarios" && (
           <div style={{ padding: 28, maxWidth: 900, margin: "0 auto" }}>
-            <h2 style={{ fontFamily: FD, fontSize: 34, fontWeight: 700, marginBottom: 6 }}>{t.selectScenario}</h2>
-            <p style={{ color: C.textSecondary, fontSize: 18, marginBottom: 24, lineHeight: 1.6 }}>{t.selectSub}</p>
+            <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 24 }}>
+              <div style={{ width: 80, height: 80, borderRadius: "50%", overflow: "hidden", border: `2px solid ${S.gold}`, flexShrink: 0, boxShadow: `0 0 30px ${S.glow}` }}><img src="/socrates.png" alt="Socrates" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} /></div>
+              <div>
+                <h2 style={{ fontFamily: FD, fontSize: 34, fontWeight: 700, margin: "0 0 6px" }}>{t.selectScenario}</h2>
+                <p style={{ color: C.textSecondary, fontSize: 18, lineHeight: 1.6, margin: 0 }}>{t.selectSub}</p>
+              </div>
+            </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(380px, 1fr))", gap: 16 }}>
               {SCENARIOS.map((sc, i) => (
                 <div key={sc.id} onClick={() => startScenario(sc)} style={{ background: C.bgCard, border: `1px solid ${C.borderSubtle}`, borderRadius: 16, padding: 22, cursor: "pointer", transition: "all 0.3s", animation: `fadeUp 0.4s ease ${i * 0.08}s both` }}
