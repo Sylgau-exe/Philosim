@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — PhiloSim</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    :root{--bg:#05050a;--bg2:#0d0d14;--card:#141420;--text:#fff;--text2:#9ca3af;--muted:#6b7280;--gold:#d4a853;--gold2:#b8923e;--purple:#6366f1;--green:#10b981;--warn:#f59e0b;--err:#ef4444;--cyan:#06b6d4;--border:rgba(255,255,255,0.06);--gborder:rgba(212,168,83,0.22);--gglow:rgba(212,168,83,0.15);}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+    .hd{font-family:'Space Grotesk',sans-serif;}
+    a{color:var(--gold);text-decoration:none;}
+    ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:4px;}
+
+    .topbar{padding:16px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--bg2);}
+    .topbar .brand{display:flex;align-items:center;gap:10px;}
+    .topbar .brand img{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--gold);}
+    .topbar .brand span{font-family:'Space Grotesk';font-weight:700;font-size:20px;}
+    .topbar .links{display:flex;gap:12px;align-items:center;}
+    .topbar .links a{padding:8px 16px;border-radius:8px;font-size:14px;font-weight:600;}
+    .topbar .links .active{background:rgba(212,168,83,0.1);color:var(--gold);border:1px solid var(--gborder);}
+    .btn-sm{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:'DM Sans';}
+    .btn-gold-sm{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0a0a0a;}
+    .btn-out-sm{background:transparent;color:var(--text2);border:1px solid var(--border);}
+
+    .container{max-width:1000px;margin:0 auto;padding:32px;}
+    .welcome{margin-bottom:32px;}
+    .welcome h1{font-family:'Space Grotesk';font-size:32px;font-weight:700;}
+    .welcome p{color:var(--text2);font-size:17px;margin-top:4px;}
+
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;}
+    .stat-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;}
+    .stat-card .label{font-size:13px;color:var(--muted);text-transform:uppercase;font-weight:600;letter-spacing:0.05em;margin-bottom:8px;}
+    .stat-card .value{font-family:'Space Grotesk';font-size:32px;font-weight:700;}
+    .stat-card .sub{font-size:13px;color:var(--text2);margin-top:4px;}
+
+    .section-title{font-family:'Space Grotesk';font-size:22px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+    .plan-card{background:var(--card);border:1px solid var(--gborder);border-radius:14px;padding:24px;display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;}
+    .plan-card .plan-name{font-family:'Space Grotesk';font-size:20px;font-weight:700;color:var(--gold);}
+    .plan-card .plan-desc{color:var(--text2);font-size:15px;margin-top:4px;}
+
+    .session-list{display:flex;flex-direction:column;gap:12px;margin-bottom:32px;}
+    .session-item{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;justify-content:space-between;align-items:center;transition:all 0.2s;cursor:default;}
+    .session-item:hover{border-color:var(--gborder);}
+    .session-item .info h3{font-family:'Space Grotesk';font-size:17px;font-weight:700;}
+    .session-item .info p{font-size:14px;color:var(--muted);}
+    .session-item .score{font-family:'Space Grotesk';font-size:28px;font-weight:700;}
+    .empty{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:48px;text-align:center;color:var(--text2);}
+    .empty p{margin-bottom:16px;}
+
+    @media(max-width:768px){.stats-grid{grid-template-columns:repeat(2,1fr);}.container{padding:20px;}}
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="/" class="brand"><img src="/socrates.png" alt=""><span class="hd">PhiloSim</span></a>
+  <div class="links">
+    <a href="/dashboard" class="active">Dashboard</a>
+    <a href="/app" class="btn-sm btn-gold-sm">Play →</a>
+    <button class="btn-sm btn-out-sm" onclick="logout()">Log Out</button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="welcome">
+    <h1 class="hd">Welcome back, <span id="userName">...</span></h1>
+    <p>Your philosophical journey at a glance.</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="label">Sessions</div>
+      <div class="value" id="statSessions">0</div>
+      <div class="sub">simulations completed</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Best Score</div>
+      <div class="value" id="statBest" style="color:var(--green);">—</div>
+      <div class="sub">highest wisdom score</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Avg Score</div>
+      <div class="value" id="statAvg" style="color:var(--gold);">—</div>
+      <div class="sub">average across sessions</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Member Since</div>
+      <div class="value" id="statJoined" style="font-size:20px;">—</div>
+      <div class="sub" id="statPlan">Free plan</div>
+    </div>
+  </div>
+
+  <div class="plan-card" id="planCard">
+    <div>
+      <div class="plan-name" id="planName">Explorer (Free)</div>
+      <div class="plan-desc" id="planDesc">1 scenario with Socrates. Upgrade for full access.</div>
+    </div>
+    <a href="/#pricing" class="btn-sm btn-gold-sm">Upgrade →</a>
+  </div>
+
+  <div class="section-title">📜 Session History</div>
+  <div id="sessionList" class="session-list">
+    <div class="empty"><p>No sessions completed yet.</p><a href="/app" class="btn-sm btn-gold-sm">Start Your First Simulation →</a></div>
+  </div>
+</div>
+
+<script>
+const token = localStorage.getItem('auth_token');
+if (!token) window.location.href = '/?login=1';
+
+async function loadDashboard() {
+  try {
+    const r = await fetch('/api/auth/me', { headers: {'Authorization':'Bearer ' + token} });
+    if (!r.ok) { window.location.href = '/'; return; }
+    const { user } = await r.json();
+    document.getElementById('userName').textContent = (user.name || 'Philosopher').split(' ')[0];
+    document.getElementById('statJoined').textContent = new Date(user.createdAt).toLocaleDateString('en', {month:'short', year:'numeric'});
+    const plan = user.plan || 'free';
+    const planMap = { free: 'Explorer (Free)', thinker: 'Thinker ($19/mo)', philosopher: 'Philosopher (Lifetime)' };
+    document.getElementById('planName').textContent = planMap[plan] || planMap.free;
+    document.getElementById('statPlan').textContent = (planMap[plan] || 'Free') + ' plan';
+
+    if (plan !== 'free') {
+      document.getElementById('planDesc').textContent = 'Full access to all mentors and scenarios.';
+      const upgradeBtn = document.querySelector('#planCard a');
+      if (plan === 'thinker') {
+        upgradeBtn.textContent = 'Manage Subscription →';
+        upgradeBtn.onclick = async (e) => {
+          e.preventDefault();
+          try {
+            const sr = await fetch('/api/stripe/status', { headers: {'Authorization':'Bearer ' + token} });
+            const sd = await sr.json();
+            if (sd.portalUrl) window.location.href = sd.portalUrl;
+            else alert('Could not open billing portal. Contact support.');
+          } catch(e) { alert('Connection error.'); }
+        };
+        upgradeBtn.href = '#';
+      } else {
+        upgradeBtn.style.display = 'none';
+      }
+    }
+
+    if (user.isAdmin) {
+      const links = document.querySelector('.topbar .links');
+      const adminLink = document.createElement('a');
+      adminLink.href = '/admin';
+      adminLink.textContent = 'Admin';
+      links.insertBefore(adminLink, links.firstChild);
+    }
+  } catch(e) { console.error(e); }
+}
+
+async function loadSessions() {
+  // Try API first, fall back to localStorage
+  let sessions = [];
+  let stats = null;
+  try {
+    const r = await fetch('/api/sessions/history', { headers: {'Authorization':'Bearer ' + token} });
+    if (r.ok) {
+      const data = await r.json();
+      sessions = data.sessions.map(s => ({
+        scenarioTitle: s.scenarioTitle, overall: s.overall, date: new Date(s.date).toLocaleDateString(),
+        decisions: s.decisions?.length || 5, virtue: s.virtue, reasoning: s.reasoning, selfAware: s.selfAware, epistemic: s.epistemic
+      }));
+      stats = data.stats;
+    }
+  } catch(e) { console.warn('API sessions unavailable, using localStorage'); }
+
+  // Merge localStorage sessions not yet in DB
+  const localSessions = JSON.parse(localStorage.getItem('philosim_sessions') || '[]');
+  if (sessions.length === 0 && localSessions.length > 0) {
+    sessions = localSessions;
+  }
+
+  const list = document.getElementById('sessionList');
+  if (sessions.length === 0) return;
+  list.innerHTML = '';
+  sessions.forEach(s => {
+    const color = s.overall >= 80 ? 'var(--green)' : s.overall >= 60 ? 'var(--gold)' : 'var(--warn)';
+    list.innerHTML += `<div class="session-item">
+      <div class="info"><h3 class="hd">${s.scenarioTitle || 'Simulation'}</h3><p>${s.date || ''} · ${s.decisions || 5} decisions</p></div>
+      <div class="score" style="color:${color}">${s.overall}/100</div>
+    </div>`;
+  });
+
+  // Update stats
+  if (stats && stats.total > 0) {
+    document.getElementById('statBest').textContent = stats.bestScore;
+    document.getElementById('statAvg').textContent = stats.avgScore;
+    document.getElementById('statSessions').textContent = stats.total;
+  } else if (sessions.length > 0) {
+    const best = Math.max(...sessions.map(s => s.overall));
+    const avg = Math.round(sessions.reduce((s,x) => s + x.overall, 0) / sessions.length);
+    document.getElementById('statBest').textContent = best;
+    document.getElementById('statAvg').textContent = avg;
+    document.getElementById('statSessions').textContent = sessions.length;
+  }
+}
+
+// Show payment success toast
+const params = new URLSearchParams(window.location.search);
+if (params.get('payment') === 'success') {
+  window.history.replaceState({}, '', '/dashboard');
+  setTimeout(() => {
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;top:24px;right:24px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0a0a0a;padding:16px 24px;border-radius:12px;font-weight:700;font-family:Space Grotesk;z-index:9999;animation:fadeIn 0.3s;box-shadow:0 8px 32px rgba(212,168,83,0.4);';
+    toast.textContent = '✅ Payment successful! Welcome to ' + (params.get('plan')==='philosopher'?'Philosopher':'Thinker') + '!';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 5000);
+  }, 500);
+}
+
+function logout() { localStorage.removeItem('auth_token'); window.location.href = '/'; }
+
+loadDashboard();
+loadSessions();
+</script>
+</body>
+</html>

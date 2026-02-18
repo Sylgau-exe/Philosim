@@ -1,3 +1,8 @@
 export default function handler(req, res) {
-  res.status(200).json({ status: 'ok', app: 'PhiloSim', timestamp: new Date().toISOString() });
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  return res.status(200).json({ 
+    status: 'ok', 
+    service: 'PM Skills Assessment',
+    timestamp: new Date().toISOString()
+  });
 }

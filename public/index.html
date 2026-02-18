@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhiloSim — Think Like History's Greatest Minds</title>
+  <meta name="description" content="PhiloSim: Learn philosophy, test your understanding, and apply it under real workplace pressure. Decision-based simulations guided by Socrates, Plato, and more.">
+  <meta name="keywords" content="philosophy simulation, Socratic method, leadership training, critical thinking, business ethics, decision making">
+  <meta property="og:title" content="PhiloSim — Think Like Socrates">
+  <meta property="og:description" content="Learn it. Understand it. Apply it. Philosophy-powered decision simulations for modern leaders.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://philosim.vercel.app">
+  <meta property="og:image" content="https://philosim.vercel.app/socrates.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+  <link rel="canonical" href="https://philosim.vercel.app">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"PhiloSim","url":"https://philosim.vercel.app","description":"Philosophy-powered decision simulations for modern leaders","applicationCategory":"Education","offers":[{"@type":"Offer","price":"0","priceCurrency":"CAD","name":"Explorer"},{"@type":"Offer","price":"19","priceCurrency":"CAD","name":"Thinker"},{"@type":"Offer","price":"149","priceCurrency":"CAD","name":"Philosopher"}]}</script>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    :root{--bg:#05050a;--bg2:#0d0d14;--card:#141420;--card2:#1a1a28;--text:#fff;--text2:#9ca3af;--muted:#6b7280;--gold:#d4a853;--gold2:#b8923e;--purple:#6366f1;--purple2:#8b5cf6;--green:#10b981;--warn:#f59e0b;--err:#ef4444;--cyan:#06b6d4;--border:rgba(255,255,255,0.06);--gborder:rgba(212,168,83,0.22);--gglow:rgba(212,168,83,0.15);}
+    body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;}
+    a{color:var(--gold);text-decoration:none;}
+    .hd{font-family:'Space Grotesk',sans-serif;}
+    ::selection{background:rgba(212,168,83,0.3);}
+    ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:4px;}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,5,10,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+    .nav-brand{display:flex;align-items:center;gap:10px;}
+    .nav-brand img{width:36px;height:36px;border-radius:10px;border:1.5px solid var(--gold);}
+    .nav-brand span{font-family:'Space Grotesk';font-weight:700;font-size:22px;}
+    .nav-brand small{font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:0.05em;display:block;margin-top:-4px;}
+    .nav-links{display:flex;gap:28px;align-items:center;}
+    .nav-links a{color:var(--text2);font-size:15px;font-weight:500;transition:color 0.2s;}
+    .nav-links a:hover{color:var(--gold);}
+    .btn{display:inline-block;padding:10px 24px;border-radius:8px;font-weight:600;font-size:15px;cursor:pointer;transition:all 0.2s;border:none;font-family:'DM Sans';}
+    .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0a0a0a;}
+    .btn-gold:hover{box-shadow:0 4px 20px var(--gglow);transform:translateY(-1px);}
+    .btn-outline{background:transparent;color:var(--text2);border:1px solid var(--border);}
+    .btn-outline:hover{border-color:var(--gborder);color:var(--gold);}
+    .btn-purple{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;}
+    .btn-green{background:linear-gradient(135deg,var(--green),#059669);color:#fff;}
+
+    /* HERO */
+    .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 40px 80px;position:relative;overflow:hidden;}
+    .hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(212,168,83,0.06) 0%,transparent 70%);pointer-events:none;}
+    .hero-img{width:160px;height:160px;border-radius:50%;border:3px solid var(--gold);margin:0 auto 28px;overflow:hidden;box-shadow:0 0 80px var(--gglow);}
+    .hero-img img{width:100%;height:100%;object-fit:cover;object-position:center top;}
+    .hero h1{font-family:'Space Grotesk';font-size:clamp(36px,6vw,64px);font-weight:700;letter-spacing:-0.03em;margin-bottom:12px;}
+    .hero h1 span{background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .hero p.sub{font-size:20px;color:var(--gold);text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-bottom:12px;}
+    .hero p.desc{font-size:19px;color:var(--text2);max-width:600px;margin:0 auto 36px;line-height:1.7;}
+    .hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+
+    /* 3-PHASE */
+    .phases{padding:80px 40px;max-width:1000px;margin:0 auto;}
+    .phases h2{font-family:'Space Grotesk';font-size:36px;font-weight:700;text-align:center;margin-bottom:12px;}
+    .phases p.sub{text-align:center;color:var(--text2);font-size:18px;margin-bottom:48px;}
+    .phase-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+    .phase-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px 24px;text-align:center;transition:all 0.3s;}
+    .phase-card:hover{border-color:var(--gborder);transform:translateY(-4px);}
+    .phase-card .num{font-family:'Space Grotesk';font-size:14px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;}
+    .phase-card .icon{font-size:40px;margin-bottom:12px;}
+    .phase-card h3{font-family:'Space Grotesk';font-size:22px;font-weight:700;margin-bottom:8px;}
+    .phase-card p{color:var(--text2);font-size:15px;line-height:1.6;}
+
+    /* PRICING */
+    .pricing{padding:80px 40px;background:var(--bg2);}
+    .pricing h2{font-family:'Space Grotesk';font-size:36px;font-weight:700;text-align:center;margin-bottom:12px;}
+    .pricing p.sub{text-align:center;color:var(--text2);font-size:18px;margin-bottom:48px;}
+    .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1000px;margin:0 auto;}
+    .price-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;position:relative;transition:all 0.3s;}
+    .price-card.featured{border-color:var(--gold);box-shadow:0 0 40px var(--gglow);}
+    .price-card .badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0a0a0a;padding:4px 16px;border-radius:20px;font-size:12px;font-weight:700;text-transform:uppercase;}
+    .price-card h3{font-family:'Space Grotesk';font-size:22px;font-weight:700;margin-bottom:4px;}
+    .price-card .price{font-family:'Space Grotesk';font-size:42px;font-weight:700;margin:12px 0 4px;}
+    .price-card .price span{font-size:16px;color:var(--text2);font-weight:400;}
+    .price-card .note{font-size:14px;color:var(--muted);margin-bottom:20px;}
+    .price-card ul{list-style:none;margin-bottom:24px;}
+    .price-card ul li{padding:8px 0;font-size:15px;color:var(--text2);border-bottom:1px solid var(--border);}
+    .price-card ul li::before{content:'✦ ';color:var(--gold);}
+    .price-card .btn{width:100%;text-align:center;display:block;}
+
+    /* FOOTER */
+    footer{padding:40px;text-align:center;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+    footer a{color:var(--gold);}
+
+    /* AUTH MODAL */
+    .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);z-index:200;align-items:center;justify-content:center;}
+    .modal-bg.show{display:flex;}
+    .modal{background:var(--card);border:1px solid var(--gborder);border-radius:20px;padding:36px;width:100%;max-width:420px;position:relative;animation:fadeUp 0.3s ease;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+    .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;}
+    .modal h2{font-family:'Space Grotesk';font-size:26px;font-weight:700;margin-bottom:4px;text-align:center;}
+    .modal p.sub{text-align:center;color:var(--text2);font-size:15px;margin-bottom:24px;}
+    .modal .google-btn{width:100%;padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px;transition:all 0.2s;font-family:'DM Sans';}
+    .modal .google-btn:hover{border-color:var(--gborder);background:var(--card2);}
+    .modal .divider{display:flex;align-items:center;gap:12px;margin-bottom:16px;color:var(--muted);font-size:13px;}
+    .modal .divider::before,.modal .divider::after{content:'';flex:1;height:1px;background:var(--border);}
+    .modal label{display:block;font-size:14px;font-weight:600;color:var(--text2);margin-bottom:6px;}
+    .modal input{width:100%;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:16px;font-family:'DM Sans';margin-bottom:14px;outline:none;transition:border 0.2s;}
+    .modal input:focus{border-color:var(--gold);}
+    .modal .submit-btn{width:100%;padding:14px;font-size:16px;font-weight:700;border:none;border-radius:10px;cursor:pointer;font-family:'Space Grotesk';transition:all 0.2s;}
+    .modal .submit-btn.gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0a0a0a;}
+    .modal .submit-btn.gold:hover{box-shadow:0 4px 20px var(--gglow);}
+    .modal .switch{text-align:center;margin-top:16px;font-size:14px;color:var(--text2);}
+    .modal .switch a{cursor:pointer;color:var(--gold);font-weight:600;}
+    .modal .forgot{text-align:right;margin-top:-8px;margin-bottom:14px;}
+    .modal .forgot a{font-size:13px;color:var(--gold);cursor:pointer;}
+    .modal .error{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:var(--err);padding:10px 14px;border-radius:8px;font-size:14px;margin-bottom:14px;display:none;}
+    .modal .success{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:var(--green);padding:10px 14px;border-radius:8px;font-size:14px;margin-bottom:14px;display:none;}
+
+    /* LOGGED-IN STATE */
+    .logged-out{display:flex;gap:10px;align-items:center;}
+    .logged-in{display:none;align-items:center;gap:12px;}
+    .logged-in .user-name{color:var(--text2);font-size:14px;font-weight:500;}
+    .logged-in .avatar{width:32px;height:32px;border-radius:50%;background:var(--purple);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;}
+
+    @media(max-width:768px){
+      nav{padding:12px 20px;}
+      .nav-links a.desk{display:none;}
+      .hero{padding:100px 20px 60px;}
+      .phase-grid,.price-grid{grid-template-columns:1fr;}
+      .pricing,.phases{padding:60px 20px;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <img src="/socrates.png" alt="PhiloSim">
+    <div><span class="hd">PhiloSim</span><small>by BizSimHub</small></div>
+  </div>
+  <div class="nav-links">
+    <a href="#phases" class="desk">How It Works</a>
+    <a href="#pricing" class="desk">Pricing</a>
+    <div class="logged-out" id="loggedOut">
+      <button class="btn btn-outline" onclick="showModal('login')">Log In</button>
+      <button class="btn btn-gold" onclick="showModal('register')">Sign Up Free</button>
+    </div>
+    <div class="logged-in" id="loggedIn">
+      <a href="/dashboard" class="btn btn-outline" style="padding:8px 16px;font-size:13px;">Dashboard</a>
+      <a href="/app" class="btn btn-gold" style="padding:8px 16px;font-size:13px;">Play →</a>
+      <div class="avatar" id="userAvatar"></div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="hero-img"><img src="/socrates.png" alt="Socrates"></div>
+    <p class="sub">Approach Your Work Like Socrates</p>
+    <h1 class="hd">Learn It. Understand It.<br><span>Apply It Under Pressure.</span></h1>
+    <p class="desc">Philosophy-powered decision simulations for modern leaders. Learn the method, test your grasp, then prove you can think like Socrates when real stakes are on the table.</p>
+    <div class="hero-btns">
+      <button class="btn btn-gold" style="padding:16px 36px;font-size:18px;" onclick="handleCTA()">Start Free Simulation →</button>
+      <a href="#phases" class="btn btn-outline" style="padding:16px 36px;font-size:18px;">See How It Works</a>
+    </div>
+  </div>
+</section>
+
+<!-- 3 PHASES -->
+<section class="phases" id="phases">
+  <h2 class="hd">Three Phases. One Transformation.</h2>
+  <p class="sub">Each simulation takes you through a complete learning journey.</p>
+  <div class="phase-grid">
+    <div class="phase-card">
+      <div class="num">Phase 1</div>
+      <div class="icon">📖</div>
+      <h3 class="hd">The Philosophy</h3>
+      <p>Watch the origin story. Study 5 core pillars. Understand the thinker's method before you try to use it.</p>
+    </div>
+    <div class="phase-card">
+      <div class="num">Phase 2</div>
+      <div class="icon">🧠</div>
+      <h3 class="hd">Do You Get It?</h3>
+      <p>4 scenario-based questions test whether you actually internalized the philosophy — or just memorized words.</p>
+    </div>
+    <div class="phase-card">
+      <div class="num">Phase 3</div>
+      <div class="icon">⚡</div>
+      <h3 class="hd">Apply Under Pressure</h3>
+      <p>5 high-stakes decisions. Your mentor reacts to every choice. A philosophical report reveals your true patterns.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <h2 class="hd">Choose Your Path</h2>
+  <p class="sub">Start free. Upgrade when you want the full mentorship experience.</p>
+  <div class="price-grid">
+    <div class="price-card">
+      <h3 class="hd">Explorer</h3>
+      <div class="price">$0 <span>/ forever</span></div>
+      <div class="note">Get started instantly</div>
+      <ul>
+        <li>Socrates: 1 scenario</li>
+        <li>Full 3-phase journey</li>
+        <li>Basic philosophical report</li>
+        <li>Bilingual (EN/FR)</li>
+      </ul>
+      <button class="btn btn-outline" style="width:100%;" onclick="handleCTA()">Start Free →</button>
+    </div>
+    <div class="price-card featured">
+      <div class="badge">Most Popular</div>
+      <h3 class="hd" style="color:var(--gold);">Thinker</h3>
+      <div class="price" style="color:var(--gold);">$19 <span>/ month</span></div>
+      <div class="note">Full access to all mentors</div>
+      <ul>
+        <li>All mentors & scenarios</li>
+        <li>Detailed decision analysis</li>
+        <li>Progress tracking dashboard</li>
+        <li>PDF report export</li>
+        <li>Priority new content</li>
+      </ul>
+      <button class="btn btn-gold" onclick="handleCTA('thinker')">Get Thinker Plan →</button>
+    </div>
+    <div class="price-card">
+      <h3 class="hd">Philosopher</h3>
+      <div class="price">$149 <span>/ lifetime</span></div>
+      <div class="note">One payment, forever access</div>
+      <ul>
+        <li>Everything in Thinker</li>
+        <li>All future mentors included</li>
+        <li>Team/classroom sharing</li>
+        <li>Early beta access</li>
+        <li>Lifetime updates</li>
+      </ul>
+      <button class="btn btn-purple" onclick="handleCTA('philosopher')">Get Lifetime Access →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 PhiloSim by <a href="https://bizsimhub.com" target="_blank">BizSimHub</a> · <a href="https://sylvainpmo.com" target="_blank">Sylvain PMO Consulting</a></p>
+  <p style="margin-top:8px;">Montreal, QC · Built for thinkers, by thinkers.</p>
+</footer>
+
+<!-- AUTH MODAL -->
+<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+
+    <!-- LOGIN -->
+    <div id="loginForm">
+      <h2 class="hd">Welcome Back</h2>
+      <p class="sub">Continue your philosophical journey</p>
+      <div class="error" id="loginError"></div>
+      <button class="google-btn" onclick="googleLogin()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Continue with Google
+      </button>
+      <div class="divider">or sign in with email</div>
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="you@example.com">
+      <label>Password</label>
+      <input type="password" id="loginPassword" placeholder="Your password">
+      <div class="forgot"><a onclick="showModal('forgot')">Forgot password?</a></div>
+      <button class="submit-btn gold" onclick="doLogin()">Sign In</button>
+      <div class="switch">Don't have an account? <a onclick="showModal('register')">Sign up free</a></div>
+    </div>
+
+    <!-- REGISTER -->
+    <div id="registerForm" style="display:none">
+      <h2 class="hd">Start Your Journey</h2>
+      <p class="sub">Create your free PhiloSim account</p>
+      <div class="error" id="registerError"></div>
+      <button class="google-btn" onclick="googleLogin()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Sign up with Google
+      </button>
+      <div class="divider">or use email</div>
+      <label>Full Name</label>
+      <input type="text" id="registerName" placeholder="Your name">
+      <label>Email</label>
+      <input type="email" id="registerEmail" placeholder="you@example.com">
+      <label>Password</label>
+      <input type="password" id="registerPassword" placeholder="Min 8 characters">
+      <button class="submit-btn gold" onclick="doRegister()">Create Account</button>
+      <div class="switch">Already have an account? <a onclick="showModal('login')">Sign in</a></div>
+    </div>
+
+    <!-- FORGOT PASSWORD -->
+    <div id="forgotForm" style="display:none">
+      <h2 class="hd">Reset Password</h2>
+      <p class="sub">Enter your email and we'll send a reset link</p>
+      <div class="error" id="forgotError"></div>
+      <div class="success" id="forgotSuccess"></div>
+      <label>Email</label>
+      <input type="email" id="forgotEmail" placeholder="you@example.com">
+      <button class="submit-btn gold" onclick="doForgot()">Send Reset Link</button>
+      <div class="switch"><a onclick="showModal('login')">← Back to login</a></div>
+    </div>
+
+    <!-- RESET PASSWORD -->
+    <div id="resetForm" style="display:none">
+      <h2 class="hd">New Password</h2>
+      <p class="sub">Choose a new password for your account</p>
+      <div class="error" id="resetError"></div>
+      <div class="success" id="resetSuccess"></div>
+      <label>New Password</label>
+      <input type="password" id="resetPassword" placeholder="Min 8 characters">
+      <label>Confirm Password</label>
+      <input type="password" id="resetConfirm" placeholder="Confirm password">
+      <button class="submit-btn gold" onclick="doReset()">Set New Password</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = '';
+let currentUser = null;
+
+// ── Modal ──
+function showModal(type) {
+  document.getElementById('modalBg').classList.add('show');
+  ['loginForm','registerForm','forgotForm','resetForm'].forEach(f => document.getElementById(f).style.display = 'none');
+  document.querySelectorAll('.error,.success').forEach(e => e.style.display = 'none');
+  document.getElementById(type + 'Form').style.display = 'block';
+}
+function closeModal() { document.getElementById('modalBg').classList.remove('show'); }
+
+// ── Auth Actions ──
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginError');
+  errEl.style.display = 'none';
+  if (!email || !password) { errEl.textContent = 'Please fill in all fields'; errEl.style.display = 'block'; return; }
+  try {
+    const r = await fetch(API + '/api/auth/login', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({email,password}) });
+    const data = await r.json();
+    if (!r.ok) { errEl.textContent = data.error || 'Login failed'; errEl.style.display = 'block'; return; }
+    localStorage.setItem('auth_token', data.token);
+    closeModal(); checkAuth();
+    if (pendingPlan) { const p = pendingPlan; pendingPlan = null; startCheckout(p); return; }
+  } catch(e) { errEl.textContent = 'Connection error'; errEl.style.display = 'block'; }
+}
+
+async function doRegister() {
+  const name = document.getElementById('registerName').value;
+  const email = document.getElementById('registerEmail').value;
+  const password = document.getElementById('registerPassword').value;
+  const errEl = document.getElementById('registerError');
+  errEl.style.display = 'none';
+  if (!name || !email || !password) { errEl.textContent = 'Please fill in all fields'; errEl.style.display = 'block'; return; }
+  if (password.length < 8) { errEl.textContent = 'Password must be at least 8 characters'; errEl.style.display = 'block'; return; }
+  try {
+    const r = await fetch(API + '/api/auth/register', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({name,email,password}) });
+    const data = await r.json();
+    if (!r.ok) { errEl.textContent = data.error || 'Registration failed'; errEl.style.display = 'block'; return; }
+    localStorage.setItem('auth_token', data.token);
+    closeModal(); checkAuth();
+    if (pendingPlan) { const p = pendingPlan; pendingPlan = null; startCheckout(p); return; }
+    window.location.href = '/app';
+  } catch(e) { errEl.textContent = 'Connection error'; errEl.style.display = 'block'; }
+}
+
+async function doForgot() {
+  const email = document.getElementById('forgotEmail').value;
+  const errEl = document.getElementById('forgotError');
+  const sucEl = document.getElementById('forgotSuccess');
+  errEl.style.display = 'none'; sucEl.style.display = 'none';
+  if (!email) { errEl.textContent = 'Please enter your email'; errEl.style.display = 'block'; return; }
+  try {
+    const r = await fetch(API + '/api/auth/forgot-password', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({email}) });
+    const data = await r.json();
+    sucEl.textContent = 'If an account exists, a reset link has been sent to your email.';
+    sucEl.style.display = 'block';
+  } catch(e) { errEl.textContent = 'Connection error'; errEl.style.display = 'block'; }
+}
+
+async function doReset() {
+  const password = document.getElementById('resetPassword').value;
+  const confirm = document.getElementById('resetConfirm').value;
+  const errEl = document.getElementById('resetError');
+  const sucEl = document.getElementById('resetSuccess');
+  errEl.style.display = 'none'; sucEl.style.display = 'none';
+  if (!password || !confirm) { errEl.textContent = 'Please fill in both fields'; errEl.style.display = 'block'; return; }
+  if (password !== confirm) { errEl.textContent = 'Passwords do not match'; errEl.style.display = 'block'; return; }
+  if (password.length < 8) { errEl.textContent = 'Minimum 8 characters'; errEl.style.display = 'block'; return; }
+  const token = new URLSearchParams(window.location.search).get('reset_token');
+  try {
+    const r = await fetch(API + '/api/auth/reset-password', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({token,password}) });
+    const data = await r.json();
+    if (!r.ok) { errEl.textContent = data.error || 'Reset failed'; errEl.style.display = 'block'; return; }
+    sucEl.textContent = 'Password reset! Redirecting to login...';
+    sucEl.style.display = 'block';
+    setTimeout(() => showModal('login'), 2000);
+  } catch(e) { errEl.textContent = 'Connection error'; errEl.style.display = 'block'; }
+}
+
+function googleLogin() { window.location.href = API + '/api/auth/google'; }
+
+// ── Auth State ──
+async function checkAuth() {
+  const token = localStorage.getItem('auth_token');
+  if (!token) { showLoggedOut(); return; }
+  try {
+    const r = await fetch(API + '/api/auth/me', { headers: {'Authorization':'Bearer ' + token} });
+    if (!r.ok) { showLoggedOut(); return; }
+    const data = await r.json();
+    currentUser = data.user;
+    showLoggedIn(data.user);
+  } catch(e) { showLoggedOut(); }
+}
+
+function showLoggedIn(user) {
+  document.getElementById('loggedOut').style.display = 'none';
+  document.getElementById('loggedIn').style.display = 'flex';
+  document.getElementById('userAvatar').textContent = (user.name || user.email)[0].toUpperCase();
+  if (user.isAdmin) {
+    const dash = document.querySelector('a[href="/dashboard"]');
+    if (dash) dash.insertAdjacentHTML('beforebegin', '<a href="/admin" class="btn btn-outline" style="padding:8px 16px;font-size:13px;border-color:var(--warn);color:var(--warn);">Admin</a>');
+  }
+}
+
+function showLoggedOut() {
+  document.getElementById('loggedOut').style.display = 'flex';
+  document.getElementById('loggedIn').style.display = 'none';
+  currentUser = null;
+}
+
+let pendingPlan = null;
+
+function handleCTA(plan) {
+  const token = localStorage.getItem('auth_token');
+  if (!plan || plan === 'free') {
+    // Free plan — just go to app or register
+    if (token && currentUser) { window.location.href = '/app'; }
+    else { showModal('register'); }
+    return;
+  }
+  // Paid plan — need to be logged in first
+  if (!token || !currentUser) {
+    pendingPlan = plan;
+    showModal('register');
+    return;
+  }
+  // Already logged in — go to Stripe checkout
+  startCheckout(plan);
+}
+
+async function startCheckout(plan) {
+  const token = localStorage.getItem('auth_token');
+  if (!token) return;
+  try {
+    const r = await fetch('/api/stripe/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ plan })
+    });
+    const data = await r.json();
+    if (data.url) { window.location.href = data.url; }
+    else { alert(data.error || 'Checkout failed. Please try again.'); }
+  } catch (e) { alert('Connection error. Please try again.'); }
+}
+
+// ── Init ──
+window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  // Google OAuth callback
+  if (params.get('token')) {
+    localStorage.setItem('auth_token', params.get('token'));
+    window.history.replaceState({}, '', '/');
+    if (params.get('newUser') === 'true') { window.location.href = '/app'; return; }
+  }
+  // Password reset
+  if (params.get('reset_token')) { showModal('reset'); }
+  // Error from Google
+  if (params.get('error')) { showModal('login'); document.getElementById('loginError').textContent = 'Google sign-in failed. Try again.'; document.getElementById('loginError').style.display = 'block'; }
+  checkAuth();
+});
+
+// Enter key on inputs
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  if (document.getElementById('loginForm').style.display !== 'none') doLogin();
+  else if (document.getElementById('registerForm').style.display !== 'none') doRegister();
+  else if (document.getElementById('forgotForm').style.display !== 'none') doForgot();
+  else if (document.getElementById('resetForm').style.display !== 'none') doReset();
+});
+</script>
+</body>
+</html>

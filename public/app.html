@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhiloSim — Simulation</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    :root{--bg:#05050a;--bg2:#0d0d14;--card:#141420;--card2:#1a1a28;--text:#fff;--text2:#9ca3af;--muted:#6b7280;--gold:#d4a853;--gold2:#b8923e;--purple:#6366f1;--purple2:#8b5cf6;--green:#10b981;--warn:#f59e0b;--err:#ef4444;--cyan:#06b6d4;--border:rgba(255,255,255,0.06);--gborder:rgba(212,168,83,0.22);--gglow:rgba(212,168,83,0.15);}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);height:100vh;display:flex;overflow:hidden;}
+    .hd{font-family:'Space Grotesk',sans-serif;}
+    a{color:var(--gold);text-decoration:none;}
+    ::selection{background:rgba(212,168,83,0.3);}
+    ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:4px;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+    .fade{animation:fadeUp 0.4s ease;}
+    button{cursor:pointer;font-family:'DM Sans';}
+
+    /* SIDEBAR */
+    .sidebar{width:240px;min-width:240px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+    .sb-brand{padding:20px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+    .sb-brand img{width:36px;height:36px;border-radius:10px;border:2px solid var(--gold);}
+    .sb-brand .t{font-family:'Space Grotesk';font-weight:700;font-size:22px;}
+    .sb-brand .s{font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:0.05em;}
+    .sb-lang{padding:10px 18px 0;display:flex;gap:4px;}
+    .sb-lang button{flex:1;padding:5px;font-size:13px;background:transparent;color:var(--muted);border:1px solid transparent;border-radius:6px;}
+    .sb-lang button.active{font-weight:700;background:rgba(212,168,83,0.12);color:var(--gold);border-color:var(--gborder);}
+    .sb-nav{padding:12px 8px;flex:1;display:flex;flex-direction:column;gap:2px;}
+    .sb-nav button{display:flex;align-items:center;gap:10px;padding:10px 12px;background:transparent;color:var(--text2);border:none;border-radius:8px;font-size:16px;width:100%;text-align:left;transition:all 0.2s;}
+    .sb-nav button.active{background:rgba(212,168,83,0.1);color:var(--gold);font-weight:600;}
+    .sb-nav button span.icon{font-size:18px;flex-shrink:0;}
+    .sb-nav button span.badge{margin-left:auto;font-size:10px;font-weight:700;color:var(--muted);background:rgba(255,255,255,0.05);padding:2px 6px;border-radius:4px;}
+    .sb-foot{padding:12px;border-top:1px solid var(--border);}
+    .sb-foot a{display:block;padding:8px 12px;font-size:14px;color:var(--text2);border-radius:8px;text-align:center;}
+    .sb-foot a:hover{background:rgba(255,255,255,0.03);}
+
+    /* MAIN */
+    .main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+    .journey-bar{padding:14px 28px;border-bottom:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;}
+    .jb-step{display:flex;align-items:center;flex:1;cursor:pointer;}
+    .jb-step .dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;margin-right:8px;}
+    .jb-step .dot.done{background:rgba(16,185,129,0.15);color:var(--green);border:2px solid var(--green);}
+    .jb-step .dot.active{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0a0a0a;}
+    .jb-step .dot.future{background:rgba(255,255,255,0.05);color:var(--muted);}
+    .jb-step .info .label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;}
+    .jb-step .info .title{font-size:14px;font-weight:600;}
+    .jb-line{flex:1;height:2px;margin:0 16px;}
+
+    .content{flex:1;overflow-y:auto;padding:28px;display:flex;justify-content:center;}
+    .content-inner{max-width:800px;width:100%;}
+
+    .btn{display:inline-block;padding:14px 32px;border-radius:10px;font-weight:600;font-size:17px;border:none;font-family:'Space Grotesk';}
+    .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0a0a0a;}
+    .btn-gold:hover{box-shadow:0 4px 20px var(--gglow);}
+    .btn-purple{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;}
+    .btn-outline{background:transparent;color:var(--text2);border:1px solid var(--border);}
+
+    .option-btn{width:100%;padding:18px 22px;font-size:16px;text-align:left;line-height:1.6;background:var(--card);border:2px solid var(--border);border-radius:14px;color:var(--text);font-family:'DM Sans';transition:all 0.2s;margin-bottom:10px;}
+    .option-btn:hover{border-color:var(--gborder);}
+    .option-btn.selected{background:rgba(212,168,83,0.08);border-color:var(--gold);}
+
+    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:16px;}
+    .card-gold{background:rgba(212,168,83,0.04);border-color:var(--gborder);}
+    .card-green{border-color:rgba(16,185,129,0.15);}
+
+    .score-bar{margin-bottom:14px;}
+    .score-bar .top{display:flex;justify-content:space-between;margin-bottom:4px;}
+    .score-bar .top .label{font-size:15px;color:var(--text2);}
+    .score-bar .top .val{font-size:15px;font-weight:700;font-family:'Space Grotesk';}
+    .score-bar .track{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;}
+    .score-bar .fill{height:100%;border-radius:3px;transition:width 1s ease;}
+
+    .avatar-sm{width:32px;height:32px;border-radius:50%;overflow:hidden;border:1.5px solid var(--gold);flex-shrink:0;}
+    .avatar-sm img{width:100%;height:100%;object-fit:cover;object-position:center top;}
+    .avatar-md{width:44px;height:44px;}
+    .avatar-lg{width:80px;height:80px;border-width:2px;box-shadow:0 0 30px var(--gglow);}
+    .avatar-xl{width:140px;height:140px;border-width:3px;box-shadow:0 0 60px var(--gglow);}
+
+    .pill-bar{display:flex;gap:4px;margin-bottom:20px;}
+    .pill{height:6px;border-radius:3px;flex:1;transition:all 0.3s;}
+
+    .center{text-align:center;}
+  </style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sb-brand">
+    <div class="avatar-sm" style="border-radius:10px;"><img src="/socrates.png" alt=""></div>
+    <div><div class="t hd">PhiloSim</div><div class="s" id="sbTag">Approach your work like Socrates</div></div>
+  </div>
+  <div class="sb-lang">
+    <button class="active" onclick="setLang('en')">EN</button>
+    <button onclick="setLang('fr')">FR</button>
+  </div>
+  <div class="sb-nav" id="sideNav"></div>
+  <div class="sb-foot">
+    <a href="/dashboard">← Dashboard</a>
+  </div>
+</div>
+
+<div class="main">
+  <div class="journey-bar" id="journeyBar"></div>
+  <div class="content"><div class="content-inner" id="page"></div></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+let lang = 'en', view = 'welcome', playerName = '';
+let learnStep = 0, checkStep = 0, checkAnswers = [], checkDone = false, selCheck = null, showInsight = false;
+let scenario = null, round = 0, selOpt = null, showFeedback = false, decisions = [], simDone = false;
+let allReports = JSON.parse(localStorage.getItem('philosim_sessions') || '[]');
+let viewReport = null;
+
+const token = localStorage.getItem('auth_token');
+let userPlan = 'free';
+
+// Load user plan from API
+if (token) {
+  fetch('/api/auth/me', { headers: {'Authorization': 'Bearer ' + token} })
+    .then(r => r.ok ? r.json() : null)
+    .then(data => { if (data?.user) { userPlan = data.user.plan || 'free'; playerName = playerName || (data.user.name || '').split(' ')[0]; } })
+    .catch(() => {});
+}
+
+// ═══════════════════════════════════════════
+// CONTENT DATA (abbreviated keys for space)
+// ═══════════════════════════════════════════
+const PILLARS = [
+  {icon:'🪞',t:{en:'Know Thyself',fr:'Connais-toi toi-même'},q:{en:'The unexamined life is not worth living.',fr:'Une vie sans examen ne vaut pas la peine d\'être vécue.'},
+   ex:{en:'Before you can lead others, you must understand your own biases, motivations, and blind spots. Socrates spent his life questioning people who claimed expertise and found most had never examined what they believed.',fr:'Avant de diriger, vous devez comprendre vos propres préjugés et angles morts. Socrate questionnait ceux qui se disaient experts et découvrait qu\'ils n\'avaient jamais examiné leurs croyances.'},
+   work:{en:'When you feel strongly about a decision, pause: Am I choosing this because it\'s right, or to protect my ego?',fr:'Quand vous êtes convaincu, demandez-vous : est-ce juste, ou est-ce que ça protège mon ego?'}},
+  {icon:'❓',t:{en:'Question Everything',fr:'Questionnez tout'},q:{en:'I know that I know nothing.',fr:'Je sais que je ne sais rien.'},
+   ex:{en:'The Socratic Method is dialogue through probing questions, not answers. By questioning assumptions, you expose contradictions and reach deeper truths.',fr:'La méthode socratique est un dialogue par questions incisives. En questionnant les hypothèses, on expose les contradictions.'},
+   work:{en:'Instead of "This strategy will work," ask: "What assumptions are we making? What would have to be true for this to fail?"',fr:'Au lieu de "Ça va marcher," demandez : "Quelles hypothèses faisons-nous?"'}},
+  {icon:'⚖️',t:{en:'Virtue is Knowledge',fr:'La vertu est connaissance'},q:{en:'No one does wrong willingly.',fr:'Nul ne fait le mal volontairement.'},
+   ex:{en:'Socrates believed if you truly understand what is good, you will do it. Bad decisions come from ignorance, not malice.',fr:'Socrate croyait que si vous comprenez le bien, vous le ferez. Les mauvaises décisions viennent de l\'ignorance.'},
+   work:{en:'When someone makes a mistake, ask: What did they believe was true? What info were they missing?',fr:'Quand quelqu\'un fait une erreur, demandez : Que croyaient-ils? Quelle info leur manquait?'}},
+  {icon:'🗣️',t:{en:'Dialectical Reasoning',fr:'Le raisonnement dialectique'},q:{en:'The highest form of excellence is to question oneself and others.',fr:'La plus haute forme d\'excellence est de se questionner soi-même et les autres.'},
+   ex:{en:'Truth emerges through dialogue, not monologue. When two people genuinely explore a disagreement, both end up wiser.',fr:'La vérité émerge du dialogue. Quand deux personnes explorent un désaccord, les deux deviennent plus sages.'},
+   work:{en:'Instead of defending your position, ask: "Help me understand your perspective — what am I missing?"',fr:'Au lieu de défendre votre position, demandez : "Aidez-moi à comprendre — qu\'est-ce que je ne vois pas?"'}},
+  {icon:'🏛️',t:{en:'Epistemic Humility',fr:'L\'humilité épistémique'},q:{en:'Wisdom begins in wonder.',fr:'La sagesse commence dans l\'émerveillement.'},
+   ex:{en:'The Oracle called Socrates the wisest because he knew the limits of his knowledge. The most dangerous leader is the one who is certain.',fr:'L\'Oracle a déclaré Socrate le plus sage parce qu\'il connaissait les limites de ses connaissances. Le leader le plus dangereux est celui qui est certain.'},
+   work:{en:'Before a major decision, list what you DON\'T know. Then ask: who knows what I don\'t?',fr:'Avant une décision majeure, listez ce que vous NE SAVEZ PAS.'}},
+];
+
+const CHECKS = {
+  en:[
+    {q:'A CEO says: "I\'ve been in this industry 30 years. I know exactly what will happen." What would Socrates say?',pillar:'Epistemic Humility',opts:[{t:'Trust his experience.',s:1},{t:'Certainty is dangerous. 30 years could mean 30 years of unchallenged assumptions.',s:3},{t:'He should validate with market research.',s:2}],insight:'Socrates would question the certainty itself.'},
+    {q:'Your team is split 50/50 on strategy. You\'re the tiebreaker. Socratic approach?',pillar:'Dialectical Reasoning',opts:[{t:'Go with your gut.',s:1},{t:'Ask each side: "What would have to be true for the other side to be right?"',s:3},{t:'Bring in a consultant.',s:2}],insight:'Truth often lives between opposing positions.'},
+    {q:'An employee makes a costly mistake. Socratic leader does what first?',pillar:'Virtue is Knowledge',opts:[{t:'Document the error and issue a warning.',s:1},{t:'Ask: "Walk me through your thinking when you made this decision."',s:3},{t:'Review the process to prevent future errors.',s:2}],insight:'No one does wrong willingly. Explore their reasoning.'},
+    {q:'A deal benefits your company but harms a smaller partner. Socrates\' question?',pillar:'Know Thyself',opts:[{t:'"Will this maximize shareholder value?"',s:1},{t:'"If you were the partner being harmed, would you still call this just?"',s:3},{t:'"Have you consulted all stakeholders?"',s:2}],insight:'Socrates forces you to examine from the other\'s perspective.'},
+  ],
+  fr:[
+    {q:'Un PDG dit : "30 ans d\'expérience. Je sais ce qui va se passer." Socrate dirait?',pillar:'Humilité épistémique',opts:[{t:'Faire confiance à son expérience.',s:1},{t:'La certitude est dangereuse. 30 ans d\'hypothèses non questionnées.',s:3},{t:'Valider avec plus de recherche.',s:2}],insight:'Socrate questionnerait la certitude elle-même.'},
+    {q:'Équipe divisée 50/50. Vous tranchez. Approche socratique?',pillar:'Raisonnement dialectique',opts:[{t:'Suivre votre instinct.',s:1},{t:'Demander : "Que faudrait-il pour que l\'autre ait raison?"',s:3},{t:'Consultant externe.',s:2}],insight:'La vérité vit entre les positions opposées.'},
+    {q:'Erreur coûteuse d\'un employé. Leader socratique fait quoi?',pillar:'Vertu = connaissance',opts:[{t:'Documenter et avertir.',s:1},{t:'Demander : "Guidez-moi à travers votre raisonnement."',s:3},{t:'Revoir le processus.',s:2}],insight:'Nul ne fait le mal volontairement.'},
+    {q:'Accord profitable mais nuisible au partenaire. Question de Socrate?',pillar:'Connais-toi toi-même',opts:[{t:'"Valeur actionnariale?"',s:1},{t:'"Si vous étiez le partenaire lésé, appelleriez-vous cela juste?"',s:3},{t:'"Toutes les parties consultées?"',s:2}],insight:'Examiner du point de vue de l\'autre.'},
+  ]
+};
+
+// SCENARIOS — only including one full scenario to save space, second is identical structure
+const SCENARIOS = [{
+  id:'ethical_dilemma',icon:'⚖️',t:{en:'The Ethical Dilemma',fr:'Le Dilemme Éthique'},
+  sub:{en:'Ship a buggy product or delay and face consequences?',fr:'Livrer un produit défaillant ou retarder?'},
+  cat:'Ethics',dur:'10-15 min',skills:{en:['Ethical reasoning','Questioning assumptions','Virtue vs. profit'],fr:['Raisonnement éthique','Questionner les hypothèses','Vertu vs. profit']},
+  sit:{en:'You\'re a Product Director. The CEO wants you to ship a product with unresolved bugs to meet quarterly targets. Sales promised delivery to 3 clients. Engineering needs 3 more weeks. Board meeting in 5 days.',fr:'Vous êtes Directeur Produit. Le PDG veut livrer un produit avec bugs. Les ventes ont promis à 3 clients. L\'ingénierie dit 3 semaines. Réunion du CA dans 5 jours.'},
+  rounds:{
+    en:[
+      {ctx:'The CEO calls you: "Ship by Friday. The board is watching."',ask:'Before you answer — what do you actually know about these bugs?',pillar:'Know Thyself',opts:[
+        {t:'Ship it. Bugs are minor, patch later. Business first.',v:30,r:40,s:25,e:30,reply:'You say "minor" with confidence. But have you asked engineers what "minor" means to daily users?'},
+        {t:'I need to understand the full scope first. Let me talk to engineering.',v:70,r:80,s:75,e:85,reply:'You resist pressure to decide before understanding. This is the beginning of wisdom.'},
+        {t:'Tell the CEO we need 3 weeks. Quality is non-negotiable.',v:75,r:50,s:55,e:40,reply:'Noble! But you declared without examining. Could some bugs be fixed in 5 days? Certainty without examination is rigidity.'}]},
+      {ctx:'Engineering says: 8 of 12 bugs are cosmetic. But 4 affect data accuracy in financial reports — the core feature.',ask:'Four bugs corrupt what clients are paying for. What does this knowledge demand?',pillar:'Virtue is Knowledge',opts:[
+        {t:'Ship with cosmetic bugs, fix the 4 critical ones first — even if it takes an extra week.',v:85,r:90,s:80,e:75,reply:'You separate essential from superficial. Excellent. But how will you explain the delay to the CEO?'},
+        {t:'Ship everything. Add a "known issues" disclaimer.',v:20,r:35,s:30,e:25,reply:'A disclaimer documents your awareness of the harm. It does not transform it into virtue.'},
+        {t:'Delay the full 3 weeks to fix everything perfectly.',v:65,r:45,s:50,e:40,reply:'Is absolute perfection virtuous if it destroys the company that employs 200 people?'}]},
+      {ctx:'CEO pushes back: "Sales VP already promised Friday delivery."',ask:'When promises and truth collide, which do you serve?',pillar:'Dialectical Reasoning',opts:[
+        {t:'Let me talk to clients directly with a realistic timeline and guaranteed quality.',v:90,r:85,s:80,e:80,reply:'You propose dialogue over deception. You treat clients as rational beings who deserve truth.'},
+        {t:'Sales VP made the promise. His problem to manage expectations.',v:35,r:40,s:25,e:35,reply:'If the product fails, will clients blame the Sales VP or the Product Director whose name is on the release?'},
+        {t:'Ship a limited version without financial reporting, deliver the rest in 2 weeks.',v:75,r:90,s:70,e:75,reply:'A creative synthesis! Holding tension between opposing demands until a third option emerges. Dialectical reasoning at work.'}]},
+      {ctx:'Sales VP sends angry email to leadership calling you "risk-averse and damaging to revenue."',ask:'You are attacked publicly. Does anger change what is true?',pillar:'Epistemic Humility',opts:[
+        {t:'Reply-all with data: bug list, risk analysis, client impact.',v:60,r:70,s:50,e:55,reply:'You defend with evidence — but a public battle may win the argument and lose the relationship.'},
+        {t:'Request a private meeting. Understand what pressure he\'s under.',v:85,r:80,s:90,e:85,reply:'When attacked, you seek to understand rather than retaliate. This is wisdom in action.'},
+        {t:'Ignore the email. My work will speak for itself.',v:55,r:50,s:45,e:40,reply:'Silence can be dignity or avoidance. You miss an opportunity to understand.'}]},
+      {ctx:'Product ships 1 week late, all critical bugs fixed. 2 of 3 clients satisfied. Third left. CEO asks: "Was it worth it?"',ask:'You lost something real. How do you answer someone who measures wisdom in revenue?',pillar:'Know Thyself',opts:[
+        {t:'We saved two clients who now trust our quality. The one we lost would have left after finding data bugs.',v:85,r:90,s:85,e:80,reply:'You reframe loss as investment in truth. You examined your decision without claiming perfection.'},
+        {t:'Honestly? I\'m not sure. We made the best decision with what we knew. I\'d examine what to do differently.',v:70,r:75,s:90,e:95,reply:'The most Socratic answer — "I\'m not sure." You resist claiming certainty even about your own wisdom.'},
+        {t:'In hindsight, we should have shipped partial functionality faster.',v:55,r:65,s:60,e:65,reply:'You examine your decision and find it wanting. But don\'t confuse outcomes with wisdom.'}]},
+    ],
+    fr:[
+      {ctx:'Le PDG vous appelle : "Livrer vendredi. Le CA nous observe."',ask:'Que savez-vous réellement de ces bugs?',pillar:'Connais-toi toi-même',opts:[
+        {t:'Livrer. Les bugs sont mineurs, on corrige après.',v:30,r:40,s:25,e:30,reply:'Vous dites "mineurs" avec assurance. Avez-vous demandé aux ingénieurs?'},
+        {t:'Je dois comprendre la situation. Laissez-moi parler à l\'ingénierie.',v:70,r:80,s:75,e:85,reply:'Vous résistez à la pression. C\'est le début de la sagesse.'},
+        {t:'On a besoin de 3 semaines. La qualité n\'est pas négociable.',v:75,r:50,s:55,e:40,reply:'Noble! Mais certitude sans examen est rigidité.'}]},
+      {ctx:'L\'ingénierie dit : 8 bugs cosmétiques, 4 affectent les rapports financiers.',ask:'Que cette connaissance exige-t-elle de vous?',pillar:'Vertu = connaissance',opts:[
+        {t:'Livrer avec les cosmétiques, corriger les 4 critiques — même si ça prend une semaine.',v:85,r:90,s:80,e:75,reply:'Vous séparez l\'essentiel du superficiel.'},
+        {t:'Tout livrer. Ajouter une note "problèmes connus."',v:20,r:35,s:30,e:25,reply:'Un avertissement documente votre conscience du mal. Il ne le transforme pas en vertu.'},
+        {t:'Retarder 3 semaines pour tout corriger.',v:65,r:45,s:50,e:40,reply:'La perfection est-elle vertueuse si elle détruit l\'entreprise?'}]},
+      {ctx:'Le PDG résiste : "Le VP Ventes a promis vendredi."',ask:'Quand promesses et vérité s\'affrontent, laquelle servez-vous?',pillar:'Raisonnement dialectique',opts:[
+        {t:'Parler aux clients directement avec un calendrier réaliste.',v:90,r:85,s:80,e:80,reply:'Vous proposez le dialogue plutôt que la tromperie.'},
+        {t:'Le VP a fait la promesse. C\'est à lui de gérer.',v:35,r:40,s:25,e:35,reply:'Si le produit échoue, qui sera blâmé?'},
+        {t:'Version limitée sans rapports financiers, compléter dans 2 semaines.',v:75,r:90,s:70,e:75,reply:'Synthèse créative! Raisonnement dialectique en action.'}]},
+      {ctx:'Le VP envoie un courriel furieux vous qualifiant de "frileux."',ask:'Sa colère change-t-elle ce qui est vrai?',pillar:'Humilité épistémique',opts:[
+        {t:'Répondre à tous avec des données.',v:60,r:70,s:50,e:55,reply:'Vous défendez avec des preuves. Mais une bataille publique...'},
+        {t:'Réunion privée. Comprendre sa pression.',v:85,r:80,s:90,e:85,reply:'Quand on vous attaque, vous cherchez à comprendre. Sagesse en action.'},
+        {t:'Ignorer. Mon travail parlera.',v:55,r:50,s:45,e:40,reply:'Le silence peut être dignité ou évitement.'}]},
+      {ctx:'Produit livré 1 semaine en retard. 2/3 clients satisfaits. Le PDG : "Ça en valait la peine?"',ask:'Comment répondez-vous à un homme qui mesure la sagesse en revenus?',pillar:'Connais-toi toi-même',opts:[
+        {t:'On a sauvé deux clients. Celui perdu serait parti en trouvant les bugs.',v:85,r:90,s:85,e:80,reply:'Vous recadrez la perte comme investissement dans la vérité.'},
+        {t:'Honnêtement? Je ne suis pas sûr. On a fait de notre mieux avec ce qu\'on savait.',v:70,r:75,s:90,e:95,reply:'La réponse la plus socratique — "Je ne suis pas sûr."'},
+        {t:'Avec le recul, on aurait dû livrer une version partielle plus vite.',v:55,r:65,s:60,e:65,reply:'Ne confondez pas résultats et sagesse.'}]},
+    ]
+  }
+},{
+  id:'leadership_conflict',icon:'🏛️',t:{en:'The Leadership Question',fr:'La Question du Leadership'},
+  sub:{en:'Promote your friend or the top performer? Justice meets loyalty.',fr:'Promouvoir votre ami ou le meilleur performeur?'},
+  cat:'Justice',dur:'10-15 min',skills:{en:['Justice & fairness','Self-examination','Bias awareness'],fr:['Justice & équité','Auto-examen','Conscience des biais']},
+  sit:{en:'You manage 25 people. A Senior Director role opens. Alex, your friend of 8 years, is solid. Jordan, joined 2 years ago, saved $2M. Both qualify. Your recommendation is decisive.',fr:'Vous gérez 25 personnes. Un poste de Directeur s\'ouvre. Alex, ami de 8 ans, est solide. Jordan, arrivé il y a 2 ans, a économisé 2M$.'},
+  rounds:{
+    en:[
+      {ctx:'HR asks for your recommendation. You catch yourself thinking "Alex deserves it."',ask:'You said "deserves." On what basis? Is tenure the same as merit?',pillar:'Know Thyself',opts:[
+        {t:'I need to separate personal feelings from data. Let me review records objectively.',v:80,r:85,s:90,e:80,reply:'You recognize the bias. This is the hardest form of self-knowledge.'},
+        {t:'Alex has paid his dues. Loyalty and consistency matter.',v:45,r:40,s:25,e:30,reply:'You may be confusing patience with excellence, and loyalty with justice.'},
+        {t:'Jordan\'s results speak for themselves. $2M saved.',v:60,r:70,s:50,e:55,reply:'Compelling — but are you overcorrecting to prove you\'re not biased?'}]},
+      {ctx:'Records: Alex has steady "Meets Expectations." Jordan has two "Exceeds" but one failed project and team friction.',ask:'Alex is safe. Jordan is brilliant but imperfect. What does justice look like here?',pillar:'Dialectical Reasoning',opts:[
+        {t:'Interview both: "What\'s your vision for this role?"',v:80,r:90,s:75,e:85,reply:'You let them reveal themselves through dialogue — the Socratic way.'},
+        {t:'Ask their direct reports for confidential feedback.',v:75,r:80,s:70,e:80,reply:'Wise — but will Alex\'s fans and Jordan\'s critics give you truth or comfort?'},
+        {t:'Data is clear. Jordan has superior results. Recommend Jordan.',v:55,r:60,s:40,e:35,reply:'Records capture what happened, not why. Are you comparing fairly?'}]},
+      {ctx:'Alex: "I\'d maintain what works." Jordan: "I\'d restructure underperforming units."',ask:'Stability vs transformation. Which does the team NEED? And how do you separate need from preference?',pillar:'Epistemic Humility',opts:[
+        {t:'Check the data: is the team underperforming? Let context decide.',v:75,r:85,s:70,e:80,reply:'You let the situation dictate the answer rather than your preference.'},
+        {t:'I don\'t know. Let me consult VP and HR for perspectives I\'m missing.',v:70,r:70,s:85,e:95,reply:'The most courageous answer. You resist pressure to be all-knowing.'},
+        {t:'Jordan\'s approach will cause disruption but growth. Comfort breeds complacency.',v:60,r:65,s:45,e:40,reply:'Notice your certainty. Is "comfort breeds complacency" always true?'}]},
+      {ctx:'Alex comes to you: "I thought our friendship meant something. You\'d choose a newcomer?"',ask:'Friendship stands before you, wounded. Does love have a place in justice?',pillar:'Virtue is Knowledge',opts:[
+        {t:'"Alex, our friendship is why I must be MORE careful, not less. I owe you fairness, not favoritism."',v:90,r:85,s:90,e:80,reply:'The most painful truth spoken with love. You honor friendship by refusing to corrupt it.'},
+        {t:'"Nothing is decided yet. You\'re absolutely still in the running."',v:40,r:45,s:35,e:40,reply:'Kind — but if you\'ve leaned toward Jordan, this is deception dressed as comfort.'},
+        {t:'"This decision is about the role, not our relationship. But I value you regardless."',v:75,r:75,s:75,e:70,reply:'Truthful and compassionate. But will guilt still pull you toward Alex?'}]},
+      {ctx:'Decision day. Everything points to Jordan. Your gut says Alex. You KNOW friendship is influencing you.',ask:'You know what is just and what is comfortable. What do you choose?',pillar:'Know Thyself',opts:[
+        {t:'Recommend Jordan. I examined my bias, data supports it, justice demands the best person.',v:85,r:85,s:85,e:80,reply:'You choose justice over comfort. The process was wise — you examined, sought perspectives, held the tension.'},
+        {t:'Recommend Alex. Trust and cohesion matter more. I\'ve genuinely evaluated both.',v:50,r:55,s:35,e:30,reply:'You know your bias and deny it in the same breath. The examined life abandoned at the final moment.'},
+        {t:'Present both to HR with honest assessments. Remove myself — I can\'t be objective.',v:70,r:70,s:90,e:85,reply:'You recognize the limits of your objectivity. The rarest form of self-knowledge.'}]},
+    ],
+    fr:[
+      {ctx:'Les RH demandent votre recommandation. Vous pensez "Alex le mérite."',ask:'Sur quelle base? L\'ancienneté est-elle le mérite?',pillar:'Connais-toi toi-même',opts:[
+        {t:'Séparer sentiments et données. Examiner objectivement.',v:80,r:85,s:90,e:80,reply:'Vous reconnaissez le biais. Forme la plus difficile de connaissance de soi.'},
+        {t:'Alex a fait ses preuves dans le temps.',v:45,r:40,s:25,e:30,reply:'Confondez-vous patience et excellence?'},
+        {t:'Les résultats de Jordan parlent. 2M$ d\'économies.',v:60,r:70,s:50,e:55,reply:'Sur-corrigez-vous pour prouver votre impartialité?'}]},
+      {ctx:'Dossiers : Alex "Satisfait" constant. Jordan deux "Dépasse" mais un échec et des frictions.',ask:'À quoi ressemble la justice quand les deux voies ont du mérite?',pillar:'Raisonnement dialectique',opts:[
+        {t:'Entretiens séparés : "Votre vision pour ce poste?"',v:80,r:90,s:75,e:85,reply:'Vous les laissez se révéler par le dialogue.'},
+        {t:'Retour confidentiel des équipes.',v:75,r:80,s:70,e:80,reply:'Sage — mais les fans d\'Alex et les critiques de Jordan donneront-ils la vérité?'},
+        {t:'Données claires. Recommander Jordan.',v:55,r:60,s:40,e:35,reply:'Les dossiers capturent quoi, pas pourquoi.'}]},
+      {ctx:'Alex : "Maintenir ce qui fonctionne." Jordan : "Restructurer."',ask:'De quoi l\'équipe a-t-elle BESOIN?',pillar:'Humilité épistémique',opts:[
+        {t:'Consulter les données de performance.',v:75,r:85,s:70,e:80,reply:'Vous laissez la situation dicter.'},
+        {t:'Je ne sais pas. Consulter VP et RH.',v:70,r:70,s:85,e:95,reply:'Réponse la plus courageuse.'},
+        {t:'Jordan causera des remous mais de la croissance.',v:60,r:65,s:45,e:40,reply:'Remarquez votre certitude.'}]},
+      {ctx:'Alex : "Je pensais que notre amitié comptait."',ask:'L\'amitié a-t-elle sa place dans la justice?',pillar:'Vertu = connaissance',opts:[
+        {t:'"Notre amitié est la raison d\'être PLUS prudent, pas moins."',v:90,r:85,s:90,e:80,reply:'Vérité douloureuse dite avec amour.'},
+        {t:'"Rien n\'est décidé. Tu es encore dans la course."',v:40,r:45,s:35,e:40,reply:'Tromperie déguisée en réconfort.'},
+        {t:'"La décision est basée sur le poste, pas la relation."',v:75,r:75,s:75,e:70,reply:'Vrai et compatissant.'}]},
+      {ctx:'Jour de décision. Tout pointe vers Jordan. Votre instinct dit Alex.',ask:'Que choisissez-vous?',pillar:'Connais-toi toi-même',opts:[
+        {t:'Recommander Jordan. Biais examiné, données confirment.',v:85,r:85,s:85,e:80,reply:'Justice plutôt que confort. Le processus était sage.'},
+        {t:'Recommander Alex. Constance et confiance comptent.',v:50,r:55,s:35,e:30,reply:'Vie examinée abandonnée au dernier moment.'},
+        {t:'Présenter les deux aux RH. Me retirer.',v:70,r:70,s:90,e:85,reply:'Forme la plus rare de connaissance de soi.'}]},
+    ]
+  }
+}];
+
+// ═══════════════════════════════════════════
+// TRANSLATIONS
+// ═══════════════════════════════════════════
+const T = {
+  en:{brand:'PhiloSim',tag:'Approach your work like Socrates',p1:'Phase 1',p2:'Phase 2',p3:'Phase 3',p1t:'The Philosophy',p2t:'Do You Get It?',p3t:'Apply Under Pressure',enterName:'Enter your name...',start:'Start',watch:'Watch: Who Was Socrates?',watchNote:'Understand the man, his method, and why his ideas still matter.',explore5:'Explore the 5 Pillars →',pillar:'Pillar',of:'of',thePhil:'The Philosophy',atWork:'At Work',prev:'← Previous',next:'Next →',readyCheck:'Test My Understanding →',confirm:'Confirm',seeResults:'See Results →',yourScore:'Your Socratic Readiness',enterSim:'Enter the Simulation →',scoreHigh:'Excellent! Now apply it under pressure.',scoreMid:'Good foundation. The simulation will reveal the gap.',scoreLow:'You think conventionally. Let Socrates push you.',selectScenario:'Choose Your Challenge',decision:'Decision',makeChoice:'Make your choice',socratesInsight:'Socrates\' Insight',nextDecision:'Next Decision →',viewReport:'View Report →',backToScenarios:'← New Scenario',sessionWith:'Session with Socrates',virtue:'Virtue & Ethics',reasoning:'Reasoning',selfAware:'Self-Awareness',epistemic:'Epistemic Humility',overallScore:'Overall Wisdom Score',strengths:'Strengths',growth:'Growth Areas',closingQ:'Question to Ponder',yourDecisions:'Your Decisions',socraticAnswer:'Socratic answer:',noReports:'No sessions yet.',video:'← Video',report:'Report',history:'History',welcome:'Welcome'},
+  fr:{brand:'PhiloSim',tag:'Abordez votre travail comme Socrate',p1:'Phase 1',p2:'Phase 2',p3:'Phase 3',p1t:'La Philosophie',p2t:'Compris?',p3t:'Appliquer',enterName:'Votre nom...',start:'Commencer',watch:'Regarder : Qui était Socrate?',watchNote:'Comprenez l\'homme et sa méthode.',explore5:'Explorer les 5 Piliers →',pillar:'Pilier',of:'de',thePhil:'La Philosophie',atWork:'Au travail',prev:'← Précédent',next:'Suivant →',readyCheck:'Testez-moi →',confirm:'Confirmer',seeResults:'Résultats →',yourScore:'Préparation Socratique',enterSim:'Entrer dans la Simulation →',scoreHigh:'Excellent! Voyons sous pression.',scoreMid:'Bonne base. La simulation révélera l\'écart.',scoreLow:'Vous pensez conventionnellement.',selectScenario:'Choisissez Votre Défi',decision:'Décision',makeChoice:'Faites votre choix',socratesInsight:'Éclairage de Socrate',nextDecision:'Décision suivante →',viewReport:'Voir le Rapport →',backToScenarios:'← Nouveau Scénario',sessionWith:'Session avec Socrate',virtue:'Vertu & Éthique',reasoning:'Raisonnement',selfAware:'Conscience de Soi',epistemic:'Humilité Épistémique',overallScore:'Score de Sagesse',strengths:'Forces',growth:'Croissance',closingQ:'Question à Méditer',yourDecisions:'Vos Décisions',socraticAnswer:'Réponse socratique:',noReports:'Aucune session.',video:'← Vidéo',report:'Rapport',history:'Historique',welcome:'Bienvenue'}
+};
+
+// ═══════════════════════════════════════════
+// RENDER ENGINE
+// ═══════════════════════════════════════════
+function t(k) { return T[lang][k] || k; }
+
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.sb-lang button').forEach(b => b.classList.toggle('active', b.textContent.trim() === l.toUpperCase()));
+  document.getElementById('sbTag').textContent = t('tag');
+  render();
+}
+
+function go(v) { view = v; render(); }
+
+function render() {
+  renderNav();
+  renderJourney();
+  renderPage();
+}
+
+function renderNav() {
+  const items = [
+    {id:'welcome',icon:'🏠',label:t('welcome')},
+    {id:'learn',icon:'📖',label:t('p1t'),badge:t('p1')},
+    {id:'check',icon:'🧠',label:t('p2t'),badge:t('p2')},
+    {id:'scenarios',icon:'⚡',label:t('p3t'),badge:t('p3')},
+  ];
+  if (view === 'play' && !simDone) items.push({id:'play',icon:'🎯',label:`${t('decision')} ${round+1}/5`});
+  items.push({id:'report',icon:'📜',label:t('report')});
+  items.push({id:'history',icon:'📚',label:t('history')});
+
+  document.getElementById('sideNav').innerHTML = items.map(i =>
+    `<button class="${view===i.id?'active':''}" onclick="go('${i.id}')">
+      <span class="icon">${i.icon}</span><span>${i.label}</span>
+      ${i.badge ? `<span class="badge">${i.badge}</span>` : ''}
+    </button>`
+  ).join('');
+}
+
+function renderJourney() {
+  const idx = view==='learn'?0:view==='check'?1:(view==='scenarios'||view==='play')?2:-1;
+  if (idx < 0) { document.getElementById('journeyBar').style.display = 'none'; return; }
+  document.getElementById('journeyBar').style.display = 'flex';
+  const steps = [{id:'learn',l:t('p1'),t:t('p1t'),i:'📖'},{id:'check',l:t('p2'),t:t('p2t'),i:'🧠'},{id:'scenarios',l:t('p3'),t:t('p3t'),i:'⚡'}];
+  document.getElementById('journeyBar').innerHTML = steps.map((s,i) => {
+    const cls = i<idx?'done':i===idx?'active':'future';
+    return `<div class="jb-step" onclick="go('${s.id}')">
+      <div class="dot ${cls}">${i<idx?'✓':s.i}</div>
+      <div class="info"><div class="label" style="color:${i===idx?'var(--gold)':'var(--muted)'}">${s.l}</div><div class="title" style="color:${i===idx?'var(--text)':'var(--muted)'}">${s.t}</div></div>
+    </div>${i<2?`<div class="jb-line" style="background:${i<idx?'rgba(16,185,129,0.3)':'var(--border)'}"></div>`:''}`;
+  }).join('');
+}
+
+function renderPage() {
+  const pg = document.getElementById('page');
+  pg.innerHTML = '';
+  if (view === 'welcome') renderWelcome(pg);
+  else if (view === 'learn') renderLearn(pg);
+  else if (view === 'check') renderCheck(pg);
+  else if (view === 'scenarios') renderScenarios(pg);
+  else if (view === 'play') renderPlay(pg);
+  else if (view === 'report') renderReportView(pg);
+  else if (view === 'history') renderHistory(pg);
+}
+
+// ═══ PAGES ═══
+function renderWelcome(pg) {
+  pg.innerHTML = `<div class="center fade" style="padding-top:40px;">
+    <div class="avatar-xl" style="margin:0 auto 24px;border-radius:50%;"><img src="/socrates.png" alt=""></div>
+    <h1 class="hd" style="font-size:48px;margin-bottom:8px;">${t('brand')}</h1>
+    <div style="font-size:19px;color:var(--gold);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:28px;">${t('tag')}</div>
+    ${!playerName ? `<div style="display:flex;gap:8px;max-width:400px;margin:0 auto;">
+      <input id="nameIn" placeholder="${t('enterName')}" style="flex:1;padding:14px 20px;font-size:17px;background:var(--bg2);color:var(--text);border:1px solid var(--border);border-radius:10px;outline:none;font-family:'DM Sans';" onkeydown="if(event.key==='Enter')startJourney()">
+      <button class="btn btn-gold" onclick="startJourney()">${t('start')}</button>
+    </div>` : `<button class="btn btn-gold" onclick="go('learn')">${t('start')}</button>`}
+  </div>`;
+}
+
+function startJourney() {
+  const n = document.getElementById('nameIn')?.value.trim();
+  if (!n) return;
+  playerName = n;
+  go('learn');
+}
+
+function renderLearn(pg) {
+  if (learnStep === 0) {
+    pg.innerHTML = `<div class="fade"><h2 class="hd" style="font-size:32px;margin-bottom:6px;">${t('watch')}</h2>
+    <p style="color:var(--text2);font-size:17px;margin-bottom:20px;">${t('watchNote')}</p>
+    <div style="position:relative;padding-bottom:56.25%;border-radius:16px;overflow:hidden;border:1px solid var(--border);margin-bottom:24px;">
+      <iframe src="https://www.youtube.com/embed/6DGnwLTnoPY" style="position:absolute;inset:0;width:100%;height:100%;border:none;" allowfullscreen></iframe>
+    </div>
+    <div class="center"><button class="btn btn-gold" onclick="learnStep=1;render()">${t('explore5')}</button></div></div>`;
+  } else {
+    const p = PILLARS[learnStep-1];
+    pg.innerHTML = `<div class="fade">
+    <div style="display:flex;justify-content:space-between;margin-bottom:20px;">
+      <span style="color:var(--muted);font-weight:600;">${t('pillar')} ${learnStep} ${t('of')} 5</span>
+      <div class="pill-bar" style="width:200px;">${[1,2,3,4,5].map(i=>`<div class="pill" style="background:${i===learnStep?'var(--gold)':i<learnStep?'var(--green)':'rgba(255,255,255,0.08)'};cursor:pointer;" onclick="learnStep=${i};render()"></div>`).join('')}</div>
+    </div>
+    <div class="card card-gold" style="padding:28px;">
+      <div style="font-size:44px;margin-bottom:12px;">${p.icon}</div>
+      <h2 class="hd" style="font-size:30px;margin-bottom:10px;">${p.t[lang]}</h2>
+      <div style="font-size:20px;color:var(--gold);font-style:italic;">"${p.q[lang]}"</div>
+    </div>
+    <div class="card"><div style="font-size:13px;font-weight:700;color:var(--purple);text-transform:uppercase;margin-bottom:10px;">📖 ${t('thePhil')}</div>
+      <p style="font-size:17px;color:var(--text2);line-height:1.75;">${p.ex[lang]}</p></div>
+    <div class="card card-green"><div style="font-size:13px;font-weight:700;color:var(--green);text-transform:uppercase;margin-bottom:10px;">💼 ${t('atWork')}</div>
+      <p style="font-size:17px;color:var(--text);line-height:1.75;font-style:italic;">${p.work[lang]}</p></div>
+    <div style="display:flex;justify-content:space-between;">
+      <button class="btn btn-outline" onclick="learnStep=${learnStep-1};render()">${learnStep===1?t('video'):t('prev')}</button>
+      ${learnStep<5?`<button class="btn btn-gold" onclick="learnStep=${learnStep+1};render()">${t('next')}</button>`
+      :`<button class="btn btn-purple" onclick="checkStep=0;checkAnswers=[];checkDone=false;selCheck=null;showInsight=false;go('check')">${t('readyCheck')}</button>`}
+    </div></div>`;
+  }
+}
+
+function renderCheck(pg) {
+  const qs = CHECKS[lang];
+  if (!checkDone) {
+    const q = qs[checkStep];
+    pg.innerHTML = `<div class="fade">
+    <div style="display:flex;justify-content:space-between;margin-bottom:20px;">
+      <span style="color:var(--muted);">Q${checkStep+1}/${qs.length}</span>
+      <div class="pill-bar" style="width:160px;">${qs.map((_,i)=>`<div class="pill" style="background:${i===checkStep?'var(--gold)':i<checkStep?'var(--green)':'rgba(255,255,255,0.08)'}"></div>`).join('')}</div>
+    </div>
+    <div class="card card-gold">
+      <span style="font-size:13px;font-weight:700;color:var(--gold);padding:3px 10px;background:rgba(212,168,83,0.08);border-radius:6px;">${q.pillar}</span>
+      <p class="hd" style="font-size:20px;font-weight:600;margin-top:12px;line-height:1.6;">${q.q}</p>
+    </div>
+    <div>${q.opts.map((o,i)=>`<button class="option-btn ${selCheck===i?'selected':''}" onclick="selCheck=${i};render()" ${showInsight?'disabled':''}>${o.t}${showInsight && o.s===3?'<span style="margin-left:8px;color:var(--green);font-size:13px;">✓ Socratic</span>':''}</button>`).join('')}</div>
+    ${!showInsight && selCheck!==null ? `<div class="center"><button class="btn btn-gold" onclick="checkAnswers.push(${CHECKS[lang][checkStep].opts[selCheck].s});showInsight=true;render()">${t('confirm')}</button></div>` : ''}
+    ${showInsight ? `<div class="card card-gold fade"><div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:10px;">🏛️ ${t('socratesInsight')}</div>
+      <p style="font-size:16px;color:var(--text2);font-style:italic;">${q.insight}</p></div>
+    <div class="center"><button class="btn btn-purple" onclick="selCheck=null;showInsight=false;${checkStep<qs.length-1?`checkStep++;render()`:`checkDone=true;render()`}">${checkStep<qs.length-1?t('next'):t('seeResults')}</button></div>` : ''}
+    </div>`;
+  } else {
+    const total = checkAnswers.reduce((s,a)=>s+a,0);
+    const pct = Math.round(total/(qs.length*3)*100);
+    const color = pct>=75?'var(--green)':pct>=50?'var(--gold)':'var(--warn)';
+    pg.innerHTML = `<div class="center fade" style="padding-top:20px;">
+      <div class="avatar-lg" style="margin:0 auto 16px;border-radius:50%;"><img src="/socrates.png" alt=""></div>
+      <h2 class="hd" style="font-size:30px;margin-bottom:8px;">${t('yourScore')}</h2>
+      <div class="hd" style="font-size:56px;font-weight:700;color:${color};margin-bottom:24px;">${pct}%</div>
+      <p style="font-size:18px;color:var(--text2);max-width:520px;margin:0 auto 32px;">${pct>=75?t('scoreHigh'):pct>=50?t('scoreMid'):t('scoreLow')}</p>
+      <button class="btn btn-gold" style="box-shadow:0 4px 20px var(--gglow);" onclick="go('scenarios')">${t('enterSim')}</button>
+    </div>`;
+  }
+}
+
+function renderScenarios(pg) {
+  pg.innerHTML = `<div class="fade">
+    <div style="display:flex;align-items:center;gap:20px;margin-bottom:24px;">
+      <div class="avatar-lg" style="border-radius:50%;"><img src="/socrates.png" alt=""></div>
+      <div><h2 class="hd" style="font-size:34px;">${t('selectScenario')}</h2></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;">
+    ${SCENARIOS.map((sc,idx)=>{
+      const locked = idx > 0 && userPlan === 'free';
+      return `<div onclick="${locked ? 'showUpgradePrompt()' : `startSim('${sc.id}')`}" style="background:var(--card);border:1px solid ${locked?'rgba(255,255,255,0.03)':'var(--border)'};border-radius:16px;padding:22px;cursor:pointer;transition:all 0.3s;${locked?'opacity:0.6;':''}position:relative;" onmouseover="this.style.borderColor='var(--gborder)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='${locked?'rgba(255,255,255,0.03)':'var(--border)'}';this.style.transform='none'">
+      ${locked?`<div style="position:absolute;top:12px;right:12px;background:rgba(212,168,83,0.15);color:var(--gold);font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;border:1px solid var(--gborder);">🔒 ${lang==='fr'?'Premium':'Premium'}</div>`:''}
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;">
+        <span style="font-size:30px">${sc.icon}</span>
+        <div><div class="hd" style="font-weight:700;font-size:22px;">${sc.t[lang]}</div><div style="font-size:14px;color:var(--muted);">${sc.cat} · ${sc.dur} · 5 ${t('decision')}s</div></div>
+      </div>
+      <p style="font-size:16px;color:var(--text2);margin-bottom:12px;">${sc.sub[lang]}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;">${sc.skills[lang].map(s=>`<span style="font-size:13px;padding:4px 10px;border-radius:6px;background:rgba(212,168,83,0.07);color:var(--gold);border:1px solid var(--gborder);">${s}</span>`).join('')}</div>
+    </div>`;}).join('')}
+    </div></div>`;
+}
+
+function startSim(id) {
+  scenario = SCENARIOS.find(s=>s.id===id);
+  round=0; selOpt=null; showFeedback=false; decisions=[]; simDone=false;
+  go('play');
+}
+
+function showUpgradePrompt() {
+  const msg = lang === 'fr'
+    ? 'Ce scénario est réservé aux membres Thinker et Philosopher.\n\nPassez au plan Thinker ($19/mois) ou Philosopher ($149 à vie) pour débloquer tous les scénarios.'
+    : 'This scenario is available for Thinker and Philosopher members.\n\nUpgrade to Thinker ($19/mo) or Philosopher ($149 lifetime) to unlock all scenarios.';
+  if (confirm(msg + (lang==='fr' ? '\n\nVoir les plans ?' : '\n\nView plans?'))) {
+    window.location.href = '/#pricing';
+  }
+}
+
+function renderPlay(pg) {
+  if (simDone && viewReport) { renderReportCard(pg, viewReport); pg.innerHTML += `<div class="center" style="margin-top:20px;padding-bottom:20px;"><button class="btn btn-gold" onclick="simDone=false;go('scenarios')">${t('backToScenarios')}</button></div>`; return; }
+  const rd = scenario.rounds[lang][round];
+  pg.innerHTML = `<div class="fade">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:24px">${scenario.icon}</span>
+        <div><div class="hd" style="font-weight:700;font-size:18px;">${scenario.t[lang]}</div><div style="font-size:13px;color:var(--muted);">${t('decision')} ${round+1} ${t('of')} 5</div></div>
+      </div>
+      <div class="pill-bar" style="width:160px;">${scenario.rounds[lang].map((_,i)=>`<div class="pill" style="background:${i===round?'var(--gold)':i<round?'var(--green)':'rgba(255,255,255,0.08)'}"></div>`).join('')}</div>
+    </div>
+    <div class="card"><div style="font-size:13px;font-weight:700;color:var(--warn);text-transform:uppercase;margin-bottom:8px;">📋 Context</div>
+      <p style="font-size:17px;line-height:1.65;">${rd.ctx}</p></div>
+    <div style="display:flex;gap:12px;margin-bottom:20px;">
+      <div class="avatar-sm avatar-md" style="border-radius:50%;"><img src="/socrates.png" alt=""></div>
+      <div class="card card-gold" style="flex:1;border-radius:16px 16px 16px 4px;margin:0;">
+        <div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:6px;">Socrate${lang==='en'?'s':''} · <span style="font-weight:400;color:var(--muted);">${rd.pillar}</span></div>
+        <p style="font-size:17px;line-height:1.65;font-style:italic;">${rd.ask}</p>
+      </div>
+    </div>
+    ${!showFeedback ? `<div style="font-size:14px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:10px;">🎯 ${t('makeChoice')}</div>
+    ${rd.opts.map((o,i)=>`<button class="option-btn ${selOpt===i?'selected':''}" onclick="selOpt=${i};render()">${o.t}</button>`).join('')}
+    ${selOpt!==null?`<div class="center"><button class="btn btn-gold" onclick="confirmChoice()">${t('confirm')}</button></div>`:''}` :
+    `<div class="card card-gold fade">
+      <div style="display:flex;gap:10px;align-items:flex-start;">
+        <div class="avatar-sm" style="border-radius:50%;margin-top:2px;"><img src="/socrates.png" alt=""></div>
+        <div><div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:6px;">🏛️ ${t('socratesInsight')}</div>
+          <p style="font-size:16px;color:var(--text2);line-height:1.75;font-style:italic;">${decisions[decisions.length-1].reply}</p></div>
+      </div>
+    </div>
+    <div class="center"><button class="btn btn-purple" onclick="nextRound()">${round<4?t('nextDecision'):t('viewReport')}</button></div>`}
+  </div>`;
+}
+
+function confirmChoice() {
+  if (selOpt===null) return;
+  const rd = scenario.rounds[lang][round];
+  const opt = rd.opts[selOpt];
+  decisions.push({roundIdx:round,optIdx:selOpt,scores:{v:opt.v,r:opt.r,s:opt.s,e:opt.e},pillar:rd.pillar,reply:opt.reply,choice:opt.t});
+  showFeedback = true; render();
+}
+
+function nextRound() {
+  if (round < 4) { round++; selOpt=null; showFeedback=false; render(); }
+  else { finishSim(); }
+}
+
+function finishSim() {
+  const avg = k => Math.round(decisions.reduce((s,d)=>s+d.scores[k],0)/decisions.length);
+  const scores = {v:avg('v'),r:avg('r'),s:avg('s'),e:avg('e')};
+  const overall = Math.round((scores.v+scores.r+scores.s+scores.e)/4);
+  const names = {v:t('virtue'),r:t('reasoning'),s:t('selfAware'),e:t('epistemic')};
+  const sorted = Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+  const checkTotal = checkAnswers.reduce((s,a)=>s+a,0);
+  const checkPct = Math.round(checkTotal/(CHECKS[lang].length*3)*100);
+
+  const strongDecs = decisions.filter(d => (d.scores.v+d.scores.r+d.scores.s+d.scores.e)/4 >= 80);
+  const weakDecs = decisions.filter(d => (d.scores.v+d.scores.r+d.scores.s+d.scores.e)/4 < 60);
+
+  const report = {
+    scenarioTitle: scenario.t[lang], scenarioId: scenario.id, date: new Date().toLocaleDateString(), playerName,
+    decisions: decisions.length, checkScore: checkPct,
+    virtue: scores.v, reasoning: scores.r, selfAware: scores.s, epistemic: scores.e, overall,
+    strongest: names[sorted[0][0]], weakest: names[sorted[sorted.length-1][0]],
+    strengthExplain: strongDecs.length>0 ? `${lang==='fr'?'Décisions':'Decisions'} ${strongDecs.map(d=>d.roundIdx+1).join(', ')}: ${strongDecs.map(d=>d.pillar).join(', ')}` : (lang==='fr'?'Aucune décision au niveau socratique.':'No decisions reached Socratic level.'),
+    weaknessExplain: weakDecs.length>0 ? `${lang==='fr'?'Décisions':'Decisions'} ${weakDecs.map(d=>d.roundIdx+1).join(', ')}: ${lang==='fr'?'Déviation sur':'Deviated on'} ${weakDecs.map(d=>d.pillar).join(', ')}` : (lang==='fr'?'Pas de déviation majeure.':'No major deviations.'),
+    verdict: overall>=80?(lang==='fr'?'Pensée socratique démontrée. Vous questionnez avant de juger.':'Genuinely Socratic thinking. You questioned before judging.'):overall>=60?(lang==='fr'?'Instincts prometteurs mais retour au conventionnel sous pression.':'Promising instincts but conventional thinking under pressure.'):lang==='fr'?'Confort plutôt qu\'examen.':'Comfort over examination.',
+    closingQuestion: overall>=80?(lang==='fr'?'Questionnez-vous aussi vos victoires?':'Do you question your own victories?'):overall>=60?(lang==='fr'?'Quand avez-vous changé d\'avis honnêtement?':'When did you last change your mind honestly?'):(lang==='fr'?'Pouvez-vous expliquer POURQUOI chaque choix?':'Can you explain WHY each choice?'),
+    reviews: decisions.map((d,i) => {
+      const rd = scenario.rounds[lang][d.roundIdx];
+      const avgS = Math.round((d.scores.v+d.scores.r+d.scores.s+d.scores.e)/4);
+      const best = rd.opts.reduce((b,o)=>{const s=(o.v+o.r+o.s+o.e)/4;return s>b.s?{s,t:o.t}:b;},{s:0,t:''});
+      return {round:i+1,pillar:d.pillar,choice:d.choice,score:avgS,reply:d.reply,optimal:avgS>=80,bestChoice:avgS<70?best.t:null};
+    })
+  };
+  allReports.unshift(report);
+  localStorage.setItem('philosim_sessions', JSON.stringify(allReports));
+
+  // Save to database if logged in
+  if (token) {
+    fetch('/api/sessions/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({
+        scenarioId: report.scenarioId, scenarioTitle: report.scenarioTitle, language: lang,
+        checkScore: report.checkScore, overall: report.overall,
+        virtue: report.virtue, reasoning: report.reasoning,
+        selfAware: report.selfAware, epistemic: report.epistemic,
+        strongest: report.strongest, weakest: report.weakest,
+        decisions: report.reviews
+      })
+    }).catch(e => console.warn('Session save to DB failed:', e));
+  }
+
+  viewReport = report; simDone = true; render();
+}
+
+function renderReportCard(pg, r) {
+  const color = s => s>=80?'var(--green)':s>=60?'var(--gold)':'var(--warn)';
+  pg.innerHTML = `<div class="fade">
+    <div class="card card-gold center">
+      <div class="avatar-lg" style="margin:0 auto 12px;border-radius:50%;"><img src="/socrates.png" alt=""></div>
+      <div class="hd" style="font-size:24px;font-weight:700;">${t('sessionWith')}</div>
+      <div style="color:var(--gold);font-size:16px;">${r.scenarioTitle}</div>
+      <div style="color:var(--muted);font-size:14px;margin-top:4px;">${r.date} · ${r.playerName} · ${r.decisions} decisions</div>
+    </div>
+    <div class="card center" style="background:linear-gradient(135deg,rgba(212,168,83,0.04),rgba(99,102,241,0.04));border-color:var(--gborder);">
+      <div class="hd" style="font-size:48px;font-weight:700;color:${color(r.overall)};">${r.overall}/100</div>
+      <div style="font-size:14px;color:var(--muted);text-transform:uppercase;font-weight:700;">${t('overallScore')}</div>
+    </div>
+    <div class="card">
+      ${scoreBar(t('virtue'),r.virtue,'var(--green)')}${scoreBar(t('reasoning'),r.reasoning,'var(--purple)')}${scoreBar(t('selfAware'),r.selfAware,'var(--purple2)')}${scoreBar(t('epistemic'),r.epistemic,'var(--gold)')}
+    </div>
+    <div class="card card-gold">
+      <div style="display:flex;gap:12px;align-items:flex-start;">
+        <div class="avatar-sm" style="border-radius:50%;margin-top:2px;"><img src="/socrates.png" alt=""></div>
+        <div><div class="hd" style="font-weight:700;color:var(--gold);margin-bottom:8px;">🏛️ ${lang==='fr'?'Verdict de Socrate':'Socrates\' Verdict'}</div>
+          <p style="font-size:17px;line-height:1.7;font-style:italic;">${r.verdict}</p></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+      <div class="card" style="border-color:rgba(16,185,129,0.15);"><div class="hd" style="font-weight:700;color:var(--green);margin-bottom:4px;">✦ ${t('strengths')}</div><div style="font-weight:600;margin-bottom:8px;">${r.strongest}</div><div style="font-size:14px;color:var(--text2);">${r.strengthExplain}</div></div>
+      <div class="card" style="border-color:rgba(245,158,11,0.15);"><div class="hd" style="font-weight:700;color:var(--warn);margin-bottom:4px;">↗ ${t('growth')}</div><div style="font-weight:600;margin-bottom:8px;">${r.weakest}</div><div style="font-size:14px;color:var(--text2);">${r.weaknessExplain}</div></div>
+    </div>
+    ${r.reviews?`<div class="card"><div class="hd" style="font-weight:700;font-size:17px;margin-bottom:16px;">${t('yourDecisions')}</div>
+    ${r.reviews.map((d,i)=>`<div style="margin-bottom:${i<r.reviews.length-1?'20':'0'}px;padding-bottom:${i<r.reviews.length-1?'20':'0'}px;border-bottom:${i<r.reviews.length-1?'1px solid var(--border)':'none'};">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;background:${d.optimal?'rgba(16,185,129,0.15)':d.score>=60?'rgba(212,168,83,0.15)':'rgba(245,158,11,0.15)'};color:${color(d.score)}">${d.round}</div>
+          <span style="font-size:13px;font-weight:700;color:var(--gold);padding:2px 8px;background:rgba(212,168,83,0.08);border-radius:6px;">${d.pillar}</span>
+        </div>
+        <span class="hd" style="font-weight:700;color:${color(d.score)};">${d.score}/100</span>
+      </div>
+      <div style="font-size:14px;color:var(--muted);margin-bottom:6px;"><strong style="color:var(--text2);">${lang==='fr'?'Votre choix:':'Your choice:'}</strong> ${d.choice}</div>
+      <div style="display:flex;gap:8px;align-items:flex-start;">
+        <div class="avatar-sm" style="border-radius:50%;width:20px;height:20px;min-width:20px;margin-top:2px;"><img src="/socrates.png" alt=""></div>
+        <p style="font-size:14px;color:var(--text2);font-style:italic;line-height:1.6;">${d.reply}</p>
+      </div>
+      ${d.bestChoice?`<div style="margin-top:8px;padding:8px 12px;background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.15);border-radius:8px;font-size:13px;color:var(--green);">💡 ${t('socraticAnswer')} ${d.bestChoice}</div>`:''}
+    </div>`).join('')}</div>`:''}
+    <div class="card center" style="border-color:rgba(99,102,241,0.2);">
+      <div class="hd" style="font-weight:700;color:var(--cyan);margin-bottom:10px;">❓ ${t('closingQ')}</div>
+      <p style="font-size:16px;color:var(--text2);font-style:italic;">${r.closingQuestion}</p>
+    </div>
+  </div>`;
+}
+
+function renderReportView(pg) {
+  if (allReports.length > 0) { renderReportCard(pg, allReports[0]); }
+  else { pg.innerHTML = `<div class="card center"><p style="color:var(--text2);">${t('noReports')}</p></div>`; }
+}
+
+function renderHistory(pg) {
+  pg.innerHTML = `<div class="fade"><h2 class="hd" style="font-size:30px;margin-bottom:24px;">📚 ${t('history')}</h2>
+  ${allReports.length===0?`<div class="card center"><p style="color:var(--text2);">${t('noReports')}</p></div>`:
+  allReports.map((r,i)=>{
+    const c = r.overall>=80?'var(--green)':r.overall>=60?'var(--gold)':'var(--warn)';
+    return `<div class="card" style="cursor:pointer;margin-bottom:12px;" onclick="viewReport=allReports[${i}];go('report')" onmouseover="this.style.borderColor='var(--gborder)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div><div class="hd" style="font-weight:700;font-size:17px;">${r.scenarioTitle}</div><div style="font-size:14px;color:var(--muted);">${r.date} · ${r.decisions} decisions</div></div>
+        <div class="hd" style="font-size:28px;font-weight:700;color:${c};">${r.overall}</div>
+      </div></div>`;
+  }).join('')}</div>`;
+}
+
+function scoreBar(label,score,color) {
+  return `<div class="score-bar"><div class="top"><span class="label">${label}</span><span class="val" style="color:${color}">${score}/100</span></div><div class="track"><div class="fill" style="width:${score}%;background:${color};"></div></div></div>`;
+}
+
+// ═══ INIT ═══
+async function init() {
+  if (token) {
+    try {
+      const r = await fetch('/api/auth/me', { headers: {'Authorization':'Bearer '+token} });
+      if (r.ok) { const d = await r.json(); playerName = d.user.name || ''; }
+    } catch(e) {}
+  }
+  render();
+  if (playerName) go('welcome');
+}
+init();
+</script>
+</body>
+</html>

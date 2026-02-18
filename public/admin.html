@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — PhiloSim</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    :root{--bg:#05050a;--bg2:#0d0d14;--card:#141420;--text:#fff;--text2:#9ca3af;--muted:#6b7280;--gold:#d4a853;--gold2:#b8923e;--purple:#6366f1;--green:#10b981;--warn:#f59e0b;--err:#ef4444;--cyan:#06b6d4;--border:rgba(255,255,255,0.06);--gborder:rgba(212,168,83,0.22);}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+    .hd{font-family:'Space Grotesk',sans-serif;}
+    a{color:var(--gold);text-decoration:none;}
+    ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:4px;}
+
+    .topbar{padding:16px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--bg2);}
+    .topbar .brand{display:flex;align-items:center;gap:10px;}
+    .topbar .brand img{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--gold);}
+    .topbar .brand span{font-family:'Space Grotesk';font-weight:700;font-size:20px;}
+    .topbar .badge{background:var(--warn);color:#0a0a0a;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:700;text-transform:uppercase;}
+    .topbar .links{display:flex;gap:10px;align-items:center;}
+    .btn-sm{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:'DM Sans';}
+    .btn-gold-sm{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0a0a0a;}
+    .btn-out-sm{background:transparent;color:var(--text2);border:1px solid var(--border);}
+    .btn-danger{background:rgba(239,68,68,0.15);color:var(--err);border:1px solid rgba(239,68,68,0.3);}
+
+    .container{max-width:1100px;margin:0 auto;padding:32px;}
+    .page-title{font-family:'Space Grotesk';font-size:28px;font-weight:700;margin-bottom:24px;}
+
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;}
+    .stat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;}
+    .stat .label{font-size:13px;color:var(--muted);text-transform:uppercase;font-weight:600;letter-spacing:0.05em;margin-bottom:8px;}
+    .stat .value{font-family:'Space Grotesk';font-size:32px;font-weight:700;}
+    .stat .sub{font-size:13px;color:var(--text2);margin-top:4px;}
+
+    .section{margin-bottom:32px;}
+    .section-title{font-family:'Space Grotesk';font-size:20px;font-weight:700;margin-bottom:16px;}
+
+    table{width:100%;border-collapse:collapse;background:var(--card);border-radius:14px;overflow:hidden;border:1px solid var(--border);}
+    th{text-align:left;padding:14px 16px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:700;background:var(--bg2);border-bottom:1px solid var(--border);}
+    td{padding:12px 16px;font-size:14px;border-bottom:1px solid var(--border);color:var(--text2);}
+    tr:last-child td{border-bottom:none;}
+    tr:hover td{background:rgba(255,255,255,0.02);}
+    .tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:12px;font-weight:600;}
+    .tag-admin{background:rgba(245,158,11,0.15);color:var(--warn);}
+    .tag-free{background:rgba(107,114,128,0.15);color:var(--muted);}
+    .tag-thinker{background:rgba(99,102,241,0.15);color:var(--purple);}
+    .tag-philosopher{background:rgba(212,168,83,0.15);color:var(--gold);}
+    .tag-google{background:rgba(66,133,244,0.15);color:#4285f4;}
+    .tag-email{background:rgba(255,255,255,0.05);color:var(--text2);}
+    .actions{display:flex;gap:6px;}
+    .actions button{padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:'DM Sans';}
+    .actions .edit{background:rgba(99,102,241,0.15);color:var(--purple);}
+    .actions .del{background:rgba(239,68,68,0.1);color:var(--err);}
+
+    /* Edit Modal */
+    .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);z-index:200;align-items:center;justify-content:center;}
+    .modal-bg.show{display:flex;}
+    .modal{background:var(--card);border:1px solid var(--gborder);border-radius:16px;padding:28px;width:100%;max-width:440px;}
+    .modal h3{font-family:'Space Grotesk';font-size:22px;font-weight:700;margin-bottom:16px;}
+    .modal label{display:block;font-size:13px;font-weight:600;color:var(--text2);margin-bottom:4px;}
+    .modal input,.modal select{width:100%;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:15px;font-family:'DM Sans';margin-bottom:12px;outline:none;}
+    .modal select{cursor:pointer;}
+    .modal .btns{display:flex;gap:10px;margin-top:8px;}
+    .modal .btns button{flex:1;padding:10px;font-size:14px;font-weight:600;border:none;border-radius:8px;cursor:pointer;font-family:'DM Sans';}
+
+    @media(max-width:768px){.stats-grid{grid-template-columns:repeat(2,1fr);}.container{padding:20px;}table{font-size:12px;}}
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <a href="/" class="brand"><img src="/socrates.png" alt=""><span class="hd">PhiloSim</span></a>
+    <span class="badge">Admin</span>
+  </div>
+  <div class="links">
+    <a href="/dashboard" class="btn-sm btn-out-sm">Dashboard</a>
+    <a href="/app" class="btn-sm btn-gold-sm">Play →</a>
+    <button class="btn-sm btn-out-sm" onclick="logout()">Log Out</button>
+  </div>
+</div>
+
+<div class="container">
+  <h1 class="page-title hd">📊 Admin Dashboard</h1>
+
+  <div class="stats-grid">
+    <div class="stat"><div class="label">Total Users</div><div class="value" id="sUsers">—</div><div class="sub" id="sNew7d">— new this week</div></div>
+    <div class="stat"><div class="label">Total Sessions</div><div class="value" id="sSessions">—</div><div class="sub" id="sSess7d">— this week</div></div>
+    <div class="stat"><div class="label">Avg Wisdom Score</div><div class="value" id="sAvg" style="color:var(--gold);">—</div><div class="sub">across all sessions</div></div>
+    <div class="stat"><div class="label">Plans</div><div class="value" id="sPlans" style="font-size:16px;">—</div><div class="sub">distribution</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">👥 User Management</div>
+    <table>
+      <thead><tr><th>User</th><th>Plan</th><th>Auth</th><th>Sessions</th><th>Avg</th><th>Joined</th><th>Actions</th></tr></thead>
+      <tbody id="userTable"><tr><td colspan="7" style="text-align:center;padding:32px;">Loading...</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal-bg" id="editModal" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="modal">
+    <h3 class="hd">Edit User</h3>
+    <input type="hidden" id="editId">
+    <label>Name</label><input id="editName" placeholder="Name">
+    <label>Email</label><input id="editEmail" placeholder="Email">
+    <label>Plan</label>
+    <select id="editPlan"><option value="free">Explorer (Free)</option><option value="thinker">Thinker</option><option value="philosopher">Philosopher</option></select>
+    <label>Admin</label>
+    <select id="editAdmin"><option value="false">No</option><option value="true">Yes</option></select>
+    <div class="btns">
+      <button style="background:var(--border);color:var(--text2);" onclick="document.getElementById('editModal').classList.remove('show')">Cancel</button>
+      <button style="background:linear-gradient(135deg,var(--purple),#7c3aed);color:#fff;" onclick="saveEdit()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const token = localStorage.getItem('auth_token');
+if (!token) window.location.href = '/';
+const H = { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' };
+
+async function loadStats() {
+  try {
+    const r = await fetch('/api/admin/stats', { headers: H });
+    if (r.status === 403) { alert('Admin access required'); window.location.href = '/dashboard'; return; }
+    if (!r.ok) return;
+    const d = await r.json();
+    document.getElementById('sUsers').textContent = d.overview.totalUsers;
+    document.getElementById('sSessions').textContent = d.overview.totalSessions;
+    document.getElementById('sAvg').textContent = d.overview.avgScore || '—';
+    document.getElementById('sNew7d').textContent = (d.last7Days.newUsers || 0) + ' new this week';
+    document.getElementById('sSess7d').textContent = (d.last7Days.sessions || 0) + ' this week';
+    if (d.planDistribution && d.planDistribution.length > 0) {
+      document.getElementById('sPlans').textContent = d.planDistribution.map(p => `${p.plan || 'free'}: ${p.count}`).join(' · ');
+    }
+  } catch(e) { console.error(e); }
+}
+
+async function loadUsers() {
+  try {
+    const r = await fetch('/api/admin/users', { headers: H });
+    if (!r.ok) return;
+    const { users } = await r.json();
+    const tb = document.getElementById('userTable');
+    tb.innerHTML = users.map(u => `<tr>
+      <td><strong style="color:var(--text)">${u.name || '—'}</strong><br><span style="font-size:12px">${u.email}</span></td>
+      <td><span class="tag tag-${u.plan || 'free'}">${u.plan || 'free'}</span>${u.isAdmin ? ' <span class="tag tag-admin">admin</span>' : ''}</td>
+      <td><span class="tag tag-${u.authProvider}">${u.authProvider}</span></td>
+      <td>${u.sessions}</td>
+      <td>${u.avgScore || '—'}</td>
+      <td>${u.joined}</td>
+      <td class="actions">
+        <button class="edit" onclick='editUser(${JSON.stringify(u)})'>Edit</button>
+        <button class="del" onclick="deleteUser(${u.id},'${u.email}')">Del</button>
+      </td>
+    </tr>`).join('');
+  } catch(e) { console.error(e); }
+}
+
+function editUser(u) {
+  document.getElementById('editId').value = u.id;
+  document.getElementById('editName').value = u.name || '';
+  document.getElementById('editEmail').value = u.email || '';
+  document.getElementById('editPlan').value = u.plan || 'free';
+  document.getElementById('editAdmin').value = u.isAdmin ? 'true' : 'false';
+  document.getElementById('editModal').classList.add('show');
+}
+
+async function saveEdit() {
+  const userId = parseInt(document.getElementById('editId').value);
+  const body = {
+    userId,
+    name: document.getElementById('editName').value,
+    email: document.getElementById('editEmail').value,
+    isAdmin: document.getElementById('editAdmin').value === 'true',
+  };
+  try {
+    await fetch('/api/admin/edit-user', { method: 'POST', headers: H, body: JSON.stringify(body) });
+    document.getElementById('editModal').classList.remove('show');
+    loadUsers(); loadStats();
+  } catch(e) { alert('Failed to update'); }
+}
+
+async function deleteUser(id, email) {
+  if (!confirm(`Delete ${email}? This cannot be undone.`)) return;
+  try {
+    await fetch('/api/admin/delete-user', { method: 'DELETE', headers: H, body: JSON.stringify({ userId: id }) });
+    loadUsers(); loadStats();
+  } catch(e) { alert('Failed to delete'); }
+}
+
+function logout() { localStorage.removeItem('auth_token'); window.location.href = '/'; }
+
+loadStats();
+loadUsers();
+</script>
+</body>
+</html>
