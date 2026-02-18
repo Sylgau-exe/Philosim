@@ -380,8 +380,8 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
   const ScoreBar = ({ label, score, color }) => (
     <div style={{ marginBottom: 14 }}>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-        <span style={{ fontSize: 16, color: C.textSecondary, fontFamily: FONT_BODY }}>{label}</span>
-        <span style={{ fontSize: 16, fontWeight: 700, color, fontFamily: FONT_DISPLAY }}>{score}/100</span>
+        <span style={{ fontSize: 12, color: C.textSecondary, fontFamily: FONT_BODY }}>{label}</span>
+        <span style={{ fontSize: 12, fontWeight: 700, color, fontFamily: FONT_DISPLAY }}>{score}/100</span>
       </div>
       <div style={{ height: 6, background: "rgba(255,255,255,0.06)", borderRadius: 3 }}>
         <div style={{ width: `${score}%`, height: "100%", background: color, borderRadius: 3, transition: "width 1s ease" }} />
@@ -434,12 +434,12 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
               width: 34, height: 34, borderRadius: 10,
               background: `linear-gradient(135deg, ${SOCRATES.gold}, ${SOCRATES.goldDim})`,
               display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: 22, flexShrink: 0,
+              fontSize: 18, flexShrink: 0,
             }}>🏛️</div>
             {!sidebarCollapsed && (
               <div>
-                <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 24, letterSpacing: "-0.02em" }}>{t.brand}</div>
-                <div style={{ fontSize: 13, color: SOCRATES.gold, fontWeight: 500, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 16, letterSpacing: "-0.02em" }}>{t.brand}</div>
+                <div style={{ fontSize: 9, color: SOCRATES.gold, fontWeight: 500, letterSpacing: "0.05em", textTransform: "uppercase" }}>
                   {t.tagline} {t.mentorName}
                 </div>
               </div>
@@ -452,7 +452,7 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
           <div style={{ padding: "10px 18px 0", display: "flex", gap: 4 }}>
             {["en", "fr"].map((l) => (
               <button key={l} onClick={() => setLang(l)} style={{
-                flex: 1, padding: "6px 0", fontSize: 14, fontWeight: lang === l ? 700 : 400,
+                flex: 1, padding: "4px 0", fontSize: 11, fontWeight: lang === l ? 700 : 400,
                 background: lang === l ? "rgba(212,168,83,0.12)" : "transparent",
                 color: lang === l ? SOCRATES.gold : C.textMuted,
                 border: `1px solid ${lang === l ? SOCRATES.border : "transparent"}`,
@@ -479,10 +479,10 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
               background: view === item.id ? "rgba(212,168,83,0.1)" : "transparent",
               color: view === item.id ? SOCRATES.gold : C.textSecondary,
               border: "none", borderRadius: 8, cursor: "pointer",
-              fontFamily: FONT_BODY, fontSize: 18, fontWeight: view === item.id ? 600 : 400,
+              fontFamily: FONT_BODY, fontSize: 13, fontWeight: view === item.id ? 600 : 400,
               transition: "all 0.2s", width: "100%", textAlign: "left",
             }}>
-              <span style={{ fontSize: 22, flexShrink: 0 }}>{item.icon}</span>
+              <span style={{ fontSize: 16, flexShrink: 0 }}>{item.icon}</span>
               {!sidebarCollapsed && item.label}
             </button>
           ))}
@@ -492,10 +492,10 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
         <button onClick={() => setSidebarCollapsed(!sidebarCollapsed)} style={{
           padding: 12, background: "transparent", border: "none",
           borderTop: `1px solid ${C.borderSubtle}`, cursor: "pointer",
-          color: C.textMuted, fontSize: 17, transition: "all 0.2s",
+          color: C.textMuted, fontSize: 14, transition: "all 0.2s",
         }}>
           {sidebarCollapsed ? "→" : "← "}
-          {!sidebarCollapsed && <span style={{ fontSize: 14, marginLeft: 4 }}>Collapse</span>}
+          {!sidebarCollapsed && <span style={{ fontSize: 11, marginLeft: 4 }}>Collapse</span>}
         </button>
       </div>
 
@@ -512,20 +512,20 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
                 background: `linear-gradient(135deg, ${SOCRATES.gold}22, ${SOCRATES.goldDim}11)`,
                 border: `2px solid ${SOCRATES.border}`,
                 display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: 56, boxShadow: `0 0 40px ${SOCRATES.glow}`,
+                fontSize: 48, boxShadow: `0 0 40px ${SOCRATES.glow}`,
               }}>🏛️</div>
 
-              <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: 52, fontWeight: 700, margin: "0 0 8px", letterSpacing: "-0.03em" }}>
+              <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: 36, fontWeight: 700, margin: "0 0 8px", letterSpacing: "-0.03em" }}>
                 {t.brand}
               </h1>
               <div style={{
-                fontSize: 20, fontWeight: 500, color: SOCRATES.gold, marginBottom: 24,
+                fontSize: 14, fontWeight: 500, color: SOCRATES.gold, marginBottom: 24,
                 letterSpacing: "0.08em", textTransform: "uppercase",
               }}>
                 {t.tagline} {t.mentorName}
               </div>
 
-              <p style={{ fontSize: 20, color: C.textSecondary, lineHeight: 1.7, marginBottom: 32, maxWidth: 480, margin: "0 auto 32px" }}>
+              <p style={{ fontSize: 15, color: C.textSecondary, lineHeight: 1.7, marginBottom: 32, maxWidth: 480, margin: "0 auto 32px" }}>
                 {lang === "fr"
                   ? "Faites face à de vrais dilemmes professionnels guidé par le plus grand questionnaire de l'histoire. Socrate ne vous donnera pas de réponses — il vous aidera à les découvrir."
                   : "Face real workplace dilemmas guided by history's greatest questioner. Socrates won't give you answers — he'll help you discover them."}
@@ -540,19 +540,19 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
                   <div style={{
                     width: 48, height: 48, borderRadius: 12,
                     background: `linear-gradient(135deg, ${SOCRATES.gold}, ${SOCRATES.goldDim})`,
-                    display: "flex", alignItems: "center", justifyContent: "center", fontSize: 30,
+                    display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24,
                   }}>🏛️</div>
                   <div>
-                    <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 22 }}>{MENTORS.socrates.name}</div>
-                    <div style={{ fontSize: 17, color: SOCRATES.gold }}>{MENTORS.socrates.era} · {MENTORS.socrates.title}</div>
+                    <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 16 }}>{MENTORS.socrates.name}</div>
+                    <div style={{ fontSize: 12, color: SOCRATES.gold }}>{MENTORS.socrates.era} · {MENTORS.socrates.title}</div>
                   </div>
                 </div>
-                <div style={{ fontSize: 16, color: C.textMuted, marginBottom: 12, fontWeight: 600 }}>{t.method}: {MENTORS.socrates.method}</div>
-                <div style={{ fontSize: 18, color: C.textSecondary, fontStyle: "italic", marginBottom: 16 }}>"{MENTORS.socrates.tagline}"</div>
-                <div style={{ fontSize: 16, color: C.textMuted, fontWeight: 600, marginBottom: 10 }}>{t.principles}:</div>
+                <div style={{ fontSize: 12, color: C.textMuted, marginBottom: 10, fontWeight: 600 }}>{t.method}: {MENTORS.socrates.method}</div>
+                <div style={{ fontSize: 13, color: C.textSecondary, fontStyle: "italic", marginBottom: 16 }}>"{MENTORS.socrates.tagline}"</div>
+                <div style={{ fontSize: 11, color: C.textMuted, fontWeight: 600, marginBottom: 8 }}>{t.principles}:</div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                   {MENTORS.socrates.principles.map((p, i) => (
-                    <div key={i} style={{ fontSize: 16, color: C.textSecondary, paddingLeft: 14, borderLeft: `2px solid ${SOCRATES.gold}33` }}>{p}</div>
+                    <div key={i} style={{ fontSize: 12, color: C.textSecondary, paddingLeft: 12, borderLeft: `2px solid ${SOCRATES.gold}33` }}>{p}</div>
                   ))}
                 </div>
               </div>
@@ -566,7 +566,7 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
                     onKeyDown={(e) => e.key === "Enter" && nameInput.trim() && (setPlayerName(nameInput.trim()), setView("scenarios"))}
                     placeholder={t.enterName}
                     style={{
-                      flex: 1, padding: "14px 20px", fontSize: 17, fontFamily: FONT_BODY,
+                      flex: 1, padding: "12px 16px", fontSize: 14, fontFamily: FONT_BODY,
                       background: C.bgInput, color: C.textPrimary,
                       border: `1px solid ${C.borderInput}`, borderRadius: 10,
                       outline: "none",
@@ -575,7 +575,7 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
                   <button
                     onClick={() => nameInput.trim() && (setPlayerName(nameInput.trim()), setView("scenarios"))}
                     style={{
-                      padding: "14px 28px", fontSize: 17, fontWeight: 600,
+                      padding: "12px 24px", fontSize: 14, fontWeight: 600,
                       background: `linear-gradient(135deg, ${SOCRATES.gold}, ${SOCRATES.goldDim})`,
                       color: "#0a0a0a", border: "none", borderRadius: 10, cursor: "pointer",
                       fontFamily: FONT_DISPLAY,
@@ -586,7 +586,7 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
                 <button
                   onClick={() => setView("scenarios")}
                   style={{
-                    padding: "16px 40px", fontSize: 18, fontWeight: 600,
+                    padding: "14px 36px", fontSize: 15, fontWeight: 600,
                     background: `linear-gradient(135deg, ${SOCRATES.gold}, ${SOCRATES.goldDim})`,
                     color: "#0a0a0a", border: "none", borderRadius: 12, cursor: "pointer",
                     fontFamily: FONT_DISPLAY, boxShadow: `0 4px 20px ${SOCRATES.glow}`,
@@ -601,8 +601,8 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
         {view === "scenarios" && (
           <div style={{ flex: 1, overflowY: "auto", padding: "32px 28px" }}>
             <div style={{ maxWidth: 900, margin: "0 auto" }}>
-              <h2 style={{ fontFamily: FONT_DISPLAY, fontSize: 38, fontWeight: 700, marginBottom: 8, letterSpacing: "-0.02em" }}>{t.selectScenario}</h2>
-              <p style={{ color: C.textSecondary, fontSize: 19, marginBottom: 28, lineHeight: 1.6 }}>{t.selectScenarioSub}</p>
+              <h2 style={{ fontFamily: FONT_DISPLAY, fontSize: 26, fontWeight: 700, marginBottom: 4, letterSpacing: "-0.02em" }}>{t.selectScenario}</h2>
+              <p style={{ color: C.textSecondary, fontSize: 14, marginBottom: 28, lineHeight: 1.6 }}>{t.selectScenarioSub}</p>
 
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(380, 1fr))", gap: 16 }}>
                 {SCENARIOS.map((sc, i) => (
@@ -618,40 +618,40 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
                   >
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
                       <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                        <span style={{ fontSize: 32 }}>{sc.icon}</span>
+                        <span style={{ fontSize: 28 }}>{sc.icon}</span>
                         <div>
-                          <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 28, marginBottom: 6 }}>{sc.title}</div>
-                          <div style={{ fontSize: 16, color: C.textMuted }}>{sc.category} · {sc.duration}</div>
+                          <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 16, marginBottom: 2 }}>{sc.title}</div>
+                          <div style={{ fontSize: 11, color: C.textMuted }}>{sc.category} · {sc.duration}</div>
                         </div>
                       </div>
                       <span style={{
-                        fontSize: 14, fontWeight: 700, padding: "8px 16px", borderRadius: 6,
+                        fontSize: 10, fontWeight: 700, padding: "3px 8px", borderRadius: 6,
                         background: `${sc.diffColor}18`, color: sc.diffColor,
                       }}>{sc.difficulty}</span>
                     </div>
 
-                    <p style={{ fontSize: 18, color: C.textSecondary, lineHeight: 1.6, marginBottom: 16 }}>{sc.subtitle}</p>
+                    <p style={{ fontSize: 13, color: C.textSecondary, lineHeight: 1.55, marginBottom: 14 }}>{sc.subtitle}</p>
 
-                    <div style={{ fontSize: 16, color: C.textMuted, marginBottom: 8 }}>{t.skills}:</div>
+                    <div style={{ fontSize: 11, color: C.textMuted, marginBottom: 8 }}>{t.skills}:</div>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 14 }}>
                       {sc.skills.map((s) => (
                         <span key={s} style={{
-                          fontSize: 14, padding: "8px 16px", borderRadius: 6,
+                          fontSize: 10, padding: "3px 8px", borderRadius: 6,
                           background: "rgba(212,168,83,0.08)", color: SOCRATES.gold,
                           border: `1px solid ${SOCRATES.border}`,
                         }}>{s}</span>
                       ))}
                     </div>
 
-                    <div style={{ fontSize: 16, color: SOCRATES.gold, fontStyle: "italic" }}>🏛️ {sc.philosophicalTheme}</div>
+                    <div style={{ fontSize: 11, color: SOCRATES.gold, fontStyle: "italic" }}>🏛️ {sc.philosophicalTheme}</div>
                   </div>
                 ))}
               </div>
 
               {/* Future Mentors Section */}
               <div style={{ marginTop: 48 }}>
-                <h3 style={{ fontFamily: FONT_DISPLAY, fontSize: 28, fontWeight: 700, marginBottom: 6 }}>{t.futureTitle}</h3>
-                <p style={{ color: C.textSecondary, fontSize: 18, marginBottom: 20 }}>{t.futureSub}</p>
+                <h3 style={{ fontFamily: FONT_DISPLAY, fontSize: 20, fontWeight: 700, marginBottom: 4 }}>{t.futureTitle}</h3>
+                <p style={{ color: C.textSecondary, fontSize: 13, marginBottom: 20 }}>{t.futureSub}</p>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: 12 }}>
                   {FUTURE_MENTORS.map((m, i) => (
                     <div key={i} style={{
@@ -659,12 +659,12 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
                       borderRadius: 12, padding: 16, opacity: 0.55, textAlign: "center",
                       animation: `fadeUp 0.4s ease ${0.3 + i * 0.06}s both`,
                     }}>
-                      <div style={{ fontSize: 32, marginBottom: 8 }}>{m.emoji}</div>
-                      <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 18, marginBottom: 4 }}>{m.name}</div>
-                      <div style={{ fontSize: 15, color: C.accentPrimary, marginBottom: 6 }}>{m.field}</div>
-                      <div style={{ fontSize: 15, color: C.textMuted, fontStyle: "italic" }}>{m.tagline}</div>
+                      <div style={{ fontSize: 28, marginBottom: 8 }}>{m.emoji}</div>
+                      <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{m.name}</div>
+                      <div style={{ fontSize: 10, color: C.accentPrimary, marginBottom: 6 }}>{m.field}</div>
+                      <div style={{ fontSize: 10, color: C.textMuted, fontStyle: "italic" }}>{m.tagline}</div>
                       <div style={{
-                        marginTop: 10, fontSize: 13, fontWeight: 700, color: C.textMuted,
+                        marginTop: 10, fontSize: 9, fontWeight: 700, color: C.textMuted,
                         textTransform: "uppercase", letterSpacing: "0.1em",
                       }}>{t.comingSoon}</div>
                     </div>
@@ -685,14 +685,14 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
               background: C.bgSecondary,
             }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <span style={{ fontSize: 26 }}>{scenario.icon}</span>
+                <span style={{ fontSize: 22 }}>{scenario.icon}</span>
                 <div>
-                  <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 20 }}>{scenario.title}</div>
-                  <div style={{ fontSize: 15, color: C.textMuted }}>{scenario.category} · {scenario.philosophicalTheme.split("—")[0]}</div>
+                  <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14 }}>{scenario.title}</div>
+                  <div style={{ fontSize: 10, color: C.textMuted }}>{scenario.category} · {scenario.philosophicalTheme.split("—")[0]}</div>
                 </div>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <div style={{ textAlign: "right", fontSize: 14, color: C.textMuted }}>
+                <div style={{ textAlign: "right", fontSize: 10, color: C.textMuted }}>
                   {t.exchange} {exchangeCount}/{MAX_EXCHANGES}
                   <div style={{ width: 60, height: 3, background: "rgba(255,255,255,0.06)", borderRadius: 2, marginTop: 2 }}>
                     <div style={{ width: `${pct}%`, height: "100%", background: SOCRATES.gold, borderRadius: 2, transition: "width 0.5s" }} />
@@ -701,14 +701,14 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
                 {phase === "dialogue" && (
                   <>
                     <button onClick={requestReflection} disabled={loading || exchangeCount < 2} style={{
-                      padding: "10px 18px", fontSize: 14, fontWeight: 600,
+                      padding: "5px 12px", fontSize: 10, fontWeight: 600,
                       background: `${SOCRATES.gold}11`, color: SOCRATES.gold,
                       border: `1px solid ${SOCRATES.border}`, borderRadius: 8,
                       cursor: exchangeCount < 2 ? "not-allowed" : "pointer", fontFamily: FONT_BODY,
                       opacity: exchangeCount < 2 ? 0.4 : 1,
                     }}>{t.requestReflection}</button>
                     <button onClick={endSession} disabled={loading || exchangeCount < 3} style={{
-                      padding: "10px 18px", fontSize: 14, fontWeight: 600,
+                      padding: "5px 12px", fontSize: 10, fontWeight: 600,
                       background: `${C.accentPrimary}11`, color: C.accentPrimary,
                       border: `1px solid ${C.borderAccent}`, borderRadius: 8,
                       cursor: exchangeCount < 3 ? "not-allowed" : "pointer", fontFamily: FONT_BODY,
@@ -725,9 +725,9 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
                 padding: "14px 20px", background: `${SOCRATES.gold}08`,
                 borderBottom: `1px solid ${SOCRATES.border}`,
               }}>
-                <div style={{ fontSize: 16, fontWeight: 700, color: SOCRATES.gold, marginBottom: 8 }}>{t.situation}</div>
-                <div style={{ fontSize: 17, color: C.textSecondary, lineHeight: 1.6, marginBottom: 10 }}>{scenario.situation}</div>
-                <div style={{ fontSize: 15, color: C.textMuted }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: SOCRATES.gold, marginBottom: 6 }}>{t.situation}</div>
+                <div style={{ fontSize: 12, color: C.textSecondary, lineHeight: 1.6, marginBottom: 8 }}>{scenario.situation}</div>
+                <div style={{ fontSize: 10, color: C.textMuted }}>
                   <strong style={{ color: C.textSecondary }}>{t.stakeholders}:</strong> {scenario.stakeholders.join(" · ")}
                 </div>
               </div>
@@ -738,25 +738,25 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
               {messages.map((m, i) => {
                 if (m.role === "user") return (
                   <div key={i} style={{ alignSelf: "flex-end", maxWidth: "75%", animation: "fadeUp 0.3s" }}>
-                    <div style={{ fontSize: 14, fontWeight: 600, color: C.accentPrimary, textAlign: "right", marginBottom: 3 }}>{playerName}</div>
+                    <div style={{ fontSize: 10, fontWeight: 600, color: C.accentPrimary, textAlign: "right", marginBottom: 3 }}>{playerName}</div>
                     <div style={{
-                      padding: "14px 20px",
+                      padding: "10px 14px",
                       background: "rgba(99,102,241,0.08)",
                       border: `1px solid ${C.borderAccent}`,
                       borderRadius: "14px 14px 4px 14px",
-                      fontSize: 16, lineHeight: 1.55, whiteSpace: "pre-wrap",
+                      fontSize: 13, lineHeight: 1.55, whiteSpace: "pre-wrap",
                     }}>{m.text}</div>
                   </div>
                 );
                 return (
                   <div key={i} style={{ alignSelf: "flex-start", maxWidth: "80%", animation: "fadeUp 0.3s" }}>
-                    <div style={{ fontSize: 14, fontWeight: 600, color: SOCRATES.gold, marginBottom: 3 }}>🏛️ Socrate{lang === "en" ? "s" : ""}</div>
+                    <div style={{ fontSize: 10, fontWeight: 600, color: SOCRATES.gold, marginBottom: 3 }}>🏛️ Socrate{lang === "en" ? "s" : ""}</div>
                     <div style={{
-                      padding: "14px 20px",
+                      padding: "12px 16px",
                       background: SOCRATES.bg,
                       border: `1px solid ${SOCRATES.border}`,
                       borderRadius: "14px 14px 14px 4px",
-                      fontSize: 16, lineHeight: 1.65, whiteSpace: "pre-wrap",
+                      fontSize: 13, lineHeight: 1.65, whiteSpace: "pre-wrap",
                       color: C.textPrimary,
                     }}>{m.text}</div>
                   </div>
@@ -764,10 +764,10 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
               })}
               {loading && (
                 <div style={{ alignSelf: "flex-start", animation: "fadeUp 0.3s" }}>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: SOCRATES.gold, marginBottom: 3 }}>🏛️ Socrate{lang === "en" ? "s" : ""}</div>
+                  <div style={{ fontSize: 10, fontWeight: 600, color: SOCRATES.gold, marginBottom: 3 }}>🏛️ Socrate{lang === "en" ? "s" : ""}</div>
                   <div style={{
-                    padding: "14px 20px", background: SOCRATES.bg, border: `1px solid ${SOCRATES.border}`,
-                    borderRadius: "14px 14px 14px 4px", fontSize: 16, color: C.textMuted,
+                    padding: "12px 16px", background: SOCRATES.bg, border: `1px solid ${SOCRATES.border}`,
+                    borderRadius: "14px 14px 14px 4px", fontSize: 13, color: C.textMuted,
                   }}>
                     <span style={{ animation: "pulse 1.5s infinite" }}>{t.socratesThinking}</span>
                   </div>
@@ -789,14 +789,14 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
                   placeholder={t.typeResponse}
                   disabled={loading}
                   style={{
-                    flex: 1, padding: "14px 20px", fontSize: 17, fontFamily: FONT_BODY,
+                    flex: 1, padding: "12px 16px", fontSize: 14, fontFamily: FONT_BODY,
                     background: C.bgInput, color: C.textPrimary,
                     border: `1px solid ${C.borderInput}`, borderRadius: 10,
                     outline: "none",
                   }}
                 />
                 <button onClick={sendMessage} disabled={loading || !userInput.trim()} style={{
-                  padding: "14px 28px", fontSize: 17, fontWeight: 600,
+                  padding: "12px 22px", fontSize: 14, fontWeight: 600,
                   background: `linear-gradient(135deg, ${SOCRATES.gold}, ${SOCRATES.goldDim})`,
                   color: "#0a0a0a", border: "none", borderRadius: 10,
                   cursor: loading || !userInput.trim() ? "not-allowed" : "pointer",
@@ -811,7 +811,7 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
                 {renderReport(sessionReport)}
                 <div style={{ textAlign: "center", marginTop: 20 }}>
                   <button onClick={() => { setView("scenarios"); setPhase("dialogue"); }} style={{
-                    padding: "14px 32px", fontSize: 17, fontWeight: 600,
+                    padding: "12px 28px", fontSize: 14, fontWeight: 600,
                     background: `linear-gradient(135deg, ${SOCRATES.gold}, ${SOCRATES.goldDim})`,
                     color: "#0a0a0a", border: "none", borderRadius: 10, cursor: "pointer",
                     fontFamily: FONT_DISPLAY,
@@ -826,16 +826,16 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
         {view === "report" && (
           <div style={{ flex: 1, overflowY: "auto", padding: "32px 28px" }}>
             <div style={{ maxWidth: 700, margin: "0 auto" }}>
-              <h2 style={{ fontFamily: FONT_DISPLAY, fontSize: 34, fontWeight: 700, marginBottom: 28 }}>📜 {t.reportTitle}</h2>
+              <h2 style={{ fontFamily: FONT_DISPLAY, fontSize: 24, fontWeight: 700, marginBottom: 24 }}>📜 {t.reportTitle}</h2>
               {sessionReport ? renderReport(sessionReport) : (
                 <div style={{
                   background: C.bgCard, border: `1px solid ${C.borderSubtle}`,
                   borderRadius: 16, padding: 40, textAlign: "center",
                 }}>
-                  <div style={{ fontSize: 56, marginBottom: 16 }}>🏛️</div>
-                  <p style={{ color: C.textSecondary, fontSize: 17, lineHeight: 1.6 }}>{t.noReports}</p>
+                  <div style={{ fontSize: 48, marginBottom: 16 }}>🏛️</div>
+                  <p style={{ color: C.textSecondary, fontSize: 14, lineHeight: 1.6 }}>{t.noReports}</p>
                   <button onClick={() => setView("scenarios")} style={{
-                    marginTop: 20, padding: "14px 28px", fontSize: 16, fontWeight: 600,
+                    marginTop: 20, padding: "10px 24px", fontSize: 13, fontWeight: 600,
                     background: `linear-gradient(135deg, ${SOCRATES.gold}, ${SOCRATES.goldDim})`,
                     color: "#0a0a0a", border: "none", borderRadius: 10, cursor: "pointer",
                     fontFamily: FONT_DISPLAY,
@@ -850,13 +850,13 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
         {view === "history" && (
           <div style={{ flex: 1, overflowY: "auto", padding: "32px 28px" }}>
             <div style={{ maxWidth: 700, margin: "0 auto" }}>
-              <h2 style={{ fontFamily: FONT_DISPLAY, fontSize: 34, fontWeight: 700, marginBottom: 28 }}>📚 {t.history}</h2>
+              <h2 style={{ fontFamily: FONT_DISPLAY, fontSize: 24, fontWeight: 700, marginBottom: 24 }}>📚 {t.history}</h2>
               {allReports.length === 0 ? (
                 <div style={{
                   background: C.bgCard, border: `1px solid ${C.borderSubtle}`,
                   borderRadius: 16, padding: 40, textAlign: "center",
                 }}>
-                  <p style={{ color: C.textSecondary, fontSize: 17 }}>{t.noReports}</p>
+                  <p style={{ color: C.textSecondary, fontSize: 14 }}>{t.noReports}</p>
                 </div>
               ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -871,8 +871,8 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
                     >
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         <div>
-                          <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 20 }}>{r.scenarioTitle}</div>
-                          <div style={{ fontSize: 16, color: C.textMuted }}>{r.date} · {r.exchanges} {t.exchange.toLowerCase()}s</div>
+                          <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14 }}>{r.scenarioTitle}</div>
+                          <div style={{ fontSize: 11, color: C.textMuted }}>{r.date} · {r.exchanges} {t.exchange.toLowerCase()}s</div>
                         </div>
                         <div style={{ display: "flex", gap: 10 }}>
                           <ScoreBadge label={lang === "fr" ? "Vertu" : "Virtue"} score={r.scoreVirtue} />
@@ -894,8 +894,8 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
     const color = score >= 80 ? C.accentSuccess : score >= 60 ? SOCRATES.gold : C.accentError;
     return (
       <div style={{ textAlign: "center" }}>
-        <div style={{ fontSize: 24, fontFamily: FONT_DISPLAY, fontWeight: 700, color }}>{score}</div>
-        <div style={{ fontSize: 13, color: C.textMuted }}>{label}</div>
+        <div style={{ fontSize: 16, fontFamily: FONT_DISPLAY, fontWeight: 700, color }}>{score}</div>
+        <div style={{ fontSize: 9, color: C.textMuted }}>{label}</div>
       </div>
     );
   }
@@ -908,15 +908,15 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
           background: C.bgCard, border: `1px solid ${SOCRATES.border}`,
           borderRadius: 16, padding: 24, marginBottom: 16, textAlign: "center",
         }}>
-          <div style={{ fontSize: 46, marginBottom: 12 }}>🏛️</div>
-          <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 28, marginBottom: 6 }}>{t.sessionWith}</div>
-          <div style={{ fontSize: 18, color: SOCRATES.gold }}>{r.scenarioTitle}</div>
-          <div style={{ fontSize: 16, color: C.textMuted, marginTop: 4 }}>{r.date} · {r.playerName} · {r.exchanges} exchanges</div>
+          <div style={{ fontSize: 36, marginBottom: 12 }}>🏛️</div>
+          <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 20, marginBottom: 4 }}>{t.sessionWith}</div>
+          <div style={{ fontSize: 13, color: SOCRATES.gold }}>{r.scenarioTitle}</div>
+          <div style={{ fontSize: 11, color: C.textMuted, marginTop: 4 }}>{r.date} · {r.playerName} · {r.exchanges} exchanges</div>
         </div>
 
         {/* Scores */}
         <div style={{ background: C.bgCard, border: `1px solid ${C.borderSubtle}`, borderRadius: 16, padding: 24, marginBottom: 16 }}>
-          <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 20, marginBottom: 16, color: SOCRATES.gold }}>
+          <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14, marginBottom: 16, color: SOCRATES.gold }}>
             {lang === "fr" ? "Évaluation Philosophique" : "Philosophical Assessment"}
           </div>
           <ScoreBar label={lang === "fr" ? "Vertu & Éthique" : "Virtue & Ethics"} score={r.scoreVirtue} color={C.accentSuccess} />
@@ -930,36 +930,36 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
           background: SOCRATES.bg, border: `1px solid ${SOCRATES.border}`,
           borderRadius: 16, padding: 24, marginBottom: 16,
         }}>
-          <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 20, marginBottom: 10, color: SOCRATES.gold }}>
+          <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14, marginBottom: 10, color: SOCRATES.gold }}>
             🏛️ {lang === "fr" ? "Le Verdict de Socrate" : "Socrates' Verdict"}
           </div>
-          <p style={{ fontSize: 18, color: C.textPrimary, lineHeight: 1.7, fontStyle: "italic" }}>{r.socratesVerdict}</p>
+          <p style={{ fontSize: 14, color: C.textPrimary, lineHeight: 1.7, fontStyle: "italic" }}>{r.socratesVerdict}</p>
         </div>
 
         {/* Wisdom & Insight */}
         <div style={{ background: C.bgCard, border: `1px solid ${C.borderSubtle}`, borderRadius: 16, padding: 24, marginBottom: 16 }}>
-          <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 20, marginBottom: 10, color: C.accentPrimary }}>
+          <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14, marginBottom: 10, color: C.accentPrimary }}>
             {lang === "fr" ? "Évaluation Globale" : "Overall Wisdom"}
           </div>
-          <p style={{ fontSize: 18, color: C.textSecondary, lineHeight: 1.65 }}>{r.overallWisdom}</p>
+          <p style={{ fontSize: 13, color: C.textSecondary, lineHeight: 1.65 }}>{r.overallWisdom}</p>
         </div>
 
         {/* Strengths & Growth */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
           <div style={{ background: C.bgCard, border: `1px solid ${C.borderSubtle}`, borderRadius: 16, padding: 20 }}>
-            <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 18, marginBottom: 12, color: C.accentSuccess }}>
+            <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 13, marginBottom: 10, color: C.accentSuccess }}>
               ✦ {lang === "fr" ? "Forces" : "Strengths"}
             </div>
             {r.strengths?.map((s, i) => (
-              <div key={i} style={{ fontSize: 16, color: C.textSecondary, padding: "6px 0", borderBottom: i < r.strengths.length - 1 ? `1px solid ${C.borderSubtle}` : "none" }}>{s}</div>
+              <div key={i} style={{ fontSize: 12, color: C.textSecondary, padding: "5px 0", borderBottom: i < r.strengths.length - 1 ? `1px solid ${C.borderSubtle}` : "none" }}>{s}</div>
             ))}
           </div>
           <div style={{ background: C.bgCard, border: `1px solid ${C.borderSubtle}`, borderRadius: 16, padding: 20 }}>
-            <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 16, marginBottom: 10, color: C.accentWarning }}>
+            <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 13, marginBottom: 10, color: C.accentWarning }}>
               ↗ {lang === "fr" ? "Croissance" : "Growth Areas"}
             </div>
             {r.growthAreas?.map((g, i) => (
-              <div key={i} style={{ fontSize: 16, color: C.textSecondary, padding: "6px 0", borderBottom: i < r.growthAreas.length - 1 ? `1px solid ${C.borderSubtle}` : "none" }}>{g}</div>
+              <div key={i} style={{ fontSize: 12, color: C.textSecondary, padding: "5px 0", borderBottom: i < r.growthAreas.length - 1 ? `1px solid ${C.borderSubtle}` : "none" }}>{g}</div>
             ))}
           </div>
         </div>
@@ -970,10 +970,10 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
           border: `1px solid ${SOCRATES.border}`,
           borderRadius: 16, padding: 24, marginBottom: 16, textAlign: "center",
         }}>
-          <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 16, marginBottom: 10, color: SOCRATES.gold }}>
+          <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 13, marginBottom: 10, color: SOCRATES.gold }}>
             💡 {lang === "fr" ? "Insight Philosophique" : "Philosophical Insight"}
           </div>
-          <p style={{ fontSize: 18, color: C.textPrimary, lineHeight: 1.7, fontStyle: "italic", maxWidth: 500, margin: "0 auto" }}>{r.philosophicalInsight}</p>
+          <p style={{ fontSize: 14, color: C.textPrimary, lineHeight: 1.7, fontStyle: "italic", maxWidth: 500, margin: "0 auto" }}>{r.philosophicalInsight}</p>
         </div>
 
         {/* Closing Question */}
@@ -981,10 +981,10 @@ LANGUAGE: ${lang === "fr" ? "French" : "English"}. Scores are 0-100.`;
           background: C.bgCard, border: `1px solid ${C.accentPrimary}33`,
           borderRadius: 16, padding: 24, textAlign: "center",
         }}>
-          <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 16, marginBottom: 10, color: C.accentTertiary }}>
+          <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 13, marginBottom: 10, color: C.accentTertiary }}>
             ❓ {lang === "fr" ? "Question à Méditer" : "Question to Ponder"}
           </div>
-          <p style={{ fontSize: 17, color: C.textSecondary, lineHeight: 1.7, fontStyle: "italic" }}>{r.closingQuestion}</p>
+          <p style={{ fontSize: 14, color: C.textSecondary, lineHeight: 1.7, fontStyle: "italic" }}>{r.closingQuestion}</p>
         </div>
       </div>
     );
