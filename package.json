@@ -3,6 +3,9 @@
   "version": "6.0.0",
   "description": "PhiloSim - Think Like History's Greatest Minds",
   "type": "module",
+  "scripts": {
+    "build": "echo 'No build step — static site with serverless functions'"
+  },
   "dependencies": {
     "@vercel/postgres": "^0.10.0",
     "bcryptjs": "^2.4.3",
