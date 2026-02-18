@@ -316,7 +316,7 @@ export default function PhiloSim() {
     if (selectedOption === null) return;
     const r = scenario.rounds[lang][round];
     const opt = r.options[selectedOption];
-    setDecisions([...decisions, { roundIdx: round, optionIdx: selectedOption, scores: { virtue: opt.virtue, reasoning: opt.reasoning, selfAware: opt.selfAware, epistemic: opt.epistemic }, pillar: r.pillar, reply: opt.reply }]);
+    setDecisions([...decisions, { roundIdx: round, optionIdx: selectedOption, scores: { virtue: opt.virtue, reasoning: opt.reasoning, selfAware: opt.selfAware, epistemic: opt.epistemic }, pillar: r.pillar, reply: opt.reply, choiceText: opt.text }]);
     setShowFeedback(true);
   };
 
@@ -332,15 +332,55 @@ export default function PhiloSim() {
     const pillarsUsed = [...new Set(decisions.map(d => d.pillar))];
     const weakest = Object.entries(scores).sort((a, b) => a[1] - b[1])[0];
     const strongest = Object.entries(scores).sort((a, b) => b[1] - a[1])[0];
-
     const pillarNames = { virtue: t.virtue, reasoning: t.reasoning, selfAware: t.selfAware, epistemic: t.epistemic };
+
+    // Per-decision analysis
+    const decisionReviews = decisions.map((d, i) => {
+      const rd = scenario.rounds[lang][d.roundIdx];
+      const opt = rd.options[d.optionIdx];
+      const avgScore = Math.round((d.scores.virtue + d.scores.reasoning + d.scores.selfAware + d.scores.epistemic) / 4);
+      const bestOpt = rd.options.reduce((best, o) => { const s = (o.virtue + o.reasoning + o.selfAware + o.epistemic) / 4; return s > best.s ? { s, o } : best; }, { s: 0, o: null });
+      return {
+        round: i + 1, pillar: rd.pillar, context: rd.context,
+        yourChoice: opt.text, yourScore: avgScore,
+        socratesReview: d.reply,
+        wasOptimal: avgScore >= 80,
+        bestChoice: avgScore < 70 ? bestOpt.o?.text : null,
+      };
+    });
+
+    // Build specific strength/weakness explanations
+    const strongDecisions = decisionReviews.filter(d => d.wasOptimal);
+    const weakDecisions = decisionReviews.filter(d => d.yourScore < 60);
+    const midDecisions = decisionReviews.filter(d => !d.wasOptimal && d.yourScore >= 60);
+
+    const strengthExplain = strongDecisions.length > 0
+      ? (lang === "fr"
+        ? `Aux décisions ${strongDecisions.map(d => d.round).join(" et ")}, vous avez appliqué ${strongDecisions.map(d => d.pillar).join(", ")} avec rigueur. Vous avez résisté aux réponses faciles et cherché la compréhension avant l'action.`
+        : `In decisions ${strongDecisions.map(d => d.round).join(" and ")}, you applied ${strongDecisions.map(d => d.pillar).join(", ")} rigorously. You resisted easy answers and sought understanding before action.`)
+      : (lang === "fr" ? "Aucune décision n'a atteint le niveau socratique. Revenez aux piliers." : "No decision reached the Socratic level. Revisit the pillars.");
+
+    const weaknessExplain = weakDecisions.length > 0
+      ? (lang === "fr"
+        ? `Aux décisions ${weakDecisions.map(d => d.round).join(" et ")}, vous avez dévié de la philosophie socratique. Sur ${weakDecisions.map(d => `"${d.pillar}"`).join(" et ")}, vous avez choisi le confort ou la convention plutôt que l'examen. Socrate dirait : vous saviez quoi faire, mais la pression vous a fait oublier.`
+        : `In decisions ${weakDecisions.map(d => d.round).join(" and ")}, you deviated from Socratic philosophy. On ${weakDecisions.map(d => `"${d.pillar}"`).join(" and ")}, you chose comfort or convention over examination. Socrates would say: you knew what to do, but pressure made you forget.`)
+      : (lang === "fr" ? "Pas de déviation majeure — mais la sagesse exige une vigilance constante." : "No major deviations — but wisdom demands constant vigilance.");
 
     const report = {
       scenarioTitle: scenario.title[lang], date: new Date().toLocaleDateString(), playerName, decisions: decisions.length, checkScore: checkPct,
-      ...scores, overall, pillarsUsed,
+      ...scores, overall, pillarsUsed, decisionReviews,
       strongest: pillarNames[strongest[0]], weakest: pillarNames[weakest[0]],
-      verdict: overall >= 80 ? (lang === "fr" ? "Vous avez démontré une pensée véritablement socratique. Vous questionnez avant de juger, vous examinez vos biais, et vous embrassez l'incertitude." : "You demonstrated genuinely Socratic thinking. You questioned before judging, examined your biases, and embraced uncertainty.") : overall >= 60 ? (lang === "fr" ? "Vous montrez des instincts prometteurs mais retombez dans la pensée conventionnelle sous pression. La sagesse demande de la pratique." : "You show promising instincts but fall back into conventional thinking under pressure. Wisdom requires practice.") : (lang === "fr" ? "Vous avez privilégié le confort à l'examen. Socrate vous dirait : la vie facile n'est pas la vie sage." : "You chose comfort over examination. Socrates would say: the easy life is not the wise life."),
-      closingQuestion: overall >= 80 ? (lang === "fr" ? "Maintenant que vous savez questionner les autres — êtes-vous aussi rigoureux pour questionner vos propres victoires?" : "Now that you know how to question others — are you equally rigorous in questioning your own victories?") : overall >= 60 ? (lang === "fr" ? "Quand avez-vous pour la dernière fois changé d'avis sur quelque chose d'important, non pas parce que vous y étiez forcé, mais parce que vous avez examiné honnêtement?" : "When did you last change your mind about something important — not because you were forced to, but because you examined honestly?") : (lang === "fr" ? "Si vous ne pouvez pas expliquer POURQUOI vous avez fait chaque choix aujourd'hui, avez-vous vraiment choisi du tout?" : "If you can't explain WHY you made each choice today, did you truly choose at all?"),
+      strengthExplain, weaknessExplain,
+      verdict: overall >= 80
+        ? (lang === "fr" ? "Vous avez démontré une pensée véritablement socratique. Vous questionnez avant de juger, vous examinez vos biais, et vous embrassez l'incertitude. Les piliers ne sont plus de la théorie pour vous — vous les avez vécus." : "You demonstrated genuinely Socratic thinking. You questioned before judging, examined your biases, and embraced uncertainty. The pillars are no longer theory for you — you lived them.")
+        : overall >= 60
+        ? (lang === "fr" ? "Vous montrez des instincts prometteurs mais retombez dans la pensée conventionnelle sous pression. Quand l'enjeu montait, vous avez abandonné la méthode socratique au profit de réflexes managériaux classiques. La sagesse demande de la pratique — surtout quand c'est inconfortable." : "You show promising instincts but fall back into conventional thinking under pressure. When stakes rose, you abandoned the Socratic method for conventional management reflexes. Wisdom requires practice — especially when it's uncomfortable.")
+        : (lang === "fr" ? "Vous avez privilégié le confort à l'examen. Vos choix révèlent un écart entre comprendre la philosophie de Socrate et l'appliquer. Socrate dirait : vous avez les mots, mais pas encore le courage de les vivre." : "You chose comfort over examination. Your choices reveal a gap between understanding Socrates' philosophy and applying it. Socrates would say: you have the words, but not yet the courage to live them."),
+      closingQuestion: overall >= 80
+        ? (lang === "fr" ? "Maintenant que vous savez questionner les autres — êtes-vous aussi rigoureux pour questionner vos propres victoires?" : "Now that you know how to question others — are you equally rigorous in questioning your own victories?")
+        : overall >= 60
+        ? (lang === "fr" ? "Quand avez-vous pour la dernière fois changé d'avis sur quelque chose d'important — non pas parce que vous y étiez forcé, mais parce que vous avez examiné honnêtement?" : "When did you last change your mind about something important — not because you were forced to, but because you examined honestly?")
+        : (lang === "fr" ? "Si vous ne pouvez pas expliquer POURQUOI vous avez fait chaque choix aujourd'hui, avez-vous vraiment choisi du tout?" : "If you can't explain WHY you made each choice today, did you truly choose at all?"),
     };
     setAllReports(prev => [report, ...prev]);
     setViewingReport(report);
@@ -707,20 +747,63 @@ export default function PhiloSim() {
           <ScoreBar label={t.selfAware} score={r.selfAware} color={C.accentSecondary} />
           <ScoreBar label={t.epistemic} score={r.epistemic} color={S.gold} />
         </div>
+
+        {/* Socrates' Verdict */}
         <div style={{ background: S.bg, border: `1px solid ${S.border}`, borderRadius: 16, padding: 24, marginBottom: 16 }}>
-          <div style={{ fontFamily: FD, fontWeight: 700, fontSize: 17, marginBottom: 10, color: S.gold }}>🏛️ {lang === "fr" ? "Verdict de Socrate" : "Socrates' Verdict"}</div>
-          <p style={{ fontSize: 17, color: C.textPrimary, lineHeight: 1.7, fontStyle: "italic", margin: 0 }}>{r.verdict}</p>
+          <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+            <div style={{ width: 40, height: 40, borderRadius: "50%", overflow: "hidden", border: `1.5px solid ${S.gold}`, flexShrink: 0 }}><img src="/socrates.png" alt="" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} /></div>
+            <div>
+              <div style={{ fontFamily: FD, fontWeight: 700, fontSize: 17, marginBottom: 8, color: S.gold }}>🏛️ {lang === "fr" ? "Verdict de Socrate" : "Socrates' Verdict"}</div>
+              <p style={{ fontSize: 17, color: C.textPrimary, lineHeight: 1.7, fontStyle: "italic", margin: 0 }}>{r.verdict}</p>
+            </div>
+          </div>
         </div>
+
+        {/* Strengths & Weaknesses with EXPLANATIONS */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
-          <div style={{ background: C.bgCard, border: `1px solid ${C.borderSubtle}`, borderRadius: 16, padding: 20 }}>
-            <div style={{ fontFamily: FD, fontWeight: 700, fontSize: 15, marginBottom: 8, color: C.accentSuccess }}>✦ {t.strengths}</div>
-            <div style={{ fontSize: 14, color: C.textSecondary }}>{r.strongest}</div>
+          <div style={{ background: C.bgCard, border: `1px solid ${C.accentSuccess}22`, borderRadius: 16, padding: 20 }}>
+            <div style={{ fontFamily: FD, fontWeight: 700, fontSize: 15, marginBottom: 4, color: C.accentSuccess }}>✦ {t.strengths}</div>
+            <div style={{ fontSize: 16, fontWeight: 600, color: C.textPrimary, marginBottom: 8 }}>{r.strongest}</div>
+            <div style={{ fontSize: 14, color: C.textSecondary, lineHeight: 1.6 }}>{r.strengthExplain}</div>
           </div>
-          <div style={{ background: C.bgCard, border: `1px solid ${C.borderSubtle}`, borderRadius: 16, padding: 20 }}>
-            <div style={{ fontFamily: FD, fontWeight: 700, fontSize: 15, marginBottom: 8, color: C.accentWarning }}>↗ {t.growth}</div>
-            <div style={{ fontSize: 14, color: C.textSecondary }}>{r.weakest}</div>
+          <div style={{ background: C.bgCard, border: `1px solid ${C.accentWarning}22`, borderRadius: 16, padding: 20 }}>
+            <div style={{ fontFamily: FD, fontWeight: 700, fontSize: 15, marginBottom: 4, color: C.accentWarning }}>↗ {t.growth}</div>
+            <div style={{ fontSize: 16, fontWeight: 600, color: C.textPrimary, marginBottom: 8 }}>{r.weakest}</div>
+            <div style={{ fontSize: 14, color: C.textSecondary, lineHeight: 1.6 }}>{r.weaknessExplain}</div>
           </div>
         </div>
+
+        {/* Decision-by-Decision Analysis */}
+        {r.decisionReviews && (
+          <div style={{ background: C.bgCard, border: `1px solid ${C.borderSubtle}`, borderRadius: 16, padding: 24, marginBottom: 16 }}>
+            <div style={{ fontFamily: FD, fontWeight: 700, fontSize: 17, marginBottom: 16, color: C.textPrimary }}>{t.yourDecisions}</div>
+            {r.decisionReviews.map((d, i) => (
+              <div key={i} style={{ marginBottom: i < r.decisionReviews.length - 1 ? 20 : 0, paddingBottom: i < r.decisionReviews.length - 1 ? 20 : 0, borderBottom: i < r.decisionReviews.length - 1 ? `1px solid ${C.borderSubtle}` : "none" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <div style={{ width: 28, height: 28, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700, fontFamily: FD, background: d.wasOptimal ? `${C.accentSuccess}22` : d.yourScore >= 60 ? `${S.gold}22` : `${C.accentWarning}22`, color: d.wasOptimal ? C.accentSuccess : d.yourScore >= 60 ? S.gold : C.accentWarning }}>{d.round}</div>
+                    <span style={{ fontSize: 13, fontWeight: 700, color: S.gold, padding: "2px 8px", background: `${S.gold}12`, borderRadius: 6 }}>{d.pillar}</span>
+                  </div>
+                  <span style={{ fontSize: 14, fontWeight: 700, fontFamily: FD, color: d.wasOptimal ? C.accentSuccess : d.yourScore >= 60 ? S.gold : C.accentWarning }}>{d.yourScore}/100</span>
+                </div>
+                <div style={{ fontSize: 14, color: C.textMuted, marginBottom: 6, lineHeight: 1.5 }}>
+                  <strong style={{ color: C.textSecondary }}>{lang === "fr" ? "Votre choix:" : "Your choice:"}</strong> {d.yourChoice}
+                </div>
+                <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
+                  <div style={{ width: 20, height: 20, borderRadius: "50%", overflow: "hidden", border: `1px solid ${S.gold}`, flexShrink: 0, marginTop: 2 }}><img src="/socrates.png" alt="" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} /></div>
+                  <p style={{ fontSize: 14, color: C.textSecondary, lineHeight: 1.6, fontStyle: "italic", margin: 0 }}>{d.socratesReview}</p>
+                </div>
+                {d.bestChoice && (
+                  <div style={{ marginTop: 8, padding: "8px 12px", background: `${C.accentSuccess}08`, border: `1px solid ${C.accentSuccess}22`, borderRadius: 8, fontSize: 13, color: C.accentSuccess }}>
+                    💡 {lang === "fr" ? "Réponse socratique:" : "Socratic answer:"} {d.bestChoice}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Closing Question */}
         <div style={{ background: C.bgCard, border: `1px solid ${C.accentPrimary}33`, borderRadius: 16, padding: 24, textAlign: "center" }}>
           <div style={{ fontFamily: FD, fontWeight: 700, fontSize: 15, marginBottom: 10, color: C.accentTertiary }}>❓ {t.closingQ}</div>
           <p style={{ fontSize: 16, color: C.textSecondary, lineHeight: 1.7, fontStyle: "italic", margin: 0 }}>{r.closingQuestion}</p>
