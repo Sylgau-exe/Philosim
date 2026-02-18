@@ -562,13 +562,7 @@ export default function PhiloSim() {
                 </div>
               ))}
             </div>
-            <div style={{ marginTop: 48 }}>
-              <h3 style={{ fontFamily: FD, fontSize: 24, fontWeight: 700, marginBottom: 4 }}>{t.futureTitle}</h3>
-              <p style={{ color: C.textSecondary, fontSize: 16, marginBottom: 20 }}>{t.futureSub}</p>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 12 }}>
-                {FUTURE_MENTORS.map((m, i) => <div key={i} style={{ background: C.bgCard, border: `1px solid ${C.borderSubtle}`, borderRadius: 12, padding: 16, opacity: 0.55, textAlign: "center" }}><div style={{ fontSize: 28, marginBottom: 8 }}>{m.emoji}</div><div style={{ fontFamily: FD, fontWeight: 700, fontSize: 15 }}>{m.name}</div><div style={{ fontSize: 12, color: C.accentPrimary, marginBottom: 4 }}>{m.field}</div><div style={{ fontSize: 12, color: C.textMuted, fontStyle: "italic" }}>{m.tagline}</div><div style={{ marginTop: 8, fontSize: 10, fontWeight: 700, color: C.textMuted, textTransform: "uppercase" }}>{t.comingSoon}</div></div>)}
-              </div>
-            </div>
+
           </div>
         )}
 
