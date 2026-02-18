@@ -1,9 +1,9 @@
 {
+  "outputDirectory": "public",
   "rewrites": [
-    { "source": "/dashboard", "destination": "/public/dashboard.html" },
-    { "source": "/admin", "destination": "/public/admin.html" },
-    { "source": "/app", "destination": "/public/app.html" },
-    { "source": "/((?!api/).*)", "destination": "/public/$1" }
+    { "source": "/dashboard", "destination": "/dashboard.html" },
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/app", "destination": "/app.html" }
   ],
   "functions": {
     "api/stripe/webhook.js": {
