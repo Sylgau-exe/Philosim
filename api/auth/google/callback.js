@@ -65,7 +65,7 @@ export default async function handler(req, res) {
     const token = generateToken(user);
     
     // Set token as cookie and redirect to app
-    res.setHeader('Set-Cookie', `auth_token=${token}; Path=/; HttpOnly=false; SameSite=Lax; Secure; Max-Age=604800`);
+    res.setHeader('Set-Cookie', `auth_token=${token}; Path=/; SameSite=Lax; Secure; Max-Age=604800`);
     res.redirect('/app');
   } catch (error) {
     console.error('Google OAuth error:', error);
