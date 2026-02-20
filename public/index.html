@@ -126,6 +126,9 @@
       .phase-grid,.price-grid{grid-template-columns:1fr;}
       .pricing,.phases{padding:60px 20px;}
     }
+    .lang-toggle{display:flex;gap:2px;margin-right:8px;}
+    .lang-toggle button{padding:4px 10px;font-size:12px;font-weight:700;background:transparent;color:var(--muted);border:1px solid transparent;border-radius:6px;cursor:pointer;font-family:'DM Sans';transition:all 0.2s;}
+    .lang-toggle button.active{background:rgba(212,168,83,0.12);color:var(--gold);border-color:var(--gborder);}
   </style>
 </head>
 <body>
@@ -137,11 +140,15 @@
     <div><span class="hd">PhiloSim</span><small>by Panda Projet</small></div>
   </div>
   <div class="nav-links">
-    <a href="#phases" class="desk">How It Works</a>
-    <a href="#pricing" class="desk">Pricing</a>
+    <div class="lang-toggle">
+      <button class="active" onclick="setLang('en')">EN</button>
+      <button onclick="setLang('fr')">FR</button>
+    </div>
+    <a href="#phases" class="desk" data-i18n="nav_how">How It Works</a>
+    <a href="#pricing" class="desk" data-i18n="nav_pricing">Pricing</a>
     <div class="logged-out" id="loggedOut">
-      <button class="btn btn-outline" onclick="showModal('login')">Log In</button>
-      <button class="btn btn-gold" onclick="showModal('register')">Sign Up Free</button>
+      <button class="btn btn-outline" onclick="showModal('login')" data-i18n="btn_login">Log In</button>
+      <button class="btn btn-gold" onclick="showModal('register')" data-i18n="btn_signup">Sign Up Free</button>
     </div>
     <div class="logged-in" id="loggedIn">
       <a href="/dashboard" class="btn btn-outline" style="padding:8px 16px;font-size:13px;">Dashboard</a>
@@ -157,84 +164,84 @@
     <img src="/hero-socrates.png" alt="Don't just study philosophy. Live it. — A person standing on a mountaintop with Socrates appearing beside them as an AI companion">
   </div>
   <div class="hero-content">
-    <p class="sub">What if Socrates could sit beside you today?</p>
-    <p class="desc">AI companions that let you experience the world through history's greatest philosophical minds — walking beside you through real decisions.</p>
+    <p class="sub" data-i18n="hero_sub">What if Socrates could sit beside you today?</p>
+    <p class="desc" data-i18n="hero_desc">AI companions that let you experience the world through history's greatest philosophical minds — walking beside you through real decisions.</p>
     <div class="hero-btns">
-      <button class="btn btn-gold" style="padding:16px 36px;font-size:18px;" onclick="handleCTA()">Start Free Simulation →</button>
-      <a href="#phases" class="btn btn-outline" style="padding:16px 36px;font-size:18px;">See How It Works</a>
+      <button class="btn btn-gold" style="padding:16px 36px;font-size:18px;" onclick="handleCTA()" data-i18n="hero_cta">Start Free Simulation →</button>
+      <a href="#phases" class="btn btn-outline" style="padding:16px 36px;font-size:18px;" data-i18n="hero_how">See How It Works</a>
     </div>
   </div>
 </section>
 
 <!-- 3 PHASES -->
 <section class="phases" id="phases">
-  <h2 class="hd">Three Phases. One Transformation.</h2>
-  <p class="sub">Each simulation takes you through a complete learning journey.</p>
+  <h2 class="hd" data-i18n="phases_title">Three Phases. One Transformation.</h2>
+  <p class="sub" data-i18n="phases_sub">Each simulation takes you through a complete learning journey.</p>
   <div class="phase-grid">
     <div class="phase-card">
-      <div class="num">Phase 1</div>
+      <div class="num" data-i18n="phase1_num">Phase 1</div>
       <div class="icon">📖</div>
-      <h3 class="hd">The Philosophy</h3>
-      <p>Watch the origin story. Study 5 core pillars. Understand the thinker's method before you try to use it.</p>
+      <h3 class="hd" data-i18n="phase1_title">The Philosophy</h3>
+      <p data-i18n="phase1_desc">Watch the origin story. Study 5 core pillars. Understand the thinker's method before you try to use it.</p>
     </div>
     <div class="phase-card">
-      <div class="num">Phase 2</div>
+      <div class="num" data-i18n="phase2_num">Phase 2</div>
       <div class="icon">🧠</div>
-      <h3 class="hd">Do You Get It?</h3>
-      <p>4 scenario-based questions test whether you actually internalized the philosophy — or just memorized words.</p>
+      <h3 class="hd" data-i18n="phase2_title">Do You Get It?</h3>
+      <p data-i18n="phase2_desc">4 scenario-based questions test whether you actually internalized the philosophy — or just memorized words.</p>
     </div>
     <div class="phase-card">
-      <div class="num">Phase 3</div>
+      <div class="num" data-i18n="phase3_num">Phase 3</div>
       <div class="icon">⚡</div>
-      <h3 class="hd">Apply Under Pressure</h3>
-      <p>5 high-stakes decisions. Your mentor reacts to every choice. A philosophical report reveals your true patterns.</p>
+      <h3 class="hd" data-i18n="phase3_title">Apply Under Pressure</h3>
+      <p data-i18n="phase3_desc">5 high-stakes decisions. Your mentor reacts to every choice. A philosophical report reveals your true patterns.</p>
     </div>
   </div>
 </section>
 
 <!-- PRICING -->
 <section class="pricing" id="pricing">
-  <h2 class="hd">Choose Your Path</h2>
-  <p class="sub">Start free. Upgrade when you want the full mentorship experience.</p>
+  <h2 class="hd" data-i18n="pricing_title">Choose Your Path</h2>
+  <p class="sub" data-i18n="pricing_sub">Start free. Upgrade when you want the full mentorship experience.</p>
   <div class="price-grid">
     <div class="price-card">
-      <h3 class="hd">Explorer</h3>
-      <div class="price">$0 <span>/ forever</span></div>
-      <div class="note">Get started instantly</div>
+      <h3 class="hd" data-i18n="plan_explorer">Explorer</h3>
+      <div class="price">$0 <span data-i18n="plan_forever">/ forever</span></div>
+      <div class="note" data-i18n="plan_explorer_note">Get started instantly</div>
       <ul>
-        <li>Socrates: 1 scenario</li>
-        <li>Full 3-phase journey</li>
-        <li>Basic philosophical report</li>
-        <li>Bilingual (EN/FR)</li>
+        <li data-i18n="feat_socrates1">Socrates: 1 scenario</li>
+        <li data-i18n="feat_journey">Full 3-phase journey</li>
+        <li data-i18n="feat_report">Basic philosophical report</li>
+        <li data-i18n="feat_bilingual">Bilingual (EN/FR)</li>
       </ul>
-      <button class="btn btn-outline" style="width:100%;" onclick="handleCTA()">Start Free →</button>
+      <button class="btn btn-outline" style="width:100%;" onclick="handleCTA()" data-i18n="btn_start_free">Start Free →</button>
     </div>
     <div class="price-card featured">
-      <div class="badge">Most Popular</div>
-      <h3 class="hd" style="color:var(--gold);">Thinker</h3>
-      <div class="price" style="color:var(--gold);">$19 <span>/ month</span></div>
-      <div class="note">Full access to all mentors</div>
+      <div class="badge" data-i18n="badge_popular">Most Popular</div>
+      <h3 class="hd" style="color:var(--gold);" data-i18n="plan_thinker">Thinker</h3>
+      <div class="price" style="color:var(--gold);">$19 <span data-i18n="plan_month">/ month</span></div>
+      <div class="note" data-i18n="plan_thinker_note">Full access to all mentors</div>
       <ul>
-        <li>All mentors & scenarios</li>
-        <li>Detailed decision analysis</li>
-        <li>Progress tracking dashboard</li>
-        <li>PDF report export</li>
-        <li>Priority new content</li>
+        <li data-i18n="feat_all_mentors">All mentors & scenarios</li>
+        <li data-i18n="feat_analysis">Detailed decision analysis</li>
+        <li data-i18n="feat_tracking">Progress tracking dashboard</li>
+        <li data-i18n="feat_pdf">PDF report export</li>
+        <li data-i18n="feat_priority">Priority new content</li>
       </ul>
-      <button class="btn btn-gold" onclick="handleCTA('thinker')">Get Thinker Plan →</button>
+      <button class="btn btn-gold" onclick="handleCTA('thinker')" data-i18n="btn_thinker">Get Thinker Plan →</button>
     </div>
     <div class="price-card">
-      <h3 class="hd">Philosopher</h3>
-      <div class="price">$149 <span>/ lifetime</span></div>
-      <div class="note">One payment, forever access</div>
+      <h3 class="hd" data-i18n="plan_philosopher">Philosopher</h3>
+      <div class="price">$149 <span data-i18n="plan_lifetime">/ lifetime</span></div>
+      <div class="note" data-i18n="plan_philosopher_note">One payment, forever access</div>
       <ul>
-        <li>Everything in Thinker</li>
-        <li>All future mentors included</li>
-        <li>Team/classroom sharing</li>
-        <li>Early beta access</li>
-        <li>Lifetime updates</li>
+        <li data-i18n="feat_everything">Everything in Thinker</li>
+        <li data-i18n="feat_future">All future mentors included</li>
+        <li data-i18n="feat_team">Team/classroom sharing</li>
+        <li data-i18n="feat_beta">Early beta access</li>
+        <li data-i18n="feat_updates">Lifetime updates</li>
       </ul>
-      <button class="btn btn-purple" onclick="handleCTA('philosopher')">Get Lifetime Access →</button>
+      <button class="btn btn-purple" onclick="handleCTA('philosopher')" data-i18n="btn_philosopher">Get Lifetime Access →</button>
     </div>
   </div>
 </section>
@@ -242,7 +249,7 @@
 <!-- FOOTER -->
 <footer>
   <p>© 2026 PhiloSim by <a href="https://pandaprojet.com" target="_blank">Panda Projet</a> · <a href="https://sylvainpmo.com" target="_blank">Sylvain PMO Consulting</a></p>
-  <p style="margin-top:8px;">Montreal, QC · Built for thinkers, by thinkers.</p>
+  <p style="margin-top:8px;" data-i18n="footer_tagline">Montreal, QC · Built for thinkers, by thinkers.</p>
 </footer>
 
 <!-- AUTH MODAL -->
@@ -319,6 +326,90 @@
 <script>
 const API = '';
 let currentUser = null;
+let currentLang = localStorage.getItem('philosim_lang') || 'en';
+
+// ── i18n Translations ──
+const i18n = {
+  en: {
+    nav_how: 'How It Works', nav_pricing: 'Pricing',
+    btn_login: 'Log In', btn_signup: 'Sign Up Free',
+    hero_sub: 'What if Socrates could sit beside you today?',
+    hero_desc: 'AI companions that let you experience the world through history\'s greatest philosophical minds — walking beside you through real decisions.',
+    hero_cta: 'Start Free Simulation →', hero_how: 'See How It Works',
+    phases_title: 'Three Phases. One Transformation.',
+    phases_sub: 'Each simulation takes you through a complete learning journey.',
+    phase1_num: 'Phase 1', phase1_title: 'The Philosophy',
+    phase1_desc: 'Watch the origin story. Study 5 core pillars. Understand the thinker\'s method before you try to use it.',
+    phase2_num: 'Phase 2', phase2_title: 'Do You Get It?',
+    phase2_desc: '4 scenario-based questions test whether you actually internalized the philosophy — or just memorized words.',
+    phase3_num: 'Phase 3', phase3_title: 'Apply Under Pressure',
+    phase3_desc: '5 high-stakes decisions. Your mentor reacts to every choice. A philosophical report reveals your true patterns.',
+    pricing_title: 'Choose Your Path',
+    pricing_sub: 'Start free. Upgrade when you want the full mentorship experience.',
+    plan_explorer: 'Explorer', plan_forever: '/ forever',
+    plan_explorer_note: 'Get started instantly',
+    feat_socrates1: 'Socrates: 1 scenario', feat_journey: 'Full 3-phase journey',
+    feat_report: 'Basic philosophical report', feat_bilingual: 'Bilingual (EN/FR)',
+    btn_start_free: 'Start Free →',
+    badge_popular: 'Most Popular',
+    plan_thinker: 'Thinker', plan_month: '/ month',
+    plan_thinker_note: 'Full access to all mentors',
+    feat_all_mentors: 'All mentors & scenarios', feat_analysis: 'Detailed decision analysis',
+    feat_tracking: 'Progress tracking dashboard', feat_pdf: 'PDF report export',
+    feat_priority: 'Priority new content', btn_thinker: 'Get Thinker Plan →',
+    plan_philosopher: 'Philosopher', plan_lifetime: '/ lifetime',
+    plan_philosopher_note: 'One payment, forever access',
+    feat_everything: 'Everything in Thinker', feat_future: 'All future mentors included',
+    feat_team: 'Team/classroom sharing', feat_beta: 'Early beta access',
+    feat_updates: 'Lifetime updates', btn_philosopher: 'Get Lifetime Access →',
+    footer_tagline: 'Montreal, QC · Built for thinkers, by thinkers.',
+  },
+  fr: {
+    nav_how: 'Comment ça marche', nav_pricing: 'Tarifs',
+    btn_login: 'Connexion', btn_signup: 'S\'inscrire',
+    hero_sub: 'Et si Socrate pouvait s\'asseoir à vos côtés aujourd\'hui?',
+    hero_desc: 'Des compagnons IA qui vous permettent de vivre le monde à travers les plus grands esprits philosophiques de l\'histoire — marchant à vos côtés dans vos décisions réelles.',
+    hero_cta: 'Simulation gratuite →', hero_how: 'Comment ça marche',
+    phases_title: 'Trois phases. Une transformation.',
+    phases_sub: 'Chaque simulation vous guide à travers un parcours d\'apprentissage complet.',
+    phase1_num: 'Phase 1', phase1_title: 'La Philosophie',
+    phase1_desc: 'Découvrez l\'histoire d\'origine. Étudiez les 5 piliers fondamentaux. Comprenez la méthode du penseur avant de l\'utiliser.',
+    phase2_num: 'Phase 2', phase2_title: 'Avez-vous compris?',
+    phase2_desc: '4 questions basées sur des scénarios testent si vous avez vraiment intégré la philosophie — ou simplement mémorisé des mots.',
+    phase3_num: 'Phase 3', phase3_title: 'Appliquer sous pression',
+    phase3_desc: '5 décisions à enjeux élevés. Votre mentor réagit à chaque choix. Un rapport philosophique révèle vos véritables schémas.',
+    pricing_title: 'Choisissez votre parcours',
+    pricing_sub: 'Commencez gratuitement. Passez au niveau supérieur quand vous le souhaitez.',
+    plan_explorer: 'Explorateur', plan_forever: '/ à vie',
+    plan_explorer_note: 'Commencez immédiatement',
+    feat_socrates1: 'Socrate : 1 scénario', feat_journey: 'Parcours complet en 3 phases',
+    feat_report: 'Rapport philosophique de base', feat_bilingual: 'Bilingue (EN/FR)',
+    btn_start_free: 'Commencer gratuitement →',
+    badge_popular: 'Le plus populaire',
+    plan_thinker: 'Penseur', plan_month: '/ mois',
+    plan_thinker_note: 'Accès complet à tous les mentors',
+    feat_all_mentors: 'Tous les mentors et scénarios', feat_analysis: 'Analyse détaillée des décisions',
+    feat_tracking: 'Tableau de bord de progression', feat_pdf: 'Export PDF du rapport',
+    feat_priority: 'Contenu prioritaire', btn_thinker: 'Plan Penseur →',
+    plan_philosopher: 'Philosophe', plan_lifetime: '/ à vie',
+    plan_philosopher_note: 'Un seul paiement, accès permanent',
+    feat_everything: 'Tout le plan Penseur inclus', feat_future: 'Tous les futurs mentors inclus',
+    feat_team: 'Partage équipe/classe', feat_beta: 'Accès bêta anticipé',
+    feat_updates: 'Mises à jour à vie', btn_philosopher: 'Accès à vie →',
+    footer_tagline: 'Montréal, QC · Conçu par des penseurs, pour des penseurs.',
+  }
+};
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('philosim_lang', lang);
+  document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.toggle('active', b.textContent.trim() === lang.toUpperCase()));
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (i18n[lang][key]) el.textContent = i18n[lang][key];
+  });
+}
+
 
 // ── Modal ──
 function showModal(type) {
@@ -485,6 +576,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // Error from Google
   if (params.get('error')) { showModal('login'); document.getElementById('loginError').textContent = 'Google sign-in failed. Try again.'; document.getElementById('loginError').style.display = 'block'; }
   checkAuth();
+  setLang(currentLang);
 });
 
 // Enter key on inputs
