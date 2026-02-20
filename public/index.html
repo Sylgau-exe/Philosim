@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PhiloSim — Think Like History's Greatest Minds</title>
-  <meta name="description" content="PhiloSim: Learn philosophy, test your understanding, and apply it under real workplace pressure. Decision-based simulations guided by Socrates, Plato, and more.">
-  <meta name="keywords" content="philosophy simulation, Socratic method, leadership training, critical thinking, business ethics, decision making">
-  <meta property="og:title" content="PhiloSim — Think Like Socrates">
-  <meta property="og:description" content="Learn it. Understand it. Apply it. Philosophy-powered decision simulations for modern leaders.">
+  <title>PhiloSim — What if Socrates could sit beside you today?</title>
+  <meta name="description" content="PhiloSim: What if Socrates could sit beside you today? AI companions that let you experience the world through history's greatest philosophical minds.">
+  <meta name="keywords" content="philosophy simulation, Socratic method, leadership training, critical thinking, business ethics, decision making, AI companion">
+  <meta property="og:title" content="PhiloSim — Don't just study philosophy. Live it.">
+  <meta property="og:description" content="AI companions that let you experience the world through history's greatest philosophical minds.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://philosim.vercel.app">
-  <meta property="og:image" content="https://philosim.vercel.app/socrates.png">
+  <meta property="og:image" content="https://philosim.vercel.app/hero-socrates.png">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
   <link rel="canonical" href="https://philosim.vercel.app">
@@ -43,14 +43,14 @@
     .btn-green{background:linear-gradient(135deg,var(--green),#059669);color:#fff;}
 
     /* HERO */
-    .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 40px 80px;position:relative;overflow:hidden;}
-    .hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(212,168,83,0.06) 0%,transparent 70%);pointer-events:none;}
-    .hero-img{width:160px;height:160px;border-radius:50%;border:3px solid var(--gold);margin:0 auto 28px;overflow:hidden;box-shadow:0 0 80px var(--gglow);}
-    .hero-img img{width:100%;height:100%;object-fit:cover;object-position:center top;}
+    .hero{display:flex;flex-direction:column;align-items:center;padding-top:80px;position:relative;overflow:hidden;}
+    .hero-banner{width:100%;max-width:1200px;margin:0 auto;position:relative;border-radius:16px;overflow:hidden;box-shadow:0 8px 60px rgba(212,168,83,0.08);}
+    .hero-banner img{width:100%;height:auto;display:block;}
+    .hero-content{text-align:center;padding:36px 40px 60px;max-width:700px;}
     .hero h1{font-family:'Space Grotesk';font-size:clamp(36px,6vw,64px);font-weight:700;letter-spacing:-0.03em;margin-bottom:12px;}
     .hero h1 span{background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-    .hero p.sub{font-size:20px;color:var(--gold);text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-bottom:12px;}
-    .hero p.desc{font-size:19px;color:var(--text2);max-width:600px;margin:0 auto 36px;line-height:1.7;}
+    .hero p.sub{font-size:22px;color:var(--gold);font-weight:600;margin-bottom:8px;letter-spacing:0.02em;}
+    .hero p.desc{font-size:18px;color:var(--text2);max-width:560px;margin:0 auto 32px;line-height:1.7;}
     .hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
 
     /* 3-PHASE */
@@ -120,7 +120,9 @@
     @media(max-width:768px){
       nav{padding:12px 20px;}
       .nav-links a.desk{display:none;}
-      .hero{padding:100px 20px 60px;}
+      .hero{padding-top:70px;}
+      .hero-banner{border-radius:0;}
+      .hero-content{padding:28px 20px 40px;}
       .phase-grid,.price-grid{grid-template-columns:1fr;}
       .pricing,.phases{padding:60px 20px;}
     }
@@ -132,7 +134,7 @@
 <nav>
   <div class="nav-brand">
     <img src="/socrates.png" alt="PhiloSim">
-    <div><span class="hd">PhiloSim</span><small>by BizSimHub</small></div>
+    <div><span class="hd">PhiloSim</span><small>by Panda Projet</small></div>
   </div>
   <div class="nav-links">
     <a href="#phases" class="desk">How It Works</a>
@@ -151,11 +153,12 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div>
-    <div class="hero-img"><img src="/socrates.png" alt="Socrates"></div>
-    <p class="sub">Approach Your Work Like Socrates</p>
-    <h1 class="hd">Learn It. Understand It.<br><span>Apply It Under Pressure.</span></h1>
-    <p class="desc">Philosophy-powered decision simulations for modern leaders. Learn the method, test your grasp, then prove you can think like Socrates when real stakes are on the table.</p>
+  <div class="hero-banner">
+    <img src="/hero-socrates.png" alt="Don't just study philosophy. Live it. — A person standing on a mountaintop with Socrates appearing beside them as an AI companion">
+  </div>
+  <div class="hero-content">
+    <p class="sub">What if Socrates could sit beside you today?</p>
+    <p class="desc">AI companions that let you experience the world through history's greatest philosophical minds — walking beside you through real decisions.</p>
     <div class="hero-btns">
       <button class="btn btn-gold" style="padding:16px 36px;font-size:18px;" onclick="handleCTA()">Start Free Simulation →</button>
       <a href="#phases" class="btn btn-outline" style="padding:16px 36px;font-size:18px;">See How It Works</a>
@@ -238,7 +241,7 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2026 PhiloSim by <a href="https://bizsimhub.com" target="_blank">BizSimHub</a> · <a href="https://sylvainpmo.com" target="_blank">Sylvain PMO Consulting</a></p>
+  <p>© 2026 PhiloSim by <a href="https://pandaprojet.com" target="_blank">Panda Projet</a> · <a href="https://sylvainpmo.com" target="_blank">Sylvain PMO Consulting</a></p>
   <p style="margin-top:8px;">Montreal, QC · Built for thinkers, by thinkers.</p>
 </footer>
 

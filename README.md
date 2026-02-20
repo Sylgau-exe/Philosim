@@ -1,6 +1,6 @@
 # PhiloSim — Approach Your Work Like Socrates
 
-AI-powered philosophical apprenticeship simulation. Part of the BizSimHub ecosystem by Panda Projet.
+AI-powered philosophical apprenticeship simulation. Part of the Panda Projet ecosystem.
 
 ## 🏛️ Overview
 
