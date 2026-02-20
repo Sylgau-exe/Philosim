@@ -189,10 +189,12 @@ async function saveEdit() {
     userId,
     name: document.getElementById('editName').value,
     email: document.getElementById('editEmail').value,
+    plan: document.getElementById('editPlan').value,
     isAdmin: document.getElementById('editAdmin').value === 'true',
   };
   try {
-    await fetch('/api/admin/edit-user', { method: 'POST', headers: H, body: JSON.stringify(body) });
+    const r = await fetch('/api/admin/edit-user', { method: 'POST', headers: H, body: JSON.stringify(body) });
+    if (!r.ok) { const err = await r.json(); alert(err.error || 'Failed'); return; }
     document.getElementById('editModal').classList.remove('show');
     loadUsers(); loadStats();
   } catch(e) { alert('Failed to update'); }
