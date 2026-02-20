@@ -31,6 +31,10 @@ export default async function handler(req, res) {
     const tokenData = await tokenResponse.json();
     if (!tokenResponse.ok) {
       console.error('Token exchange failed:', tokenData);
+      // invalid_grant often means a parallel request already used this code - redirect cleanly
+      if (tokenData.error === 'invalid_grant') {
+        return res.redirect('/');
+      }
       return res.redirect('/?error=token_exchange_failed');
     }
 

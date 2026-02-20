@@ -399,7 +399,12 @@ async function doReset() {
   } catch(e) { errEl.textContent = 'Connection error'; errEl.style.display = 'block'; }
 }
 
-function googleLogin() { window.location.href = API + '/api/auth/google'; }
+let _googlePending = false;
+function googleLogin() {
+  if (_googlePending) return;
+  _googlePending = true;
+  window.location.href = API + '/api/auth/google';
+}
 
 // ── Auth State ──
 async function checkAuth() {
