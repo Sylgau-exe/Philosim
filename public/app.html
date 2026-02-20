@@ -115,6 +115,15 @@ let scenario = null, round = 0, selOpt = null, showFeedback = false, decisions =
 let allReports = JSON.parse(localStorage.getItem('philosim_sessions') || '[]');
 let viewReport = null;
 
+// Pick up auth token from cookie (set by Google OAuth callback)
+(function() {
+  const match = document.cookie.match(/(?:^|;\s*)auth_token=([^;]*)/);
+  if (match) {
+    localStorage.setItem('auth_token', match[1]);
+    document.cookie = 'auth_token=; Path=/; Max-Age=0'; // clear cookie
+  }
+})();
+
 const token = localStorage.getItem('auth_token');
 let userPlan = 'free';
 

@@ -64,13 +64,10 @@ export default async function handler(req, res) {
     console.log('Google OAuth:', isNewUser ? 'NEW USER' : 'EXISTING USER', googleUser.email);
 
     const token = generateToken(user);
-    const params = new URLSearchParams({ token });
-    if (isNewUser) {
-      params.append('newUser', 'true');
-      params.append('email', googleUser.email);
-      params.append('name', googleUser.name || '');
-    }
-    res.redirect(`/?${params.toString()}`);
+    
+    // Set token as cookie and redirect to app
+    res.setHeader('Set-Cookie', `auth_token=${token}; Path=/; HttpOnly=false; SameSite=Lax; Secure; Max-Age=604800`);
+    res.redirect('/app');
   } catch (error) {
     console.error('Google OAuth error:', error);
     res.redirect('/?error=auth_failed');

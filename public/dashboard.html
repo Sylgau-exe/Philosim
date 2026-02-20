@@ -107,6 +107,15 @@
 </div>
 
 <script>
+// Pick up auth token from cookie (set by Google OAuth callback)
+(function() {
+  const match = document.cookie.match(/(?:^|;\s*)auth_token=([^;]*)/);
+  if (match) {
+    localStorage.setItem('auth_token', match[1]);
+    document.cookie = 'auth_token=; Path=/; Max-Age=0';
+  }
+})();
+
 const token = localStorage.getItem('auth_token');
 if (!token) window.location.href = '/?login=1';
 
