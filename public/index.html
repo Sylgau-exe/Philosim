@@ -117,6 +117,27 @@
     .logged-in .user-name{color:var(--text2);font-size:14px;font-weight:500;}
     .logged-in .avatar{width:32px;height:32px;border-radius:50%;background:var(--purple);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;}
 
+    /* MENTORS PREVIEW */
+    .mentors{padding:80px 40px;max-width:1100px;margin:0 auto;}
+    .mentors .sec-label{text-align:center;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--purple);margin-bottom:10px;}
+    .mentors h2{font-family:'Space Grotesk';font-size:36px;font-weight:700;text-align:center;margin-bottom:10px;}
+    .mentors p.sub{text-align:center;color:var(--text2);font-size:17px;max-width:520px;margin:0 auto 44px;line-height:1.6;}
+    .mentors-scroll{display:flex;gap:18px;overflow-x:auto;padding-bottom:12px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;}
+    .mentors-scroll::-webkit-scrollbar{height:3px;}.mentors-scroll::-webkit-scrollbar-track{background:transparent;}.mentors-scroll::-webkit-scrollbar-thumb{background:rgba(212,168,83,0.15);border-radius:2px;}
+    .m-card{min-width:210px;max-width:210px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 18px;scroll-snap-align:start;flex-shrink:0;transition:all 0.3s;}
+    .m-card:hover{border-color:var(--gborder);transform:translateY(-3px);}
+    .m-card.m-active{border-color:rgba(212,168,83,0.3);}
+    .m-card .m-av{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,rgba(212,168,83,0.1),rgba(99,102,241,0.06));display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:12px;border:1.5px solid rgba(212,168,83,0.12);overflow:hidden;}
+    .m-card .m-av img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+    .m-card h4{font-family:'Space Grotesk';font-size:16px;font-weight:700;margin-bottom:2px;}
+    .m-card .m-era{font-size:11px;color:var(--muted);margin-bottom:8px;}
+    .m-card .m-focus{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:12px;}
+    .m-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px;}
+    .m-badge.avail{background:rgba(16,185,129,0.1);color:var(--green);}
+    .m-badge.avail::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);animation:mpulse 2s infinite;}
+    .m-badge.soon{background:rgba(99,102,241,0.08);color:#818cf8;}
+    @keyframes mpulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
     @media(max-width:768px){
       nav{padding:12px 20px;}
       .nav-links a.desk{display:none;}
@@ -124,7 +145,8 @@
       .hero-banner{border-radius:0;}
       .hero-content{padding:28px 20px 40px;}
       .phase-grid,.price-grid{grid-template-columns:1fr;}
-      .pricing,.phases{padding:60px 20px;}
+      .pricing,.phases,.mentors{padding:60px 20px;}
+      .m-card{min-width:190px;max-width:190px;}
     }
     .lang-toggle{display:flex;gap:2px;margin-right:8px;}
     .lang-toggle button{padding:4px 10px;font-size:12px;font-weight:700;background:transparent;color:var(--muted);border:1px solid transparent;border-radius:6px;cursor:pointer;font-family:'DM Sans';transition:all 0.2s;}
@@ -145,6 +167,7 @@
       <button onclick="setLang('fr')">FR</button>
     </div>
     <a href="#phases" class="desk" data-i18n="nav_how">How It Works</a>
+    <a href="#mentors" class="desk" data-i18n="nav_mentors">Mentors</a>
     <a href="#pricing" class="desk" data-i18n="nav_pricing">Pricing</a>
     <div class="logged-out" id="loggedOut">
       <button class="btn btn-outline" onclick="showModal('login')" data-i18n="btn_login">Log In</button>
@@ -195,6 +218,50 @@
       <div class="icon">⚡</div>
       <h3 class="hd" data-i18n="phase3_title">Apply Under Pressure</h3>
       <p data-i18n="phase3_desc">5 high-stakes decisions. Your mentor reacts to every choice. A philosophical report reveals your true patterns.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MENTORS PREVIEW -->
+<section class="mentors" id="mentors">
+  <div class="sec-label" data-i18n="mentors_label">Your Mentors</div>
+  <h2 class="hd" data-i18n="mentors_title">Wisdom Across the Ages</h2>
+  <p class="sub" data-i18n="mentors_subtitle">Learn from history's greatest minds. Each philosopher brings a unique approach to life's toughest questions.</p>
+  <div class="mentors-scroll">
+    <div class="m-card m-active">
+      <div class="m-av"><img src="/socrates.png" alt="Socrates" onerror="this.parentElement.textContent='🏛️'"></div>
+      <h4 data-i18n="m_socrates">Socrates</h4>
+      <div class="m-era" data-i18n="m_socrates_era">469–399 BC</div>
+      <div class="m-focus" data-i18n="m_socrates_focus">Master critical questioning through real-world ethical dilemmas.</div>
+      <span class="m-badge avail" data-i18n="m_available">Available Now</span>
+    </div>
+    <div class="m-card">
+      <div class="m-av">📜</div>
+      <h4 data-i18n="m_plato">Plato</h4>
+      <div class="m-era" data-i18n="m_plato_era">428–348 BC</div>
+      <div class="m-focus" data-i18n="m_plato_focus">Explore justice, truth, and the nature of reality through allegory.</div>
+      <span class="m-badge soon" data-i18n="m_coming">Coming Soon</span>
+    </div>
+    <div class="m-card">
+      <div class="m-av">⚖️</div>
+      <h4 data-i18n="m_kant">Immanuel Kant</h4>
+      <div class="m-era">1724–1804</div>
+      <div class="m-focus" data-i18n="m_kant_focus">Navigate moral duty where principles and consequences collide.</div>
+      <span class="m-badge soon" data-i18n="m_coming">Coming Soon</span>
+    </div>
+    <div class="m-card">
+      <div class="m-av">🔥</div>
+      <h4>Friedrich Nietzsche</h4>
+      <div class="m-era">1844–1900</div>
+      <div class="m-focus" data-i18n="m_nietzsche_focus">Confront the creation of meaning and forge your own values.</div>
+      <span class="m-badge soon" data-i18n="m_coming">Coming Soon</span>
+    </div>
+    <div class="m-card">
+      <div class="m-av">✊</div>
+      <h4>Simone de Beauvoir</h4>
+      <div class="m-era">1908–1986</div>
+      <div class="m-focus" data-i18n="m_beauvoir_focus">Embrace radical freedom and the ethics of ambiguity.</div>
+      <span class="m-badge soon" data-i18n="m_coming">Coming Soon</span>
     </div>
   </div>
 </section>
@@ -363,6 +430,19 @@ const i18n = {
     feat_team: 'Team/classroom sharing', feat_beta: 'Early beta access',
     feat_updates: 'Lifetime updates', btn_philosopher: 'Get Lifetime Access →',
     footer_tagline: 'Montreal, QC · Built for thinkers, by thinkers.',
+    // Mentors
+    nav_mentors: 'Mentors',
+    mentors_label: 'Your Mentors', mentors_title: 'Wisdom Across the Ages',
+    mentors_subtitle: 'Learn from history\'s greatest minds. Each philosopher brings a unique approach to life\'s toughest questions.',
+    m_available: 'Available Now', m_coming: 'Coming Soon',
+    m_socrates: 'Socrates', m_socrates_era: '469–399 BC',
+    m_socrates_focus: 'Master critical questioning through real-world ethical dilemmas.',
+    m_plato: 'Plato', m_plato_era: '428–348 BC',
+    m_plato_focus: 'Explore justice, truth, and the nature of reality through allegory.',
+    m_kant: 'Immanuel Kant',
+    m_kant_focus: 'Navigate moral duty where principles and consequences collide.',
+    m_nietzsche_focus: 'Confront the creation of meaning and forge your own values.',
+    m_beauvoir_focus: 'Embrace radical freedom and the ethics of ambiguity.',
     // Modals
     login_title: 'Welcome Back', login_sub: 'Continue your philosophical journey',
     google_continue: 'Continue with Google', divider_email: 'or sign in with email',
@@ -412,6 +492,19 @@ const i18n = {
     feat_team: 'Partage équipe/classe', feat_beta: 'Accès bêta anticipé',
     feat_updates: 'Mises à jour à vie', btn_philosopher: 'Accès à vie →',
     footer_tagline: 'Montréal, QC · Conçu par des penseurs, pour des penseurs.',
+    // Mentors
+    nav_mentors: 'Mentors',
+    mentors_label: 'Vos Mentors', mentors_title: 'La Sagesse à Travers les Âges',
+    mentors_subtitle: 'Apprenez des plus grands esprits de l\'histoire. Chaque philosophe apporte une approche unique aux questions les plus difficiles.',
+    m_available: 'Disponible', m_coming: 'Bientôt disponible',
+    m_socrates: 'Socrate', m_socrates_era: '469–399 av. J.-C.',
+    m_socrates_focus: 'Maîtrisez le questionnement critique à travers des dilemmes éthiques du monde réel.',
+    m_plato: 'Platon', m_plato_era: '428–348 av. J.-C.',
+    m_plato_focus: 'Explorez la justice, la vérité et la nature de la réalité à travers l\'allégorie.',
+    m_kant: 'Emmanuel Kant',
+    m_kant_focus: 'Naviguez le devoir moral quand principes et conséquences s\'affrontent.',
+    m_nietzsche_focus: 'Affrontez la création de sens et forgez vos propres valeurs.',
+    m_beauvoir_focus: 'Embrassez la liberté radicale et l\'éthique de l\'ambiguïté.',
     // Modals
     login_title: 'Bon retour', login_sub: 'Poursuivez votre parcours philosophique',
     google_continue: 'Continuer avec Google', divider_email: 'ou par courriel',

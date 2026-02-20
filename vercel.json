@@ -1,6 +1,7 @@
 {
   "outputDirectory": "public",
   "rewrites": [
+    { "source": "/choose", "destination": "/choose.html" },
     { "source": "/dashboard", "destination": "/dashboard.html" },
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/app", "destination": "/app.html" }

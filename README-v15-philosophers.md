@@ -1,27 +1,13 @@
-# PhiloSim — Philosopher Selection (v15 Addition)
+# PhiloSim — Philosopher Selection (v15 — Fully Integrated)
 
-## New Files
+## What Changed in v15
 
-### 1. `public/choose.html` — Philosopher Selection Page
-Full standalone page with:
-- Socrates card (active, links to /app)
-- Plato, Kant, Nietzsche, Simone de Beauvoir cards (Coming Soon)
-- "Notify Me" modal + toast confirmations
-- Full bilingual EN/FR support
-- Same sidebar, auth, and design system as other pages
-- Responsive (mobile hamburger menu)
-
-### 2. `api/notify.js` — Interest Collection Endpoint
-- Authenticated endpoint (requires JWT)
-- Creates `philosopher_interest` table automatically
-- Stores user_id + philosopher_id (no duplicates)
-- Query later to see demand per philosopher
-
-### 3. `landing-philosophers-section.html` — Landing Page Snippet
-- CSS, HTML section, and i18n translations to add to `index.html`
-- Horizontal scrollable card carousel
-- Shows all 5 philosophers as a preview
-- Place between "phases" and "pricing" sections
+### Landing Page (index.html) — NOW INTEGRATED
+- New "Mentors" section between Phases and Pricing
+- Horizontal scrollable cards: Socrates (active) + 4 Coming Soon
+- "Mentors" nav link added
+- Full bilingual EN/FR translations added
+- Removed standalone `landing-philosophers-section.html` (no longer needed)
 
 ---
 
