@@ -64,12 +64,12 @@
     .card-gold{background:rgba(212,168,83,0.04);border-color:var(--gborder);}
     .card-green{border-color:rgba(16,185,129,0.15);}
 
-    .score-bar{margin-bottom:14px;}
-    .score-bar .top{display:flex;justify-content:space-between;margin-bottom:4px;}
-    .score-bar .top .label{font-size:15px;color:var(--text2);}
-    .score-bar .top .val{font-size:15px;font-weight:700;font-family:'Space Grotesk';}
-    .score-bar .track{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;}
-    .score-bar .fill{height:100%;border-radius:3px;transition:width 1s ease;}
+    .score-bar{margin-bottom:16px;}
+    .score-bar .top{display:flex;justify-content:space-between;margin-bottom:6px;}
+    .score-bar .top .label{font-size:17px;color:var(--text2);}
+    .score-bar .top .val{font-size:17px;font-weight:700;font-family:'Space Grotesk';}
+    .score-bar .track{height:8px;background:rgba(255,255,255,0.06);border-radius:4px;}
+    .score-bar .fill{height:100%;border-radius:4px;transition:width 1s ease;}
 
     .avatar-sm{width:32px;height:32px;border-radius:50%;overflow:hidden;border:1.5px solid var(--gold);flex-shrink:0;}
     .avatar-sm img{width:100%;height:100%;object-fit:cover;object-position:center top;}
@@ -124,7 +124,7 @@
 // ═══════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════
-let lang = 'en', view = 'welcome', playerName = '';
+let lang = localStorage.getItem('philosim_lang') || 'en', view = 'welcome', playerName = '';
 let learnStep = 0, checkStep = 0, checkAnswers = [], checkDone = false, selCheck = null, showInsight = false;
 let scenario = null, round = 0, selOpt = null, showFeedback = false, decisions = [], simDone = false;
 let allReports = JSON.parse(localStorage.getItem('philosim_sessions') || '[]');
@@ -317,6 +317,7 @@ function t(k) { return T[lang][k] || k; }
 
 function setLang(l) {
   lang = l;
+  localStorage.setItem('philosim_lang', l);
   document.querySelectorAll('.sb-lang button').forEach(b => b.classList.toggle('active', b.textContent.trim() === l.toUpperCase()));
   document.getElementById('sbTag').textContent = t('tag');
   render();
@@ -400,7 +401,7 @@ function renderLearn(pg) {
     pg.innerHTML = `<div class="fade"><h2 class="hd" style="font-size:32px;margin-bottom:6px;">${t('watch')}</h2>
     <p style="color:var(--text2);font-size:17px;margin-bottom:20px;">${t('watchNote')}</p>
     <div style="position:relative;padding-bottom:56.25%;border-radius:16px;overflow:hidden;border:1px solid var(--border);margin-bottom:24px;">
-      <iframe src="https://www.youtube.com/embed/6DGnwLTnoPY" style="position:absolute;inset:0;width:100%;height:100%;border:none;" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/${lang==='fr'?'ryfWjoSTN5E':'6DGnwLTnoPY'}" style="position:absolute;inset:0;width:100%;height:100%;border:none;" allowfullscreen></iframe>
     </div>
     <div class="center"><button class="btn btn-gold" onclick="learnStep=1;render()">${t('explore5')}</button></div></div>`;
   } else {
@@ -598,13 +599,13 @@ function renderReportCard(pg, r) {
   pg.innerHTML = `<div class="fade">
     <div class="card card-gold center">
       <div class="avatar-lg" style="margin:0 auto 12px;border-radius:50%;"><img src="/socrates.png" alt=""></div>
-      <div class="hd" style="font-size:24px;font-weight:700;">${t('sessionWith')}</div>
-      <div style="color:var(--gold);font-size:16px;">${r.scenarioTitle}</div>
-      <div style="color:var(--muted);font-size:14px;margin-top:4px;">${r.date} · ${r.playerName} · ${r.decisions} decisions</div>
+      <div class="hd" style="font-size:26px;font-weight:700;">${t('sessionWith')}</div>
+      <div style="color:var(--gold);font-size:18px;">${r.scenarioTitle}</div>
+      <div style="color:var(--muted);font-size:15px;margin-top:4px;">${r.date} · ${r.playerName} · ${r.decisions} ${t('decision')}s</div>
     </div>
     <div class="card center" style="background:linear-gradient(135deg,rgba(212,168,83,0.04),rgba(99,102,241,0.04));border-color:var(--gborder);">
-      <div class="hd" style="font-size:48px;font-weight:700;color:${color(r.overall)};">${r.overall}/100</div>
-      <div style="font-size:14px;color:var(--muted);text-transform:uppercase;font-weight:700;">${t('overallScore')}</div>
+      <div class="hd" style="font-size:52px;font-weight:700;color:${color(r.overall)};">${r.overall}/100</div>
+      <div style="font-size:16px;color:var(--muted);text-transform:uppercase;font-weight:700;">${t('overallScore')}</div>
     </div>
     <div class="card">
       ${scoreBar(t('virtue'),r.virtue,'var(--green)')}${scoreBar(t('reasoning'),r.reasoning,'var(--purple)')}${scoreBar(t('selfAware'),r.selfAware,'var(--purple2)')}${scoreBar(t('epistemic'),r.epistemic,'var(--gold)')}
@@ -612,33 +613,33 @@ function renderReportCard(pg, r) {
     <div class="card card-gold">
       <div style="display:flex;gap:12px;align-items:flex-start;">
         <div class="avatar-sm" style="border-radius:50%;margin-top:2px;"><img src="/socrates.png" alt=""></div>
-        <div><div class="hd" style="font-weight:700;color:var(--gold);margin-bottom:8px;">🏛️ ${lang==='fr'?'Verdict de Socrate':'Socrates\' Verdict'}</div>
-          <p style="font-size:17px;line-height:1.7;font-style:italic;">${r.verdict}</p></div>
+        <div><div class="hd" style="font-weight:700;color:var(--gold);margin-bottom:8px;font-size:18px;">🏛️ ${lang==='fr'?'Verdict de Socrate':'Socrates\' Verdict'}</div>
+          <p style="font-size:18px;line-height:1.7;font-style:italic;">${r.verdict}</p></div>
       </div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
-      <div class="card" style="border-color:rgba(16,185,129,0.15);"><div class="hd" style="font-weight:700;color:var(--green);margin-bottom:4px;">✦ ${t('strengths')}</div><div style="font-weight:600;margin-bottom:8px;">${r.strongest}</div><div style="font-size:14px;color:var(--text2);">${r.strengthExplain}</div></div>
-      <div class="card" style="border-color:rgba(245,158,11,0.15);"><div class="hd" style="font-weight:700;color:var(--warn);margin-bottom:4px;">↗ ${t('growth')}</div><div style="font-weight:600;margin-bottom:8px;">${r.weakest}</div><div style="font-size:14px;color:var(--text2);">${r.weaknessExplain}</div></div>
+      <div class="card" style="border-color:rgba(16,185,129,0.15);"><div class="hd" style="font-weight:700;color:var(--green);margin-bottom:6px;font-size:16px;">✦ ${t('strengths')}</div><div style="font-weight:600;margin-bottom:8px;font-size:17px;">${r.strongest}</div><div style="font-size:16px;color:var(--text2);line-height:1.6;">${r.strengthExplain}</div></div>
+      <div class="card" style="border-color:rgba(245,158,11,0.15);"><div class="hd" style="font-weight:700;color:var(--warn);margin-bottom:6px;font-size:16px;">↗ ${t('growth')}</div><div style="font-weight:600;margin-bottom:8px;font-size:17px;">${r.weakest}</div><div style="font-size:16px;color:var(--text2);line-height:1.6;">${r.weaknessExplain}</div></div>
     </div>
-    ${r.reviews?`<div class="card"><div class="hd" style="font-weight:700;font-size:17px;margin-bottom:16px;">${t('yourDecisions')}</div>
-    ${r.reviews.map((d,i)=>`<div style="margin-bottom:${i<r.reviews.length-1?'20':'0'}px;padding-bottom:${i<r.reviews.length-1?'20':'0'}px;border-bottom:${i<r.reviews.length-1?'1px solid var(--border)':'none'};">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+    ${r.reviews?`<div class="card"><div class="hd" style="font-weight:700;font-size:20px;margin-bottom:16px;">${t('yourDecisions')}</div>
+    ${r.reviews.map((d,i)=>`<div style="margin-bottom:${i<r.reviews.length-1?'24':'0'}px;padding-bottom:${i<r.reviews.length-1?'24':'0'}px;border-bottom:${i<r.reviews.length-1?'1px solid var(--border)':'none'};">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
         <div style="display:flex;align-items:center;gap:8px;">
-          <div style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;background:${d.optimal?'rgba(16,185,129,0.15)':d.score>=60?'rgba(212,168,83,0.15)':'rgba(245,158,11,0.15)'};color:${color(d.score)}">${d.round}</div>
-          <span style="font-size:13px;font-weight:700;color:var(--gold);padding:2px 8px;background:rgba(212,168,83,0.08);border-radius:6px;">${d.pillar}</span>
+          <div style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;background:${d.optimal?'rgba(16,185,129,0.15)':d.score>=60?'rgba(212,168,83,0.15)':'rgba(245,158,11,0.15)'};color:${color(d.score)}">${d.round}</div>
+          <span style="font-size:15px;font-weight:700;color:var(--gold);padding:3px 10px;background:rgba(212,168,83,0.08);border-radius:6px;">${d.pillar}</span>
         </div>
-        <span class="hd" style="font-weight:700;color:${color(d.score)};">${d.score}/100</span>
+        <span class="hd" style="font-weight:700;font-size:18px;color:${color(d.score)};">${d.score}/100</span>
       </div>
-      <div style="font-size:14px;color:var(--muted);margin-bottom:6px;"><strong style="color:var(--text2);">${lang==='fr'?'Votre choix:':'Your choice:'}</strong> ${d.choice}</div>
+      <div style="font-size:16px;color:var(--muted);margin-bottom:8px;line-height:1.6;"><strong style="color:var(--text2);">${lang==='fr'?'Votre choix:':'Your choice:'}</strong> ${d.choice}</div>
       <div style="display:flex;gap:8px;align-items:flex-start;">
-        <div class="avatar-sm" style="border-radius:50%;width:20px;height:20px;min-width:20px;margin-top:2px;"><img src="/socrates.png" alt=""></div>
-        <p style="font-size:14px;color:var(--text2);font-style:italic;line-height:1.6;">${d.reply}</p>
+        <div class="avatar-sm" style="border-radius:50%;width:24px;height:24px;min-width:24px;margin-top:2px;"><img src="/socrates.png" alt=""></div>
+        <p style="font-size:16px;color:var(--text2);font-style:italic;line-height:1.7;">${d.reply}</p>
       </div>
-      ${d.bestChoice?`<div style="margin-top:8px;padding:8px 12px;background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.15);border-radius:8px;font-size:13px;color:var(--green);">💡 ${t('socraticAnswer')} ${d.bestChoice}</div>`:''}
+      ${d.bestChoice?`<div style="margin-top:10px;padding:10px 14px;background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.15);border-radius:8px;font-size:15px;color:var(--green);line-height:1.6;">💡 ${t('socraticAnswer')} ${d.bestChoice}</div>`:''}
     </div>`).join('')}</div>`:''}
     <div class="card center" style="border-color:rgba(99,102,241,0.2);">
-      <div class="hd" style="font-weight:700;color:var(--cyan);margin-bottom:10px;">❓ ${t('closingQ')}</div>
-      <p style="font-size:16px;color:var(--text2);font-style:italic;">${r.closingQuestion}</p>
+      <div class="hd" style="font-weight:700;color:var(--cyan);margin-bottom:10px;font-size:18px;">❓ ${t('closingQ')}</div>
+      <p style="font-size:18px;color:var(--text2);font-style:italic;line-height:1.7;">${r.closingQuestion}</p>
     </div>
   </div>`;
 }
@@ -673,6 +674,8 @@ async function init() {
       if (r.ok) { const d = await r.json(); playerName = d.user.name || ''; }
     } catch(e) {}
   }
+  // Sync lang toggle with saved preference
+  document.querySelectorAll('.sb-lang button').forEach(b => b.classList.toggle('active', b.textContent.trim() === lang.toUpperCase()));
   render();
   if (playerName) go('welcome');
 }

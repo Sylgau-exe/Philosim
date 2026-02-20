@@ -28,7 +28,7 @@ export default async function handler(req, res) {
 var c=0,i=setInterval(function(){c++;
 var t=localStorage.getItem('auth_token');
 if(!t){var m=document.cookie.match(/(?:^|;\\s*)auth_token=([^;]*)/);if(m){t=m[1];localStorage.setItem('auth_token',t);document.cookie='auth_token=;Path=/;Max-Age=0';}}
-if(t){clearInterval(i);window.location.replace('/app');}
+if(t){clearInterval(i);window.location.replace('/choose');}
 else if(c>40){clearInterval(i);window.location.replace('/');}
 },150);
 </script></body></html>`);
@@ -86,7 +86,7 @@ else if(c>40){clearInterval(i);window.location.replace('/');}
 <script>
 localStorage.setItem('auth_token','${token}');
 document.cookie='auth_token=;Path=/;Max-Age=0';
-window.location.replace('/app');
+window.location.replace('/choose');
 </script></body></html>`);
   } catch (err) {
     console.error('Google OAuth error:', err);

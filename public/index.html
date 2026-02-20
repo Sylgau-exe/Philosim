@@ -185,8 +185,8 @@
       <button class="btn btn-gold" onclick="showModal('register')" data-i18n="btn_signup">Sign Up Free</button>
     </div>
     <div class="logged-in" id="loggedIn">
-      <a href="/dashboard" class="btn btn-outline" style="padding:8px 16px;font-size:13px;">Dashboard</a>
-      <a href="/choose" class="btn btn-gold" style="padding:8px 16px;font-size:13px;">Play →</a>
+      <a href="/dashboard" class="btn btn-outline" style="padding:8px 16px;font-size:13px;" data-i18n="nav_dashboard">Dashboard</a>
+      <a href="/choose" class="btn btn-gold" style="padding:8px 16px;font-size:13px;" data-i18n="nav_play">Play →</a>
       <div class="avatar" id="userAvatar"></div>
     </div>
   </div>
@@ -195,7 +195,7 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-banner">
-    <img src="/hero-socrates.png" alt="Don't just study philosophy. Live it. — A person standing on a mountaintop with Socrates appearing beside them as an AI companion">
+    <img id="heroBanner" src="/hero-socrates.png" alt="Don't just study philosophy. Live it. — A person standing on a mountaintop with Socrates appearing beside them as an AI companion">
   </div>
   <div class="hero-content">
     <p class="sub" data-i18n="hero_sub">What if Socrates could sit beside you today?</p>
@@ -434,6 +434,7 @@ let currentLang = localStorage.getItem('philosim_lang') || 'en';
 const i18n = {
   en: {
     nav_how: 'How It Works', nav_pricing: 'Pricing',
+    nav_dashboard: 'Dashboard', nav_play: 'Play →',
     btn_login: 'Log In', btn_signup: 'Sign Up Free',
     hero_sub: 'What if Socrates could sit beside you today?',
     hero_desc: 'AI companions that let you experience the world through history\'s greatest philosophical minds — walking beside you through real decisions.',
@@ -471,6 +472,21 @@ const i18n = {
     mentors_subtitle: 'Learn from history\'s greatest minds. Each philosopher brings a unique approach to life\'s toughest questions.',
     m_available: 'Available Now', m_coming: 'Coming Soon',
     m_cta_start: '▸ Start Journey', m_cta_notify: '▸ Get Notified',
+    // Error messages
+    err_fill_all: 'Please fill in all fields',
+    err_fill_both: 'Please fill in both fields',
+    err_enter_email: 'Please enter your email',
+    err_login_failed: 'Login failed',
+    err_register_failed: 'Registration failed',
+    err_reset_failed: 'Reset failed',
+    err_connection: 'Connection error',
+    err_pw_min: 'Password must be at least 8 characters',
+    err_pw_match: 'Passwords do not match',
+    err_pw_short: 'Minimum 8 characters',
+    err_google: 'Google sign-in failed. Try again.',
+    err_checkout: 'Checkout failed. Please try again.',
+    suc_reset_sent: 'If an account exists, a reset link has been sent to your email.',
+    suc_pw_reset: 'Password reset! Redirecting to login...',
     m_socrates: 'Socrates', m_socrates_era: '469–399 BC',
     m_socrates_focus: 'Master critical questioning through real-world ethical dilemmas.',
     m_plato: 'Plato', m_plato_era: '428–348 BC',
@@ -499,6 +515,7 @@ const i18n = {
   },
   fr: {
     nav_how: 'Comment ça marche', nav_pricing: 'Tarifs',
+    nav_dashboard: 'Tableau de bord', nav_play: 'Jouer →',
     btn_login: 'Connexion', btn_signup: 'S\'inscrire',
     hero_sub: 'Et si Socrate pouvait s\'asseoir à vos côtés aujourd\'hui?',
     hero_desc: 'Des compagnons IA qui vous permettent de vivre le monde à travers les plus grands esprits philosophiques de l\'histoire — marchant à vos côtés dans vos décisions réelles.',
@@ -536,6 +553,21 @@ const i18n = {
     mentors_subtitle: 'Apprenez des plus grands esprits de l\'histoire. Chaque philosophe apporte une approche unique aux questions les plus difficiles.',
     m_available: 'Disponible', m_coming: 'Bientôt disponible',
     m_cta_start: '▸ Commencer le parcours', m_cta_notify: '▸ Être prévenu',
+    // Error messages
+    err_fill_all: 'Veuillez remplir tous les champs',
+    err_fill_both: 'Veuillez remplir les deux champs',
+    err_enter_email: 'Veuillez entrer votre courriel',
+    err_login_failed: 'Échec de la connexion',
+    err_register_failed: 'Échec de l\'inscription',
+    err_reset_failed: 'Échec de la réinitialisation',
+    err_connection: 'Erreur de connexion',
+    err_pw_min: 'Le mot de passe doit contenir au moins 8 caractères',
+    err_pw_match: 'Les mots de passe ne correspondent pas',
+    err_pw_short: 'Minimum 8 caractères',
+    err_google: 'Échec de la connexion Google. Réessayez.',
+    err_checkout: 'Échec du paiement. Veuillez réessayer.',
+    suc_reset_sent: 'Si un compte existe, un lien de réinitialisation a été envoyé à votre courriel.',
+    suc_pw_reset: 'Mot de passe réinitialisé! Redirection...',
     m_socrates: 'Socrate', m_socrates_era: '469–399 av. J.-C.',
     m_socrates_focus: 'Maîtrisez le questionnement critique à travers des dilemmes éthiques du monde réel.',
     m_plato: 'Platon', m_plato_era: '428–348 av. J.-C.',
@@ -572,7 +604,12 @@ function setLang(lang) {
     const key = el.getAttribute('data-i18n');
     if (i18n[lang][key]) el.textContent = i18n[lang][key];
   });
+  // Swap hero banner
+  const banner = document.getElementById('heroBanner');
+  if (banner) banner.src = lang === 'fr' ? '/hero-socrates-fr.png' : '/hero-socrates.png';
 }
+
+function tr(key) { return (i18n[currentLang] && i18n[currentLang][key]) || i18n.en[key] || key; }
 
 function scrollMentors(dir) {
   const el = document.getElementById('mentorsScroll');
@@ -595,16 +632,17 @@ async function doLogin() {
   const password = document.getElementById('loginPassword').value;
   const errEl = document.getElementById('loginError');
   errEl.style.display = 'none';
-  if (!email || !password) { errEl.textContent = 'Please fill in all fields'; errEl.style.display = 'block'; return; }
+  if (!email || !password) { errEl.textContent = tr('err_fill_all'); errEl.style.display = 'block'; return; }
   try {
     const r = await fetch(API + '/api/auth/login', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({email,password}) });
     const data = await r.json();
-    if (!r.ok) { errEl.textContent = data.error || 'Login failed'; errEl.style.display = 'block'; return; }
+    if (!r.ok) { errEl.textContent = data.error || tr('err_login_failed'); errEl.style.display = 'block'; return; }
     localStorage.setItem('auth_token', data.token);
     closeModal(); checkAuth();
     if (pendingPlan) { const p = pendingPlan; pendingPlan = null; startCheckout(p); return; }
     if (handlePendingMentor()) return;
-  } catch(e) { errEl.textContent = 'Connection error'; errEl.style.display = 'block'; }
+    window.location.href = '/choose';
+  } catch(e) { errEl.textContent = tr('err_connection'); errEl.style.display = 'block'; }
 }
 
 async function doRegister() {
@@ -613,18 +651,18 @@ async function doRegister() {
   const password = document.getElementById('registerPassword').value;
   const errEl = document.getElementById('registerError');
   errEl.style.display = 'none';
-  if (!name || !email || !password) { errEl.textContent = 'Please fill in all fields'; errEl.style.display = 'block'; return; }
-  if (password.length < 8) { errEl.textContent = 'Password must be at least 8 characters'; errEl.style.display = 'block'; return; }
+  if (!name || !email || !password) { errEl.textContent = tr('err_fill_all'); errEl.style.display = 'block'; return; }
+  if (password.length < 8) { errEl.textContent = tr('err_pw_min'); errEl.style.display = 'block'; return; }
   try {
     const r = await fetch(API + '/api/auth/register', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({name,email,password}) });
     const data = await r.json();
-    if (!r.ok) { errEl.textContent = data.error || 'Registration failed'; errEl.style.display = 'block'; return; }
+    if (!r.ok) { errEl.textContent = data.error || tr('err_register_failed'); errEl.style.display = 'block'; return; }
     localStorage.setItem('auth_token', data.token);
     closeModal(); checkAuth();
     if (pendingPlan) { const p = pendingPlan; pendingPlan = null; startCheckout(p); return; }
     if (handlePendingMentor()) return;
     window.location.href = '/choose';
-  } catch(e) { errEl.textContent = 'Connection error'; errEl.style.display = 'block'; }
+  } catch(e) { errEl.textContent = tr('err_connection'); errEl.style.display = 'block'; }
 }
 
 async function doForgot() {
@@ -632,13 +670,13 @@ async function doForgot() {
   const errEl = document.getElementById('forgotError');
   const sucEl = document.getElementById('forgotSuccess');
   errEl.style.display = 'none'; sucEl.style.display = 'none';
-  if (!email) { errEl.textContent = 'Please enter your email'; errEl.style.display = 'block'; return; }
+  if (!email) { errEl.textContent = tr('err_enter_email'); errEl.style.display = 'block'; return; }
   try {
     const r = await fetch(API + '/api/auth/forgot-password', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({email}) });
     const data = await r.json();
-    sucEl.textContent = 'If an account exists, a reset link has been sent to your email.';
+    sucEl.textContent = tr('suc_reset_sent');
     sucEl.style.display = 'block';
-  } catch(e) { errEl.textContent = 'Connection error'; errEl.style.display = 'block'; }
+  } catch(e) { errEl.textContent = tr('err_connection'); errEl.style.display = 'block'; }
 }
 
 async function doReset() {
@@ -647,18 +685,18 @@ async function doReset() {
   const errEl = document.getElementById('resetError');
   const sucEl = document.getElementById('resetSuccess');
   errEl.style.display = 'none'; sucEl.style.display = 'none';
-  if (!password || !confirm) { errEl.textContent = 'Please fill in both fields'; errEl.style.display = 'block'; return; }
-  if (password !== confirm) { errEl.textContent = 'Passwords do not match'; errEl.style.display = 'block'; return; }
-  if (password.length < 8) { errEl.textContent = 'Minimum 8 characters'; errEl.style.display = 'block'; return; }
+  if (!password || !confirm) { errEl.textContent = tr('err_fill_both'); errEl.style.display = 'block'; return; }
+  if (password !== confirm) { errEl.textContent = tr('err_pw_match'); errEl.style.display = 'block'; return; }
+  if (password.length < 8) { errEl.textContent = tr('err_pw_short'); errEl.style.display = 'block'; return; }
   const token = new URLSearchParams(window.location.search).get('reset_token');
   try {
     const r = await fetch(API + '/api/auth/reset-password', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({token,password}) });
     const data = await r.json();
-    if (!r.ok) { errEl.textContent = data.error || 'Reset failed'; errEl.style.display = 'block'; return; }
-    sucEl.textContent = 'Password reset! Redirecting to login...';
+    if (!r.ok) { errEl.textContent = data.error || tr('err_reset_failed'); errEl.style.display = 'block'; return; }
+    sucEl.textContent = tr('suc_pw_reset');
     sucEl.style.display = 'block';
     setTimeout(() => showModal('login'), 2000);
-  } catch(e) { errEl.textContent = 'Connection error'; errEl.style.display = 'block'; }
+  } catch(e) { errEl.textContent = tr('err_connection'); errEl.style.display = 'block'; }
 }
 
 let _googlePending = false;
@@ -778,8 +816,8 @@ async function startCheckout(plan) {
     });
     const data = await r.json();
     if (data.url) { window.location.href = data.url; }
-    else { alert(data.error || 'Checkout failed. Please try again.'); }
-  } catch (e) { alert('Connection error. Please try again.'); }
+    else { alert(data.error || tr('err_checkout')); }
+  } catch (e) { alert(tr('err_connection')); }
 }
 
 // ── Init ──
@@ -803,7 +841,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // Password reset
   if (params.get('reset_token')) { showModal('reset'); }
   // Error from Google
-  if (params.get('error') && params.get('error') !== 'auth_timeout') { showModal('login'); document.getElementById('loginError').textContent = 'Google sign-in failed. Try again.'; document.getElementById('loginError').style.display = 'block'; }
+  if (params.get('error') && params.get('error') !== 'auth_timeout') { showModal('login'); document.getElementById('loginError').textContent = tr('err_google'); document.getElementById('loginError').style.display = 'block'; }
   checkAuth();
   setLang(currentLang);
 });
