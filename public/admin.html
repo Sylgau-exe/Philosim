@@ -119,8 +119,21 @@
 </div>
 
 <script>
+// Pick up auth token from cookie
+(function() {
+  const match = document.cookie.match(/(?:^|;\s*)auth_token=([^;]*)/);
+  if (match) {
+    localStorage.setItem('auth_token', match[1]);
+    document.cookie = 'auth_token=; Path=/; Max-Age=0';
+  }
+})();
+
 const token = localStorage.getItem('auth_token');
-if (!token) window.location.href = '/';
+if (!token) {
+  const cookieMatch = document.cookie.match(/(?:^|;\s*)auth_token=([^;]*)/);
+  if (cookieMatch) { localStorage.setItem('auth_token', cookieMatch[1]); window.location.reload(); }
+  else window.location.href = '/';
+}
 const H = { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' };
 
 async function loadStats() {

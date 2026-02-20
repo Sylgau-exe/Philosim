@@ -30,8 +30,9 @@ export default async function handler(req, res) {
     if (!tokenResponse.ok) {
       console.error('Token exchange failed:', tokenData);
       if (tokenData.error === 'invalid_grant') {
-        // Parallel request likely succeeded and set cookie — redirect to app
-        return res.redirect('/app');
+        // Parallel request likely succeeded — wait for its cookie then redirect
+        res.setHeader('Content-Type', 'text/html');
+        return res.end(`<!DOCTYPE html><html><head><script>setTimeout(function(){window.location.href='/app';},1500);</script></head><body style="background:#05050a;color:#9ca3af;display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;">Completing sign in...</body></html>`);
       }
       return res.redirect('/?error=token_exchange_failed');
     }

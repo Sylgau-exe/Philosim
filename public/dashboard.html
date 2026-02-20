@@ -117,7 +117,16 @@
 })();
 
 const token = localStorage.getItem('auth_token');
-if (!token) window.location.href = '/?login=1';
+if (!token) {
+  // Last chance: maybe cookie exists but bridge didn't run on a previous page
+  const cookieMatch = document.cookie.match(/(?:^|;\s*)auth_token=([^;]*)/);
+  if (cookieMatch) {
+    localStorage.setItem('auth_token', cookieMatch[1]);
+    window.location.reload();
+  } else {
+    window.location.href = '/?login=1';
+  }
+}
 
 async function loadDashboard() {
   try {
