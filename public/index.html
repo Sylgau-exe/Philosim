@@ -122,8 +122,14 @@
     .mentors .sec-label{text-align:center;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--purple);margin-bottom:10px;}
     .mentors h2{font-family:'Space Grotesk';font-size:36px;font-weight:700;text-align:center;margin-bottom:10px;}
     .mentors p.sub{text-align:center;color:var(--text2);font-size:17px;max-width:520px;margin:0 auto 44px;line-height:1.6;}
-    .mentors-scroll{display:flex;gap:18px;overflow-x:auto;padding-bottom:12px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;}
+    .mentors-wrap{position:relative;}
+    .mentors-scroll{display:flex;gap:18px;overflow-x:auto;padding-bottom:12px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;}
     .mentors-scroll::-webkit-scrollbar{height:3px;}.mentors-scroll::-webkit-scrollbar-track{background:transparent;}.mentors-scroll::-webkit-scrollbar-thumb{background:rgba(212,168,83,0.15);border-radius:2px;}
+    .scroll-arrow{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;background:rgba(13,13,20,0.9);border:1px solid var(--gborder);color:var(--gold);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;transition:all 0.2s;backdrop-filter:blur(8px);}
+    .scroll-arrow:hover{background:rgba(212,168,83,0.15);box-shadow:0 2px 12px var(--gglow);}
+    .scroll-arrow.left{left:-12px;}
+    .scroll-arrow.right{right:-12px;}
+    .scroll-arrow svg{width:18px;height:18px;}
     .m-card{min-width:210px;max-width:210px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 18px;scroll-snap-align:start;flex-shrink:0;transition:all 0.3s;cursor:pointer;}
     .m-card:hover{border-color:var(--gborder);transform:translateY(-3px);}
     .m-card.m-active{border-color:rgba(212,168,83,0.3);}
@@ -151,6 +157,7 @@
       .phase-grid,.price-grid{grid-template-columns:1fr;}
       .pricing,.phases,.mentors{padding:60px 20px;}
       .m-card{min-width:190px;max-width:190px;}
+      .scroll-arrow{display:none;}
     }
     .lang-toggle{display:flex;gap:2px;margin-right:8px;}
     .lang-toggle button{padding:4px 10px;font-size:12px;font-weight:700;background:transparent;color:var(--muted);border:1px solid transparent;border-radius:6px;cursor:pointer;font-family:'DM Sans';transition:all 0.2s;}
@@ -231,7 +238,14 @@
   <div class="sec-label" data-i18n="mentors_label">Your Mentors</div>
   <h2 class="hd" data-i18n="mentors_title">Wisdom Across the Ages</h2>
   <p class="sub" data-i18n="mentors_subtitle">Learn from history's greatest minds. Each philosopher brings a unique approach to life's toughest questions.</p>
-  <div class="mentors-scroll">
+  <div class="mentors-wrap">
+    <button class="scroll-arrow left" onclick="scrollMentors(-1)" aria-label="Scroll left">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15,18 9,12 15,6"/></svg>
+    </button>
+    <button class="scroll-arrow right" onclick="scrollMentors(1)" aria-label="Scroll right">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9,6 15,12 9,18"/></svg>
+    </button>
+    <div class="mentors-scroll" id="mentorsScroll">
     <div class="m-card m-active" onclick="window.location.href='/philosopher?id=socrates'">
       <div class="m-av"><img src="/socrates.png" alt="Socrates" onerror="this.parentElement.textContent='🏛️'"></div>
       <h4 data-i18n="m_socrates">Socrates</h4>
@@ -280,6 +294,7 @@
       <span class="m-badge soon" data-i18n="m_coming">Coming Soon</span>
       <span class="m-cta soon-cta" data-i18n="m_cta_notify">▸ Get Notified</span>
     </div>
+  </div>
   </div>
 </section>
 
@@ -557,6 +572,11 @@ function setLang(lang) {
     const key = el.getAttribute('data-i18n');
     if (i18n[lang][key]) el.textContent = i18n[lang][key];
   });
+}
+
+function scrollMentors(dir) {
+  const el = document.getElementById('mentorsScroll');
+  if (el) el.scrollBy({ left: dir * 240, behavior: 'smooth' });
 }
 
 
