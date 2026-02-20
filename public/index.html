@@ -259,66 +259,66 @@
 
     <!-- LOGIN -->
     <div id="loginForm">
-      <h2 class="hd">Welcome Back</h2>
-      <p class="sub">Continue your philosophical journey</p>
+      <h2 class="hd" data-i18n="login_title">Welcome Back</h2>
+      <p class="sub" data-i18n="login_sub">Continue your philosophical journey</p>
       <div class="error" id="loginError"></div>
       <button class="google-btn" onclick="googleLogin()">
         <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-        Continue with Google
+        <span data-i18n="google_continue">Continue with Google</span>
       </button>
-      <div class="divider">or sign in with email</div>
-      <label>Email</label>
+      <div class="divider" data-i18n="divider_email">or sign in with email</div>
+      <label data-i18n="label_email">Email</label>
       <input type="email" id="loginEmail" placeholder="you@example.com">
-      <label>Password</label>
-      <input type="password" id="loginPassword" placeholder="Your password">
-      <div class="forgot"><a onclick="showModal('forgot')">Forgot password?</a></div>
-      <button class="submit-btn gold" onclick="doLogin()">Sign In</button>
-      <div class="switch">Don't have an account? <a onclick="showModal('register')">Sign up free</a></div>
+      <label data-i18n="label_password">Password</label>
+      <input type="password" id="loginPassword" placeholder="">
+      <div class="forgot"><a onclick="showModal('forgot')" data-i18n="forgot_link">Forgot password?</a></div>
+      <button class="submit-btn gold" onclick="doLogin()" data-i18n="btn_signin">Sign In</button>
+      <div class="switch"><span data-i18n="switch_no_account">Don't have an account?</span> <a onclick="showModal('register')" data-i18n="switch_signup">Sign up free</a></div>
     </div>
 
     <!-- REGISTER -->
     <div id="registerForm" style="display:none">
-      <h2 class="hd">Start Your Journey</h2>
-      <p class="sub">Create your free PhiloSim account</p>
+      <h2 class="hd" data-i18n="register_title">Start Your Journey</h2>
+      <p class="sub" data-i18n="register_sub">Create your free PhiloSim account</p>
       <div class="error" id="registerError"></div>
       <button class="google-btn" onclick="googleLogin()">
         <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-        Sign up with Google
+        <span data-i18n="google_signup">Sign up with Google</span>
       </button>
-      <div class="divider">or use email</div>
-      <label>Full Name</label>
-      <input type="text" id="registerName" placeholder="Your name">
-      <label>Email</label>
+      <div class="divider" data-i18n="divider_or_email">or use email</div>
+      <label data-i18n="label_name">Full Name</label>
+      <input type="text" id="registerName" placeholder="">
+      <label data-i18n="label_email">Email</label>
       <input type="email" id="registerEmail" placeholder="you@example.com">
-      <label>Password</label>
-      <input type="password" id="registerPassword" placeholder="Min 8 characters">
-      <button class="submit-btn gold" onclick="doRegister()">Create Account</button>
-      <div class="switch">Already have an account? <a onclick="showModal('login')">Sign in</a></div>
+      <label data-i18n="label_password">Password</label>
+      <input type="password" id="registerPassword" placeholder="">
+      <button class="submit-btn gold" onclick="doRegister()" data-i18n="btn_create">Create Account</button>
+      <div class="switch"><span data-i18n="switch_has_account">Already have an account?</span> <a onclick="showModal('login')" data-i18n="switch_signin">Sign in</a></div>
     </div>
 
     <!-- FORGOT PASSWORD -->
     <div id="forgotForm" style="display:none">
-      <h2 class="hd">Reset Password</h2>
-      <p class="sub">Enter your email and we'll send a reset link</p>
+      <h2 class="hd" data-i18n="forgot_title">Reset Password</h2>
+      <p class="sub" data-i18n="forgot_sub">Enter your email and we'll send a reset link</p>
       <div class="error" id="forgotError"></div>
       <div class="success" id="forgotSuccess"></div>
-      <label>Email</label>
+      <label data-i18n="label_email">Email</label>
       <input type="email" id="forgotEmail" placeholder="you@example.com">
-      <button class="submit-btn gold" onclick="doForgot()">Send Reset Link</button>
-      <div class="switch"><a onclick="showModal('login')">← Back to login</a></div>
+      <button class="submit-btn gold" onclick="doForgot()" data-i18n="btn_reset_link">Send Reset Link</button>
+      <div class="switch"><a onclick="showModal('login')" data-i18n="back_login">← Back to login</a></div>
     </div>
 
     <!-- RESET PASSWORD -->
     <div id="resetForm" style="display:none">
-      <h2 class="hd">New Password</h2>
-      <p class="sub">Choose a new password for your account</p>
+      <h2 class="hd" data-i18n="reset_title">New Password</h2>
+      <p class="sub" data-i18n="reset_sub">Choose a new password for your account</p>
       <div class="error" id="resetError"></div>
       <div class="success" id="resetSuccess"></div>
-      <label>New Password</label>
-      <input type="password" id="resetPassword" placeholder="Min 8 characters">
-      <label>Confirm Password</label>
-      <input type="password" id="resetConfirm" placeholder="Confirm password">
-      <button class="submit-btn gold" onclick="doReset()">Set New Password</button>
+      <label data-i18n="label_new_password">New Password</label>
+      <input type="password" id="resetPassword" placeholder="">
+      <label data-i18n="label_confirm_password">Confirm Password</label>
+      <input type="password" id="resetConfirm" placeholder="">
+      <button class="submit-btn gold" onclick="doReset()" data-i18n="btn_set_password">Set New Password</button>
     </div>
   </div>
 </div>
@@ -363,6 +363,21 @@ const i18n = {
     feat_team: 'Team/classroom sharing', feat_beta: 'Early beta access',
     feat_updates: 'Lifetime updates', btn_philosopher: 'Get Lifetime Access →',
     footer_tagline: 'Montreal, QC · Built for thinkers, by thinkers.',
+    // Modals
+    login_title: 'Welcome Back', login_sub: 'Continue your philosophical journey',
+    google_continue: 'Continue with Google', divider_email: 'or sign in with email',
+    label_email: 'Email', label_password: 'Password', label_name: 'Full Name',
+    forgot_link: 'Forgot password?', btn_signin: 'Sign In',
+    switch_no_account: "Don't have an account?", switch_signup: 'Sign up free',
+    register_title: 'Start Your Journey', register_sub: 'Create your free PhiloSim account',
+    google_signup: 'Sign up with Google', divider_or_email: 'or use email',
+    btn_create: 'Create Account',
+    switch_has_account: 'Already have an account?', switch_signin: 'Sign in',
+    forgot_title: 'Reset Password', forgot_sub: "Enter your email and we'll send a reset link",
+    btn_reset_link: 'Send Reset Link', back_login: '← Back to login',
+    reset_title: 'New Password', reset_sub: 'Choose a new password for your account',
+    label_new_password: 'New Password', label_confirm_password: 'Confirm Password',
+    btn_set_password: 'Set New Password',
   },
   fr: {
     nav_how: 'Comment ça marche', nav_pricing: 'Tarifs',
@@ -397,6 +412,21 @@ const i18n = {
     feat_team: 'Partage équipe/classe', feat_beta: 'Accès bêta anticipé',
     feat_updates: 'Mises à jour à vie', btn_philosopher: 'Accès à vie →',
     footer_tagline: 'Montréal, QC · Conçu par des penseurs, pour des penseurs.',
+    // Modals
+    login_title: 'Bon retour', login_sub: 'Poursuivez votre parcours philosophique',
+    google_continue: 'Continuer avec Google', divider_email: 'ou par courriel',
+    label_email: 'Courriel', label_password: 'Mot de passe', label_name: 'Nom complet',
+    forgot_link: 'Mot de passe oublié?', btn_signin: 'Se connecter',
+    switch_no_account: "Pas encore de compte?", switch_signup: "S'inscrire",
+    register_title: 'Commencez votre parcours', register_sub: 'Créez votre compte PhiloSim gratuit',
+    google_signup: "S'inscrire avec Google", divider_or_email: 'ou par courriel',
+    btn_create: 'Créer un compte',
+    switch_has_account: 'Déjà un compte?', switch_signin: 'Se connecter',
+    forgot_title: 'Réinitialiser le mot de passe', forgot_sub: 'Entrez votre courriel et nous vous enverrons un lien',
+    btn_reset_link: 'Envoyer le lien', back_login: '← Retour à la connexion',
+    reset_title: 'Nouveau mot de passe', reset_sub: 'Choisissez un nouveau mot de passe',
+    label_new_password: 'Nouveau mot de passe', label_confirm_password: 'Confirmer le mot de passe',
+    btn_set_password: 'Définir le mot de passe',
   }
 };
 
