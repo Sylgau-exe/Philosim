@@ -49,6 +49,9 @@
     ],
     "featureList": ["Socratic Method Simulation", "AI Philosophical Mentors", "Decision-Making Training", "Bilingual English/French", "6 Philosopher Mentors"]
   }</script>
+  <!-- Google Analytics 4 — Replace G-XXXXXXXXXX with your GA4 Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     :root{--bg:#05050a;--bg2:#0d0d14;--card:#141420;--card2:#1a1a28;--text:#fff;--text2:#9ca3af;--muted:#6b7280;--gold:#d4a853;--gold2:#b8923e;--purple:#6366f1;--purple2:#8b5cf6;--green:#10b981;--warn:#f59e0b;--err:#ef4444;--cyan:#06b6d4;--border:rgba(255,255,255,0.06);--gborder:rgba(212,168,83,0.22);--gglow:rgba(212,168,83,0.15);}
@@ -688,7 +691,10 @@ async function doRegister() {
   if (!name || !email || !password) { errEl.textContent = tr('err_fill_all'); errEl.style.display = 'block'; return; }
   if (password.length < 8) { errEl.textContent = tr('err_pw_min'); errEl.style.display = 'block'; return; }
   try {
-    const r = await fetch(API + '/api/auth/register', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({name,email,password}) });
+    const utm_source = localStorage.getItem('utm_source') || '';
+    const utm_medium = localStorage.getItem('utm_medium') || '';
+    const utm_campaign = localStorage.getItem('utm_campaign') || '';
+    const r = await fetch(API + '/api/auth/register', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({name,email,password,utm_source,utm_medium,utm_campaign}) });
     const data = await r.json();
     if (!r.ok) { errEl.textContent = data.error || tr('err_register_failed'); errEl.style.display = 'block'; return; }
     localStorage.setItem('auth_token', data.token);
@@ -737,7 +743,11 @@ let _googlePending = false;
 function googleLogin() {
   if (_googlePending) return;
   _googlePending = true;
-  window.location.href = API + '/api/auth/google';
+  const utmParams = ['utm_source','utm_medium','utm_campaign'].map(k => {
+    const v = localStorage.getItem(k);
+    return v ? `${k}=${encodeURIComponent(v)}` : '';
+  }).filter(Boolean).join('&');
+  window.location.href = API + '/api/auth/google' + (utmParams ? '?' + utmParams : '');
 }
 
 // ── Auth State ──
@@ -857,6 +867,10 @@ async function startCheckout(plan) {
 // ── Init ──
 window.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
+  // Capture UTM params from URL (e.g. from social media campaigns)
+  ['utm_source','utm_medium','utm_campaign'].forEach(k => {
+    if (params.get(k)) localStorage.setItem(k, params.get(k));
+  });
   // Check cookie first (set by Google OAuth callback)
   const cookieMatch = document.cookie.match(/(?:^|;\s*)auth_token=([^;]*)/);
   if (cookieMatch) {

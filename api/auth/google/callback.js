@@ -64,7 +64,13 @@ else if(c>40){clearInterval(i);window.location.replace('/');}
 
     let user = await UserDB.findByEmail(googleUser.email);
     if (!user) {
-      user = await UserDB.createGoogleUser(googleUser.email, googleUser.name || googleUser.email.split('@')[0], googleUser.id);
+      // Read UTM from cookie
+      let utm = {};
+      const utmCookie = getCookie(req, 'oauth_utm');
+      if (utmCookie) {
+        try { utm = JSON.parse(decodeURIComponent(utmCookie)); } catch(e) {}
+      }
+      user = await UserDB.createGoogleUser(googleUser.email, googleUser.name || googleUser.email.split('@')[0], googleUser.id, utm);
     } else if (!user.google_id) {
       await UserDB.linkGoogleAccount(user.id, googleUser.id);
     }
@@ -76,6 +82,7 @@ else if(c>40){clearInterval(i);window.location.replace('/');}
     // AND return HTML that saves to localStorage (if this page renders)
     res.setHeader('Set-Cookie', [
       'oauth_state=; Path=/; Max-Age=0',
+      'oauth_utm=; Path=/; Max-Age=0',
       `auth_token=${token}; Path=/; SameSite=Lax; Secure; Max-Age=300`
     ]);
     res.setHeader('Content-Type', 'text/html');

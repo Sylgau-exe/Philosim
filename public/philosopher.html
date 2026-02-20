@@ -14,6 +14,9 @@
     <link rel="canonical" href="https://philosim.vercel.app/philosopher">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+    <!-- Google Analytics 4 — Replace G-XXXXXXXXXX with your GA4 Measurement ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
         *{margin:0;padding:0;box-sizing:border-box;}
@@ -154,6 +157,8 @@
 
 const token = localStorage.getItem('auth_token');
 let currentLang = localStorage.getItem('philosim_lang') || 'en';
+// Capture UTM params
+(function(){const p=new URLSearchParams(window.location.search);['utm_source','utm_medium','utm_campaign'].forEach(k=>{if(p.get(k))localStorage.setItem(k,p.get(k));});})();
 
 // ===== PHILOSOPHER DATA =====
 const data = {

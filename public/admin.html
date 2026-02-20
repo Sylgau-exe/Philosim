@@ -64,7 +64,32 @@
     .modal .btns{display:flex;gap:10px;margin-top:8px;}
     .modal .btns button{flex:1;padding:10px;font-size:14px;font-weight:600;border:none;border-radius:8px;cursor:pointer;font-family:'DM Sans';}
 
-    @media(max-width:768px){.stats-grid{grid-template-columns:repeat(2,1fr);}.container{padding:20px;}table{font-size:12px;}}
+    /* Tabs */
+    .tabs{display:flex;gap:4px;margin-bottom:28px;padding:4px;background:var(--bg2);border-radius:10px;border:1px solid var(--border);width:fit-content;}
+    .tabs button{padding:10px 22px;border-radius:8px;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:'Space Grotesk';background:transparent;color:var(--muted);transition:all 0.2s;}
+    .tabs button.active{background:rgba(212,168,83,0.12);color:var(--gold);border:1px solid var(--gborder);}
+    .tab-content{display:none;} .tab-content.active{display:block;}
+
+    /* Marketing cards */
+    .funnel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:28px;}
+    .funnel-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-align:center;position:relative;}
+    .funnel-card .f-label{font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:0.06em;margin-bottom:6px;}
+    .funnel-card .f-value{font-family:'Space Grotesk';font-size:28px;font-weight:700;}
+    .funnel-card .f-sub{font-size:12px;color:var(--text2);margin-top:4px;}
+    .funnel-card::after{content:'→';position:absolute;right:-10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:16px;}
+    .funnel-card:last-child::after{display:none;}
+    .revenue-highlight{background:linear-gradient(135deg,rgba(212,168,83,0.08),rgba(212,168,83,0.02));border:1px solid var(--gborder);}
+    .campaign-table{width:100%;border-collapse:collapse;background:var(--card);border-radius:14px;overflow:hidden;border:1px solid var(--border);margin-bottom:24px;}
+    .campaign-table th{text-align:left;padding:12px 14px;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:700;background:var(--bg2);border-bottom:1px solid var(--border);}
+    .campaign-table td{padding:10px 14px;font-size:14px;border-bottom:1px solid var(--border);color:var(--text2);}
+    .campaign-table tr:last-child td{border-bottom:none;}
+    .interest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
+    .interest-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px;}
+    .interest-card img{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--gold);}
+    .interest-card .i-name{font-weight:700;font-size:15px;}
+    .interest-card .i-count{font-family:'Space Grotesk';font-weight:700;color:var(--gold);margin-left:auto;font-size:20px;}
+
+    @media(max-width:768px){.stats-grid{grid-template-columns:repeat(2,1fr);}.funnel-grid{grid-template-columns:repeat(2,1fr);}.interest-grid{grid-template-columns:1fr 1fr;}.container{padding:20px;}table{font-size:12px;}.funnel-card::after{display:none;}}
   </style>
 </head>
 <body>
@@ -84,19 +109,96 @@
 <div class="container">
   <h1 class="page-title hd">📊 Admin Dashboard</h1>
 
-  <div class="stats-grid">
-    <div class="stat"><div class="label">Total Users</div><div class="value" id="sUsers">—</div><div class="sub" id="sNew7d">— new this week</div></div>
-    <div class="stat"><div class="label">Total Sessions</div><div class="value" id="sSessions">—</div><div class="sub" id="sSess7d">— this week</div></div>
-    <div class="stat"><div class="label">Avg Wisdom Score</div><div class="value" id="sAvg" style="color:var(--gold);">—</div><div class="sub">across all sessions</div></div>
-    <div class="stat"><div class="label">Plans</div><div class="value" id="sPlans" style="font-size:16px;">—</div><div class="sub">distribution</div></div>
+  <div class="tabs">
+    <button class="active" onclick="switchTab('dashboard')">📊 Dashboard</button>
+    <button onclick="switchTab('marketing')">📈 Marketing</button>
   </div>
 
-  <div class="section">
-    <div class="section-title">👥 User Management</div>
-    <table>
-      <thead><tr><th>User</th><th>Plan</th><th>Auth</th><th>Sessions</th><th>Avg</th><th>Joined</th><th>Actions</th></tr></thead>
-      <tbody id="userTable"><tr><td colspan="7" style="text-align:center;padding:32px;">Loading...</td></tr></tbody>
+  <!-- DASHBOARD TAB -->
+  <div id="tab-dashboard" class="tab-content active">
+    <div class="stats-grid">
+      <div class="stat"><div class="label">Total Users</div><div class="value" id="sUsers">—</div><div class="sub" id="sNew7d">— new this week</div></div>
+      <div class="stat"><div class="label">Total Sessions</div><div class="value" id="sSessions">—</div><div class="sub" id="sSess7d">— this week</div></div>
+      <div class="stat"><div class="label">Avg Wisdom Score</div><div class="value" id="sAvg" style="color:var(--gold);">—</div><div class="sub">across all sessions</div></div>
+      <div class="stat"><div class="label">Plans</div><div class="value" id="sPlans" style="font-size:16px;">—</div><div class="sub">distribution</div></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">👥 User Management</div>
+      <table>
+        <thead><tr><th>User</th><th>Plan</th><th>Auth</th><th>Sessions</th><th>Avg</th><th>Joined</th><th>Actions</th></tr></thead>
+        <tbody id="userTable"><tr><td colspan="7" style="text-align:center;padding:32px;">Loading...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MARKETING TAB -->
+  <div id="tab-marketing" class="tab-content">
+    <div class="section-title">🔻 Conversion Funnel</div>
+    <div class="funnel-grid" id="funnelGrid">
+      <div class="funnel-card"><div class="f-label">Visitors</div><div class="f-value">—</div><div class="f-sub">see Google Analytics</div></div>
+      <div class="funnel-card"><div class="f-label">Registered</div><div class="f-value" id="mRegTotal">—</div><div class="f-sub" id="mReg7d">— this week</div></div>
+      <div class="funnel-card"><div class="f-label">Paid Users</div><div class="f-value" id="mPaid" style="color:var(--green);">—</div><div class="f-sub" id="mConvRate">— conv. rate</div></div>
+      <div class="funnel-card"><div class="f-label">Thinkers</div><div class="f-value" id="mThinkers" style="color:var(--purple);">—</div><div class="f-sub">$19/mo each</div></div>
+      <div class="funnel-card"><div class="f-label">Philosophers</div><div class="f-value" id="mPhilosophers" style="color:var(--gold);">—</div><div class="f-sub">$149 each</div></div>
+    </div>
+
+    <div class="section-title">💰 Revenue</div>
+    <div class="stats-grid" style="margin-bottom:28px;">
+      <div class="stat revenue-highlight"><div class="label">Total Revenue</div><div class="value" id="mRevTotal" style="color:var(--gold);">$0</div><div class="sub">all time</div></div>
+      <div class="stat revenue-highlight"><div class="label">Marina's Share (80%)</div><div class="value" id="mRevMarina" style="color:var(--green);">$0</div><div class="sub">commission earned</div></div>
+      <div class="stat"><div class="label">Monthly Recurring</div><div class="value" id="mMRR" style="color:var(--purple);">$0</div><div class="sub">from Thinker plans</div></div>
+      <div class="stat"><div class="label">One-Time Revenue</div><div class="value" id="mOneTime">$0</div><div class="sub">from Philosopher plans</div></div>
+    </div>
+
+    <div class="section-title">📣 Campaign Performance</div>
+    <table class="campaign-table">
+      <thead><tr><th>Source</th><th>Medium</th><th>Campaign</th><th>Signups</th><th>Conversions</th><th>Conv %</th></tr></thead>
+      <tbody id="campaignTable"><tr><td colspan="6" style="text-align:center;padding:24px;color:var(--muted);">No campaign data yet. Use UTM links to track!</td></tr></tbody>
     </table>
+
+    <div class="section-title">🏛️ Philosopher Interest</div>
+    <p style="color:var(--text2);font-size:14px;margin:-8px 0 16px;">Which mentors are people excited about? ("Notify Me" clicks)</p>
+    <div class="interest-grid" id="interestGrid">
+      <div style="grid-column:1/-1;text-align:center;padding:24px;color:var(--muted);">No interest data yet.</div>
+    </div>
+
+    <div class="section-title">🕐 Recent Signups</div>
+    <table class="campaign-table">
+      <thead><tr><th>Name</th><th>Source</th><th>Campaign</th><th>Auth</th><th>Plan</th><th>Date</th></tr></thead>
+      <tbody id="recentSignups"><tr><td colspan="6" style="text-align:center;padding:24px;">Loading...</td></tr></tbody>
+    </table>
+
+    <div class="section" style="margin-top:28px;">
+      <div class="section-title">🔗 UTM Link Builder</div>
+      <p style="color:var(--text2);font-size:14px;margin-bottom:12px;">Use these links in social media posts so you can track which campaigns bring signups:</p>
+      <div class="card" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;">
+        <div style="display:grid;gap:8px;margin-bottom:12px;">
+          <div style="display:flex;gap:8px;align-items:center;">
+            <label style="width:80px;font-size:13px;font-weight:600;color:var(--text2);">Source</label>
+            <input id="utmSource" placeholder="e.g. instagram, facebook, tiktok, linkedin" style="flex:1;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:14px;font-family:'DM Sans';">
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <label style="width:80px;font-size:13px;font-weight:600;color:var(--text2);">Medium</label>
+            <input id="utmMedium" placeholder="e.g. social, email, paid, story, reel" style="flex:1;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:14px;font-family:'DM Sans';">
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <label style="width:80px;font-size:13px;font-weight:600;color:var(--text2);">Campaign</label>
+            <input id="utmCampaign" placeholder="e.g. launch-feb, socrates-promo, spring-2026" style="flex:1;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:14px;font-family:'DM Sans';">
+          </div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--gborder);border-radius:8px;padding:12px;font-size:13px;font-family:monospace;color:var(--gold);word-break:break-all;" id="utmResult">https://philosim.vercel.app/?utm_source=...&utm_medium=...&utm_campaign=...</div>
+        <div style="display:flex;gap:8px;margin-top:10px;">
+          <button class="btn-sm btn-gold-sm" onclick="buildUTM()">Generate Link</button>
+          <button class="btn-sm btn-out-sm" onclick="copyUTM()">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" style="margin-top:20px;">
+      <div class="section-title">📊 Google Analytics</div>
+      <p style="color:var(--text2);font-size:14px;">For visitor count and traffic sources, set up Google Analytics 4. Add your GA4 Measurement ID in the code (search for <code style="color:var(--gold);">G-XXXXXXXXXX</code>).</p>
+    </div>
   </div>
 </div>
 
@@ -209,6 +311,110 @@ async function deleteUser(id, email) {
 }
 
 function logout() { localStorage.removeItem('auth_token'); window.location.href = '/'; }
+
+// ── Tab Switching ──
+function switchTab(tab) {
+  document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  event.target.classList.add('active');
+  if (tab === 'marketing' && !marketingLoaded) loadMarketing();
+}
+
+// ── Marketing Dashboard ──
+let marketingLoaded = false;
+const philosopherNames = { socrates:'Socrates', plato:'Plato', aristotle:'Aristotle', kant:'Kant', nietzsche:'Nietzsche', beauvoir:'Beauvoir' };
+const philosopherAvatars = { socrates:'/socrates.png', plato:'/plato.png', aristotle:'/aristotle.png', kant:'/kant.png', nietzsche:'/nietzsche.png', beauvoir:'/beauvoir.png' };
+
+async function loadMarketing() {
+  try {
+    const r = await fetch('/api/admin/marketing', { headers: H });
+    if (!r.ok) return;
+    const d = await r.json();
+    marketingLoaded = true;
+
+    // Funnel
+    document.getElementById('mRegTotal').textContent = d.funnel.totalUsers;
+    document.getElementById('mPaid').textContent = d.funnel.paidUsers;
+    document.getElementById('mConvRate').textContent = d.funnel.conversionRate + '% conv. rate';
+    document.getElementById('mThinkers').textContent = d.funnel.thinkers;
+    document.getElementById('mPhilosophers').textContent = d.funnel.philosophers;
+    // Week count
+    const weekRegs = d.regsByDay.reduce((sum, r) => {
+      const dayDate = new Date(r.day);
+      const weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate() - 7);
+      return dayDate >= weekAgo ? sum + parseInt(r.count) : sum;
+    }, 0);
+    document.getElementById('mReg7d').textContent = weekRegs + ' this week';
+
+    // Revenue
+    document.getElementById('mRevTotal').textContent = '$' + d.revenue.total;
+    document.getElementById('mRevMarina').textContent = '$' + d.revenue.marina80;
+    document.getElementById('mMRR').textContent = '$' + d.revenue.thinker + '/mo';
+    document.getElementById('mOneTime').textContent = '$' + d.revenue.philosopher;
+
+    // Campaigns
+    if (d.campaigns && d.campaigns.length > 0) {
+      document.getElementById('campaignTable').innerHTML = d.campaigns.map(c => {
+        const convPct = parseInt(c.signups) > 0 ? ((parseInt(c.conversions)/parseInt(c.signups))*100).toFixed(0) : '0';
+        return `<tr>
+          <td><strong style="color:var(--text)">${c.source}</strong></td>
+          <td>${c.medium}</td>
+          <td>${c.campaign}</td>
+          <td style="font-weight:700;">${c.signups}</td>
+          <td style="color:var(--green);font-weight:700;">${c.conversions}</td>
+          <td>${convPct}%</td>
+        </tr>`;
+      }).join('');
+    }
+
+    // Philosopher Interest
+    if (d.philosopherInterest && d.philosopherInterest.length > 0) {
+      document.getElementById('interestGrid').innerHTML = d.philosopherInterest.map(p => `
+        <div class="interest-card">
+          <img src="${philosopherAvatars[p.philosopher_id] || '/socrates.png'}" alt="${p.philosopher_id}">
+          <div class="i-name">${philosopherNames[p.philosopher_id] || p.philosopher_id}</div>
+          <div class="i-count">${p.interest_count}</div>
+        </div>
+      `).join('');
+    }
+
+    // Recent signups
+    if (d.recentSignups && d.recentSignups.length > 0) {
+      document.getElementById('recentSignups').innerHTML = d.recentSignups.map(u => `<tr>
+        <td><strong style="color:var(--text)">${u.name || '—'}</strong></td>
+        <td>${u.utm_source || '<span style="color:var(--muted)">direct</span>'}</td>
+        <td>${u.utm_campaign || '<span style="color:var(--muted)">—</span>'}</td>
+        <td><span class="tag tag-${u.auth_provider}">${u.auth_provider}</span></td>
+        <td><span class="tag tag-${u.plan || 'free'}">${u.plan || 'free'}</span></td>
+        <td>${new Date(u.created_at).toLocaleDateString()}</td>
+      </tr>`).join('');
+    }
+  } catch(e) { console.error('Marketing load error:', e); }
+}
+
+// ── UTM Link Builder ──
+function buildUTM() {
+  const s = document.getElementById('utmSource').value.trim();
+  const m = document.getElementById('utmMedium').value.trim();
+  const c = document.getElementById('utmCampaign').value.trim();
+  let url = 'https://philosim.vercel.app/';
+  const params = [];
+  if (s) params.push('utm_source=' + encodeURIComponent(s));
+  if (m) params.push('utm_medium=' + encodeURIComponent(m));
+  if (c) params.push('utm_campaign=' + encodeURIComponent(c));
+  if (params.length) url += '?' + params.join('&');
+  document.getElementById('utmResult').textContent = url;
+}
+
+function copyUTM() {
+  const text = document.getElementById('utmResult').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
 
 loadStats();
 loadUsers();

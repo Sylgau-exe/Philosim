@@ -73,5 +73,20 @@ CREATE INDEX IF NOT EXISTS idx_sessions_user ON simulation_sessions(user_id);
 CREATE INDEX IF NOT EXISTS idx_sessions_completed ON simulation_sessions(completed_at);
 CREATE INDEX IF NOT EXISTS idx_users_stripe ON users(stripe_customer_id);
 
+-- UTM tracking columns for marketing attribution
+DO $$ BEGIN ALTER TABLE users ADD COLUMN utm_source VARCHAR(255); EXCEPTION WHEN duplicate_column THEN NULL; END $$;
+DO $$ BEGIN ALTER TABLE users ADD COLUMN utm_medium VARCHAR(255); EXCEPTION WHEN duplicate_column THEN NULL; END $$;
+DO $$ BEGIN ALTER TABLE users ADD COLUMN utm_campaign VARCHAR(255); EXCEPTION WHEN duplicate_column THEN NULL; END $$;
+
+-- Philosopher interest tracking
+CREATE TABLE IF NOT EXISTS philosopher_interest (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  philosopher_id VARCHAR(50) NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(user_id, philosopher_id)
+);
+CREATE INDEX IF NOT EXISTS idx_interest_philosopher ON philosopher_interest(philosopher_id);
+
 -- Verify tables
 SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';

@@ -13,6 +13,9 @@
     <meta name="twitter:card" content="summary_large_image">
     <link rel="canonical" href="https://philosim.vercel.app/choose">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+    <!-- Google Analytics 4 — Replace G-XXXXXXXXXX with your GA4 Measurement ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -640,6 +643,9 @@
         };
 
         let currentLang = localStorage.getItem('philosim_lang') || 'en';
+        // Capture UTM params
+        const _up = new URLSearchParams(window.location.search);
+        ['utm_source','utm_medium','utm_campaign'].forEach(k => { if (_up.get(k)) localStorage.setItem(k, _up.get(k)); });
 
         function t(key) { return i18n[currentLang][key] || i18n['en'][key] || key; }
 
