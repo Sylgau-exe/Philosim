@@ -472,19 +472,13 @@ async function startCheckout(plan) {
 
 // ── Init ──
 window.addEventListener('DOMContentLoaded', () => {
-  // Pick up auth token from cookie (set by Google OAuth callback)
-  const cookieMatch = document.cookie.match(/(?:^|;\s*)auth_token=([^;]*)/);
-  if (cookieMatch) {
-    localStorage.setItem('auth_token', cookieMatch[1]);
-    document.cookie = 'auth_token=; Path=/; Max-Age=0';
-    window.location.href = '/app'; return;
-  }
   const params = new URLSearchParams(window.location.search);
-  // Legacy: token in URL param
+  // Google OAuth callback - token in URL
   if (params.get('token')) {
     localStorage.setItem('auth_token', params.get('token'));
     window.history.replaceState({}, '', '/');
-    window.location.href = '/app'; return;
+    window.location.href = '/app';
+    return;
   }
   // Password reset
   if (params.get('reset_token')) { showModal('reset'); }
