@@ -31,8 +31,8 @@
     .sb-nav button.active{background:rgba(212,168,83,0.1);color:var(--gold);font-weight:600;}
     .sb-nav button span.icon{font-size:18px;flex-shrink:0;}
     .sb-nav button span.badge{margin-left:auto;font-size:10px;font-weight:700;color:var(--muted);background:rgba(255,255,255,0.05);padding:2px 6px;border-radius:4px;}
-    .sb-foot{padding:12px;border-top:1px solid var(--border);}
-    .sb-foot a{display:block;padding:8px 12px;font-size:14px;color:var(--text2);border-radius:8px;text-align:center;}
+    .sb-foot{padding:8px 12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:2px;}
+    .sb-foot a{display:block;padding:8px 12px;font-size:14px;color:var(--text2);border-radius:8px;text-decoration:none;transition:all 0.2s;}
     .sb-foot a:hover{background:rgba(255,255,255,0.03);}
 
     /* MAIN */
@@ -81,11 +81,24 @@
     .pill{height:6px;border-radius:3px;flex:1;transition:all 0.3s;}
 
     .center{text-align:center;}
+    /* MOBILE MENU */
+    .sb-toggle{display:none;position:fixed;top:12px;left:12px;z-index:200;width:40px;height:40px;border-radius:10px;background:var(--bg2);border:1px solid var(--border);color:var(--gold);font-size:20px;align-items:center;justify-content:center;cursor:pointer;}
+    @media(max-width:768px){
+      .sb-toggle{display:flex;}
+      .sidebar{position:fixed;left:-260px;top:0;bottom:0;z-index:150;transition:left 0.3s ease;box-shadow:4px 0 20px rgba(0,0,0,0.5);}
+      .sidebar.open{left:0;}
+      .sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;}
+      .sb-overlay.show{display:block;}
+      .main{width:100%;}
+    }
   </style>
 </head>
 <body>
 
-<div class="sidebar">
+<button class="sb-toggle" onclick="toggleSidebar()">☰</button>
+<div class="sb-overlay" id="sbOverlay" onclick="toggleSidebar()"></div>
+
+<div class="sidebar" id="sidebar">
   <div class="sb-brand">
     <div class="avatar-sm" style="border-radius:10px;"><img src="/socrates.png" alt=""></div>
     <div><div class="t hd">PhiloSim</div><div class="s" id="sbTag">Approach your work like Socrates</div></div>
@@ -96,7 +109,9 @@
   </div>
   <div class="sb-nav" id="sideNav"></div>
   <div class="sb-foot">
-    <a href="/dashboard">← Dashboard</a>
+    <a href="/">🏠 Home</a>
+    <a href="/dashboard">📊 Dashboard</a>
+    <a href="#" onclick="logout()" style="color:var(--err);">🚪 Logout</a>
   </div>
 </div>
 
@@ -126,6 +141,17 @@ let viewReport = null;
 
 const token = localStorage.getItem('auth_token');
 let userPlan = 'free';
+
+function logout() {
+  localStorage.removeItem('auth_token');
+  document.cookie = 'auth_token=; Path=/; Max-Age=0';
+  window.location.href = '/';
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sbOverlay').classList.toggle('show');
+}
 
 // Load user plan from API
 if (token) {
