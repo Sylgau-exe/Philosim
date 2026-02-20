@@ -124,7 +124,7 @@
     .mentors p.sub{text-align:center;color:var(--text2);font-size:17px;max-width:520px;margin:0 auto 44px;line-height:1.6;}
     .mentors-scroll{display:flex;gap:18px;overflow-x:auto;padding-bottom:12px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;}
     .mentors-scroll::-webkit-scrollbar{height:3px;}.mentors-scroll::-webkit-scrollbar-track{background:transparent;}.mentors-scroll::-webkit-scrollbar-thumb{background:rgba(212,168,83,0.15);border-radius:2px;}
-    .m-card{min-width:210px;max-width:210px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 18px;scroll-snap-align:start;flex-shrink:0;transition:all 0.3s;}
+    .m-card{min-width:210px;max-width:210px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 18px;scroll-snap-align:start;flex-shrink:0;transition:all 0.3s;cursor:pointer;}
     .m-card:hover{border-color:var(--gborder);transform:translateY(-3px);}
     .m-card.m-active{border-color:rgba(212,168,83,0.3);}
     .m-card .m-av{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,rgba(212,168,83,0.1),rgba(99,102,241,0.06));display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:12px;border:1.5px solid rgba(212,168,83,0.12);overflow:hidden;}
@@ -137,7 +137,11 @@
     .m-badge.avail::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);animation:mpulse 2s infinite;}
     .m-badge.soon{background:rgba(99,102,241,0.08);color:#818cf8;}
     @keyframes mpulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
-
+    .m-card .m-cta{display:block;margin-top:10px;font-size:12px;font-weight:700;color:var(--gold);opacity:0;transition:opacity 0.2s;}
+    .m-card:hover .m-cta{opacity:1;}
+    .m-card .m-cta.soon-cta{color:#818cf8;}
+    .m-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--card);border:1px solid rgba(16,185,129,0.3);border-radius:10px;padding:12px 20px;display:flex;align-items:center;gap:8px;font-size:14px;color:var(--green);z-index:300;opacity:0;transition:all 0.4s ease;white-space:nowrap;}
+    .m-toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
     @media(max-width:768px){
       nav{padding:12px 20px;}
       .nav-links a.desk{display:none;}
@@ -175,7 +179,7 @@
     </div>
     <div class="logged-in" id="loggedIn">
       <a href="/dashboard" class="btn btn-outline" style="padding:8px 16px;font-size:13px;">Dashboard</a>
-      <a href="/app" class="btn btn-gold" style="padding:8px 16px;font-size:13px;">Play →</a>
+      <a href="/choose" class="btn btn-gold" style="padding:8px 16px;font-size:13px;">Play →</a>
       <div class="avatar" id="userAvatar"></div>
     </div>
   </div>
@@ -228,40 +232,45 @@
   <h2 class="hd" data-i18n="mentors_title">Wisdom Across the Ages</h2>
   <p class="sub" data-i18n="mentors_subtitle">Learn from history's greatest minds. Each philosopher brings a unique approach to life's toughest questions.</p>
   <div class="mentors-scroll">
-    <div class="m-card m-active">
+    <div class="m-card m-active" onclick="handleMentor('socrates','active')">
       <div class="m-av"><img src="/socrates.png" alt="Socrates" onerror="this.parentElement.textContent='🏛️'"></div>
       <h4 data-i18n="m_socrates">Socrates</h4>
       <div class="m-era" data-i18n="m_socrates_era">469–399 BC</div>
       <div class="m-focus" data-i18n="m_socrates_focus">Master critical questioning through real-world ethical dilemmas.</div>
       <span class="m-badge avail" data-i18n="m_available">Available Now</span>
+      <span class="m-cta" data-i18n="m_cta_start">▸ Start Journey</span>
     </div>
-    <div class="m-card">
+    <div class="m-card" onclick="handleMentor('plato','coming')">
       <div class="m-av">📜</div>
       <h4 data-i18n="m_plato">Plato</h4>
       <div class="m-era" data-i18n="m_plato_era">428–348 BC</div>
       <div class="m-focus" data-i18n="m_plato_focus">Explore justice, truth, and the nature of reality through allegory.</div>
       <span class="m-badge soon" data-i18n="m_coming">Coming Soon</span>
+      <span class="m-cta soon-cta" data-i18n="m_cta_notify">▸ Get Notified</span>
     </div>
-    <div class="m-card">
+    <div class="m-card" onclick="handleMentor('kant','coming')">
       <div class="m-av">⚖️</div>
       <h4 data-i18n="m_kant">Immanuel Kant</h4>
       <div class="m-era">1724–1804</div>
       <div class="m-focus" data-i18n="m_kant_focus">Navigate moral duty where principles and consequences collide.</div>
       <span class="m-badge soon" data-i18n="m_coming">Coming Soon</span>
+      <span class="m-cta soon-cta" data-i18n="m_cta_notify">▸ Get Notified</span>
     </div>
-    <div class="m-card">
+    <div class="m-card" onclick="handleMentor('nietzsche','coming')">
       <div class="m-av">🔥</div>
       <h4>Friedrich Nietzsche</h4>
       <div class="m-era">1844–1900</div>
       <div class="m-focus" data-i18n="m_nietzsche_focus">Confront the creation of meaning and forge your own values.</div>
       <span class="m-badge soon" data-i18n="m_coming">Coming Soon</span>
+      <span class="m-cta soon-cta" data-i18n="m_cta_notify">▸ Get Notified</span>
     </div>
-    <div class="m-card">
+    <div class="m-card" onclick="handleMentor('beauvoir','coming')">
       <div class="m-av">✊</div>
       <h4>Simone de Beauvoir</h4>
       <div class="m-era">1908–1986</div>
       <div class="m-focus" data-i18n="m_beauvoir_focus">Embrace radical freedom and the ethics of ambiguity.</div>
       <span class="m-badge soon" data-i18n="m_coming">Coming Soon</span>
+      <span class="m-cta soon-cta" data-i18n="m_cta_notify">▸ Get Notified</span>
     </div>
   </div>
 </section>
@@ -390,6 +399,9 @@
   </div>
 </div>
 
+<!-- MENTOR TOAST -->
+<div class="m-toast" id="mentorToast">✓ <span id="mentorToastMsg"></span></div>
+
 <script>
 const API = '';
 let currentUser = null;
@@ -435,6 +447,7 @@ const i18n = {
     mentors_label: 'Your Mentors', mentors_title: 'Wisdom Across the Ages',
     mentors_subtitle: 'Learn from history\'s greatest minds. Each philosopher brings a unique approach to life\'s toughest questions.',
     m_available: 'Available Now', m_coming: 'Coming Soon',
+    m_cta_start: '▸ Start Journey', m_cta_notify: '▸ Get Notified',
     m_socrates: 'Socrates', m_socrates_era: '469–399 BC',
     m_socrates_focus: 'Master critical questioning through real-world ethical dilemmas.',
     m_plato: 'Plato', m_plato_era: '428–348 BC',
@@ -497,6 +510,7 @@ const i18n = {
     mentors_label: 'Vos Mentors', mentors_title: 'La Sagesse à Travers les Âges',
     mentors_subtitle: 'Apprenez des plus grands esprits de l\'histoire. Chaque philosophe apporte une approche unique aux questions les plus difficiles.',
     m_available: 'Disponible', m_coming: 'Bientôt disponible',
+    m_cta_start: '▸ Commencer le parcours', m_cta_notify: '▸ Être prévenu',
     m_socrates: 'Socrate', m_socrates_era: '469–399 av. J.-C.',
     m_socrates_focus: 'Maîtrisez le questionnement critique à travers des dilemmes éthiques du monde réel.',
     m_plato: 'Platon', m_plato_era: '428–348 av. J.-C.',
@@ -557,6 +571,7 @@ async function doLogin() {
     localStorage.setItem('auth_token', data.token);
     closeModal(); checkAuth();
     if (pendingPlan) { const p = pendingPlan; pendingPlan = null; startCheckout(p); return; }
+    if (handlePendingMentor()) return;
   } catch(e) { errEl.textContent = 'Connection error'; errEl.style.display = 'block'; }
 }
 
@@ -575,7 +590,8 @@ async function doRegister() {
     localStorage.setItem('auth_token', data.token);
     closeModal(); checkAuth();
     if (pendingPlan) { const p = pendingPlan; pendingPlan = null; startCheckout(p); return; }
-    window.location.href = '/app';
+    if (handlePendingMentor()) return;
+    window.location.href = '/choose';
   } catch(e) { errEl.textContent = 'Connection error'; errEl.style.display = 'block'; }
 }
 
@@ -650,12 +666,62 @@ function showLoggedOut() {
 }
 
 let pendingPlan = null;
+let pendingMentor = null;
+
+// ── Mentor Click (Landing Page) ──
+const mentorNames = { socrates:'Socrates', plato:'Plato', kant:'Kant', nietzsche:'Nietzsche', beauvoir:'Beauvoir' };
+const mentorNamesFr = { socrates:'Socrate', plato:'Platon', kant:'Kant', nietzsche:'Nietzsche', beauvoir:'Beauvoir' };
+
+function handleMentor(id, status) {
+  const token = localStorage.getItem('auth_token');
+  if (status === 'active') {
+    // Socrates — go to simulation
+    if (token && currentUser) { window.location.href = '/choose'; }
+    else { pendingMentor = { id, status }; showModal('register'); }
+  } else {
+    // Coming Soon — notify
+    if (token && currentUser) { notifyMentor(id); }
+    else { pendingMentor = { id, status }; showModal('register'); }
+  }
+}
+
+async function notifyMentor(id) {
+  const token = localStorage.getItem('auth_token');
+  try {
+    await fetch('/api/notify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ philosopher_id: id })
+    });
+  } catch(e) { console.warn('Notify API error:', e); }
+  const name = (currentLang === 'fr' ? mentorNamesFr : mentorNames)[id] || id;
+  const msg = currentLang === 'fr'
+    ? `Vous serez prévenu quand ${name} sera disponible!`
+    : `You'll be notified when ${name} is available!`;
+  showMentorToast(msg);
+}
+
+function showMentorToast(msg) {
+  const t = document.getElementById('mentorToast');
+  document.getElementById('mentorToastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+function handlePendingMentor() {
+  if (!pendingMentor) return false;
+  const m = pendingMentor;
+  pendingMentor = null;
+  if (m.status === 'active') { window.location.href = '/choose'; }
+  else { notifyMentor(m.id); }
+  return true;
+}
 
 function handleCTA(plan) {
   const token = localStorage.getItem('auth_token');
   if (!plan || plan === 'free') {
     // Free plan — just go to app or register
-    if (token && currentUser) { window.location.href = '/app'; }
+    if (token && currentUser) { window.location.href = '/choose'; }
     else { showModal('register'); }
     return;
   }
@@ -692,14 +758,14 @@ window.addEventListener('DOMContentLoaded', () => {
   if (cookieMatch) {
     localStorage.setItem('auth_token', cookieMatch[1]);
     document.cookie = 'auth_token=; Path=/; Max-Age=0';
-    window.location.href = '/app';
+    window.location.href = '/choose';
     return;
   }
   // Google OAuth callback - token in URL
   if (params.get('token')) {
     localStorage.setItem('auth_token', params.get('token'));
     window.history.replaceState({}, '', '/');
-    window.location.href = '/app';
+    window.location.href = '/choose';
     return;
   }
   // Password reset
