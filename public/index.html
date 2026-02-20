@@ -3,19 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#05050a">
   <title>PhiloSim — What if Socrates could sit beside you today?</title>
   <meta name="description" content="PhiloSim: What if Socrates could sit beside you today? AI companions that let you experience the world through history's greatest philosophical minds.">
-  <meta name="keywords" content="philosophy simulation, Socratic method, leadership training, critical thinking, business ethics, decision making, AI companion">
+  <meta name="keywords" content="philosophy simulation, Socratic method, Socrates AI, Plato, Aristotle, Kant, Nietzsche, Simone de Beauvoir, leadership training, critical thinking, business ethics, decision making, AI mentor, philosophy education, executive training, philosophical coaching, simulation apprentissage, philosophie IA">
   <meta property="og:title" content="PhiloSim — Don't just study philosophy. Live it.">
   <meta property="og:description" content="AI companions that let you experience the world through history's greatest philosophical minds.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://philosim.vercel.app">
   <meta property="og:image" content="https://philosim.vercel.app/hero-socrates.png">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PhiloSim — Don't just study philosophy. Live it.">
+  <meta name="twitter:description" content="AI companions that let you experience the world through history's greatest philosophical minds.">
+  <meta name="twitter:image" content="https://philosim.vercel.app/hero-socrates.png">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
   <link rel="canonical" href="https://philosim.vercel.app">
+  <link rel="alternate" hreflang="en" href="https://philosim.vercel.app">
+  <link rel="alternate" hreflang="fr" href="https://philosim.vercel.app">
+  <link rel="alternate" hreflang="x-default" href="https://philosim.vercel.app">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"PhiloSim","url":"https://philosim.vercel.app","description":"Philosophy-powered decision simulations for modern leaders","applicationCategory":"Education","offers":[{"@type":"Offer","price":"0","priceCurrency":"CAD","name":"Explorer"},{"@type":"Offer","price":"19","priceCurrency":"CAD","name":"Thinker"},{"@type":"Offer","price":"149","priceCurrency":"CAD","name":"Philosopher"}]}</script>
+  <script type="application/ld+json">{
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "PhiloSim",
+    "url": "https://philosim.vercel.app",
+    "description": "AI-powered philosophy simulations where you learn from Socrates, Plato, Aristotle, Kant, Nietzsche, and Simone de Beauvoir through real-world decision scenarios.",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Web",
+    "inLanguage": ["en", "fr"],
+    "author": {
+      "@type": "Organization",
+      "name": "Panda Projet",
+      "url": "https://pandaprojet.com"
+    },
+    "creator": {
+      "@type": "Person",
+      "name": "Sylvain Gauthier",
+      "url": "https://sylvainpmo.com",
+      "jobTitle": "Founder & CEO"
+    },
+    "offers": [
+      {"@type": "Offer", "price": "0", "priceCurrency": "CAD", "name": "Explorer (Free)"},
+      {"@type": "Offer", "price": "19", "priceCurrency": "CAD", "name": "Thinker (Monthly)", "priceSpecification": {"@type": "UnitPriceSpecification", "billingDuration": "P1M"}},
+      {"@type": "Offer", "price": "149", "priceCurrency": "CAD", "name": "Philosopher (Lifetime)"}
+    ],
+    "featureList": ["Socratic Method Simulation", "AI Philosophical Mentors", "Decision-Making Training", "Bilingual English/French", "6 Philosopher Mentors"]
+  }</script>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     :root{--bg:#05050a;--bg2:#0d0d14;--card:#141420;--card2:#1a1a28;--text:#fff;--text2:#9ca3af;--muted:#6b7280;--gold:#d4a853;--gold2:#b8923e;--purple:#6366f1;--purple2:#8b5cf6;--green:#10b981;--warn:#f59e0b;--err:#ef4444;--cyan:#06b6d4;--border:rgba(255,255,255,0.06);--gborder:rgba(212,168,83,0.22);--gglow:rgba(212,168,83,0.15);}
@@ -599,6 +632,7 @@ const i18n = {
 function setLang(lang) {
   currentLang = lang;
   localStorage.setItem('philosim_lang', lang);
+  document.documentElement.lang = lang;
   document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.toggle('active', b.textContent.trim() === lang.toUpperCase()));
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');

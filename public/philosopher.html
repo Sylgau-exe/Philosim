@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PhiloSim — Philosopher</title>
+    <meta name="description" content="Experience philosophy through AI-powered simulations with history's greatest thinkers. PhiloSim by Panda Projet.">
+    <meta property="og:title" content="PhiloSim — Philosopher Mentor">
+    <meta property="og:description" content="AI-powered philosophical mentorship. Walk through real decisions with history's greatest minds.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://philosim.vercel.app/philosopher">
+    <meta property="og:image" content="https://philosim.vercel.app/hero-socrates.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="https://philosim.vercel.app/philosopher">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -310,10 +319,25 @@ function render() {
     const isLive = p.status === 'live';
     const isNotified = notified.includes(philosopherId);
     const isLoggedIn = !!token;
+    const name = l(p.name);
 
-    document.title = `PhiloSim — ${l(p.name)}`;
+    // Dynamic SEO meta
+    document.title = `${name} — PhiloSim`;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.content = `${l(p.tagline)}. ${l(p.description).substring(0, 120)}`;
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.content = `${name} — PhiloSim Mentor`;
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.content = l(p.tagline);
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.content = `https://philosim.vercel.app/philosopher?id=${philosopherId}`;
+    const ogImg = document.querySelector('meta[property="og:image"]');
+    if (ogImg) ogImg.content = `https://philosim.vercel.app${p.avatar}`;
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.href = `https://philosim.vercel.app/philosopher?id=${philosopherId}`;
+
     document.getElementById('heroImg').src = p.avatar;
-    document.getElementById('heroImg').alt = l(p.name);
+    document.getElementById('heroImg').alt = name;
 
     // Build CTA
     let ctaHtml = '';

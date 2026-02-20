@@ -7,6 +7,26 @@
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/app", "destination": "/app.html" }
   ],
+  "headers": [
+    {
+      "source": "/(.*).png",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=2592000, immutable" }
+      ]
+    },
+    {
+      "source": "/robots.txt",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    },
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    }
+  ],
   "functions": {
     "api/stripe/webhook.js": {
       "maxDuration": 30
