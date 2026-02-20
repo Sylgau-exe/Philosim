@@ -485,6 +485,7 @@
         .philosopher-card:nth-child(3) { animation-delay: 0.19s; }
         .philosopher-card:nth-child(4) { animation-delay: 0.26s; }
         .philosopher-card:nth-child(5) { animation-delay: 0.33s; }
+        .philosopher-card:nth-child(6) { animation-delay: 0.40s; }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
@@ -675,6 +676,7 @@
                 era: '428–348 BC',
                 era_fr: '428–348 av. J.-C.',
                 emoji: '📜',
+                avatar: '/plato.png',
                 quote: { en: '"The measure of a man is what he does with power."', fr: '« La mesure d\'un homme est ce qu\'il fait du pouvoir. »' },
                 description: {
                     en: 'Explore the world of Forms and ideal governance. Plato will lead you through allegories of justice, truth, and the nature of reality itself.',
@@ -687,11 +689,31 @@
                 status: 'coming'
             },
             {
+                id: 'aristotle',
+                name: 'Aristotle',
+                name_fr: 'Aristote',
+                era: '384–322 BC',
+                era_fr: '384–322 av. J.-C.',
+                emoji: '📚',
+                avatar: '/aristotle.png',
+                quote: { en: '"We are what we repeatedly do. Excellence, then, is not an act, but a habit."', fr: '« Nous sommes ce que nous faisons de manière répétée. L\'excellence n\'est donc pas un acte, mais une habitude. »' },
+                description: {
+                    en: 'Develop practical wisdom through the pursuit of virtue. Aristotle will guide you to find the golden mean in every decision, building character through action.',
+                    fr: 'Développez la sagesse pratique à travers la recherche de la vertu. Aristote vous guidera pour trouver le juste milieu dans chaque décision, forgeant le caractère par l\'action.'
+                },
+                topics: {
+                    en: ['Virtue Ethics', 'Practical Wisdom', 'Leadership', 'Golden Mean'],
+                    fr: ['Éthique de la vertu', 'Sagesse pratique', 'Leadership', 'Juste milieu']
+                },
+                status: 'coming'
+            },
+            {
                 id: 'kant',
                 name: 'Immanuel Kant',
                 name_fr: 'Emmanuel Kant',
                 era: '1724–1804',
                 emoji: '⚖️',
+                avatar: '/kant.png',
                 quote: { en: '"Act only according to that maxim whereby you can will it become a universal law."', fr: '« Agis seulement selon la maxime qui fait que tu puisses vouloir qu\'elle devienne une loi universelle. »' },
                 description: {
                     en: 'Navigate moral duty through the categorical imperative. Kant will test your reasoning with scenarios where duty, consequences, and universal principles collide.',
@@ -709,6 +731,7 @@
                 name_fr: 'Friedrich Nietzsche',
                 era: '1844–1900',
                 emoji: '🔥',
+                avatar: '/nietzsche.png',
                 quote: { en: '"He who has a why to live can bear almost any how."', fr: '« Celui qui a un pourquoi de vivre peut supporter presque n\'importe quel comment. »' },
                 description: {
                     en: 'Confront the will to power and the creation of meaning. Nietzsche will push you to overcome yourself and forge your own values in a world without guarantees.',
@@ -726,6 +749,7 @@
                 name_fr: 'Simone de Beauvoir',
                 era: '1908–1986',
                 emoji: '✊',
+                avatar: '/beauvoir.png',
                 quote: { en: '"One is not born, but rather becomes, a woman."', fr: '« On ne naît pas femme, on le devient. »' },
                 description: {
                     en: 'Explore freedom, responsibility, and the ethics of ambiguity. Beauvoir will challenge you to embrace radical freedom while confronting the weight of existence.',

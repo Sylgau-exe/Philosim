@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
             return res.status(400).json({ error: 'philosopher_id is required' });
         }
 
-        const validPhilosophers = ['socrates', 'plato', 'kant', 'nietzsche', 'beauvoir'];
+        const validPhilosophers = ['socrates', 'plato', 'aristotle', 'kant', 'nietzsche', 'beauvoir'];
         if (!validPhilosophers.includes(philosopher_id)) {
             return res.status(400).json({ error: 'Invalid philosopher_id' });
         }

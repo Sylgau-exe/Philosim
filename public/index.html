@@ -241,15 +241,23 @@
       <span class="m-cta" data-i18n="m_cta_start">▸ Start Journey</span>
     </div>
     <div class="m-card" onclick="handleMentor('plato','coming')">
-      <div class="m-av">📜</div>
+      <div class="m-av"><img src="/plato.png" alt="Plato" onerror="this.parentElement.textContent='📜'"></div>
       <h4 data-i18n="m_plato">Plato</h4>
       <div class="m-era" data-i18n="m_plato_era">428–348 BC</div>
       <div class="m-focus" data-i18n="m_plato_focus">Explore justice, truth, and the nature of reality through allegory.</div>
       <span class="m-badge soon" data-i18n="m_coming">Coming Soon</span>
       <span class="m-cta soon-cta" data-i18n="m_cta_notify">▸ Get Notified</span>
     </div>
+    <div class="m-card" onclick="handleMentor('aristotle','coming')">
+      <div class="m-av"><img src="/aristotle.png" alt="Aristotle" onerror="this.parentElement.textContent='📚'"></div>
+      <h4 data-i18n="m_aristotle">Aristotle</h4>
+      <div class="m-era" data-i18n="m_aristotle_era">384–322 BC</div>
+      <div class="m-focus" data-i18n="m_aristotle_focus">Build character through virtue and practical wisdom for everyday decisions.</div>
+      <span class="m-badge soon" data-i18n="m_coming">Coming Soon</span>
+      <span class="m-cta soon-cta" data-i18n="m_cta_notify">▸ Get Notified</span>
+    </div>
     <div class="m-card" onclick="handleMentor('kant','coming')">
-      <div class="m-av">⚖️</div>
+      <div class="m-av"><img src="/kant.png" alt="Kant" onerror="this.parentElement.textContent='⚖️'"></div>
       <h4 data-i18n="m_kant">Immanuel Kant</h4>
       <div class="m-era">1724–1804</div>
       <div class="m-focus" data-i18n="m_kant_focus">Navigate moral duty where principles and consequences collide.</div>
@@ -257,7 +265,7 @@
       <span class="m-cta soon-cta" data-i18n="m_cta_notify">▸ Get Notified</span>
     </div>
     <div class="m-card" onclick="handleMentor('nietzsche','coming')">
-      <div class="m-av">🔥</div>
+      <div class="m-av"><img src="/nietzsche.png" alt="Nietzsche" onerror="this.parentElement.textContent='🔥'"></div>
       <h4>Friedrich Nietzsche</h4>
       <div class="m-era">1844–1900</div>
       <div class="m-focus" data-i18n="m_nietzsche_focus">Confront the creation of meaning and forge your own values.</div>
@@ -265,7 +273,7 @@
       <span class="m-cta soon-cta" data-i18n="m_cta_notify">▸ Get Notified</span>
     </div>
     <div class="m-card" onclick="handleMentor('beauvoir','coming')">
-      <div class="m-av">✊</div>
+      <div class="m-av"><img src="/beauvoir.png" alt="Simone de Beauvoir" onerror="this.parentElement.textContent='✊'"></div>
       <h4>Simone de Beauvoir</h4>
       <div class="m-era">1908–1986</div>
       <div class="m-focus" data-i18n="m_beauvoir_focus">Embrace radical freedom and the ethics of ambiguity.</div>
@@ -454,6 +462,8 @@ const i18n = {
     m_plato_focus: 'Explore justice, truth, and the nature of reality through allegory.',
     m_kant: 'Immanuel Kant',
     m_kant_focus: 'Navigate moral duty where principles and consequences collide.',
+    m_aristotle: 'Aristotle', m_aristotle_era: '384–322 BC',
+    m_aristotle_focus: 'Build character through virtue and practical wisdom for everyday decisions.',
     m_nietzsche_focus: 'Confront the creation of meaning and forge your own values.',
     m_beauvoir_focus: 'Embrace radical freedom and the ethics of ambiguity.',
     // Modals
@@ -517,6 +527,8 @@ const i18n = {
     m_plato_focus: 'Explorez la justice, la vérité et la nature de la réalité à travers l\'allégorie.',
     m_kant: 'Emmanuel Kant',
     m_kant_focus: 'Naviguez le devoir moral quand principes et conséquences s\'affrontent.',
+    m_aristotle: 'Aristote', m_aristotle_era: '384–322 av. J.-C.',
+    m_aristotle_focus: 'Développez votre caractère par la vertu et la sagesse pratique pour les décisions du quotidien.',
     m_nietzsche_focus: 'Affrontez la création de sens et forgez vos propres valeurs.',
     m_beauvoir_focus: 'Embrassez la liberté radicale et l\'éthique de l\'ambiguïté.',
     // Modals
@@ -669,8 +681,8 @@ let pendingPlan = null;
 let pendingMentor = null;
 
 // ── Mentor Click (Landing Page) ──
-const mentorNames = { socrates:'Socrates', plato:'Plato', kant:'Kant', nietzsche:'Nietzsche', beauvoir:'Beauvoir' };
-const mentorNamesFr = { socrates:'Socrate', plato:'Platon', kant:'Kant', nietzsche:'Nietzsche', beauvoir:'Beauvoir' };
+const mentorNames = { socrates:'Socrates', plato:'Plato', aristotle:'Aristotle', kant:'Kant', nietzsche:'Nietzsche', beauvoir:'Beauvoir' };
+const mentorNamesFr = { socrates:'Socrate', plato:'Platon', aristotle:'Aristote', kant:'Kant', nietzsche:'Nietzsche', beauvoir:'Beauvoir' };
 
 function handleMentor(id, status) {
   const token = localStorage.getItem('auth_token');
