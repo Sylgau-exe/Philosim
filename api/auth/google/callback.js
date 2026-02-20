@@ -15,7 +15,6 @@ export default async function handler(req, res) {
     const protocol = host?.includes('localhost') ? 'http' : 'https';
     const redirectUri = process.env.GOOGLE_REDIRECT_URI || `${protocol}://${host}/api/auth/google/callback`;
 
-    // Exchange code for tokens
     const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -33,22 +32,40 @@ export default async function handler(req, res) {
       console.error('Token exchange failed:', tokenData);
       if (tokenData.error === 'invalid_grant') {
         // Race condition: parallel request used this code.
-        // Delay so the successful redirect wins the race.
-        await new Promise(r => setTimeout(r, 3000));
-        return res.redirect('/');
+        // Return HTML that polls for the auth cookie (set by the successful parallel response)
+        res.setHeader('Content-Type', 'text/html');
+        res.setHeader('Cache-Control', 'no-store');
+        return res.end(`<!DOCTYPE html><html><head><title>Signing in...</title></head>
+<body style="background:#05050a;color:white;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;">
+<div style="text-align:center"><p>Completing sign-in...</p></div>
+<script>
+var checks = 0;
+var interval = setInterval(function() {
+  checks++;
+  // Check for cookie set by the successful parallel callback
+  var match = document.cookie.match(/(?:^|;\\s*)auth_token=([^;]*)/);
+  if (match) {
+    clearInterval(interval);
+    localStorage.setItem('auth_token', match[1]);
+    document.cookie = 'auth_token=; Path=/; Max-Age=0';
+    window.location.href = '/app';
+  } else if (checks > 30) {
+    clearInterval(interval);
+    window.location.href = '/';
+  }
+}, 200);
+</script></body></html>`);
       }
       return res.redirect('/?error=token_exchange_failed');
     }
 
-    // Get user info from Google
+    // Get user info
     const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
       headers: { Authorization: `Bearer ${tokenData.access_token}` },
     });
     const googleUser = await userInfoResponse.json();
-
     if (!googleUser.email) return res.redirect('/?error=no_email');
 
-    // Find or create user
     let user = await UserDB.findByEmail(googleUser.email);
     let isNewUser = false;
 
@@ -66,6 +83,9 @@ export default async function handler(req, res) {
     console.log('Google OAuth:', isNewUser ? 'NEW USER' : 'EXISTING USER', googleUser.email);
 
     const token = generateToken(user);
+
+    // Set cookie AND redirect — cookie survives even if this is a prefetch response
+    res.setHeader('Set-Cookie', `auth_token=${token}; Path=/; SameSite=Lax; Secure; Max-Age=604800`);
     res.redirect(`/?token=${token}`);
   } catch (error) {
     console.error('Google OAuth error:', error);

@@ -594,6 +594,14 @@ async function startCheckout(plan) {
 // ── Init ──
 window.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
+  // Check cookie first (set by Google OAuth callback)
+  const cookieMatch = document.cookie.match(/(?:^|;\s*)auth_token=([^;]*)/);
+  if (cookieMatch) {
+    localStorage.setItem('auth_token', cookieMatch[1]);
+    document.cookie = 'auth_token=; Path=/; Max-Age=0';
+    window.location.href = '/app';
+    return;
+  }
   // Google OAuth callback - token in URL
   if (params.get('token')) {
     localStorage.setItem('auth_token', params.get('token'));
@@ -604,7 +612,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // Password reset
   if (params.get('reset_token')) { showModal('reset'); }
   // Error from Google
-  if (params.get('error')) { showModal('login'); document.getElementById('loginError').textContent = 'Google sign-in failed. Try again.'; document.getElementById('loginError').style.display = 'block'; }
+  if (params.get('error') && params.get('error') !== 'auth_timeout') { showModal('login'); document.getElementById('loginError').textContent = 'Google sign-in failed. Try again.'; document.getElementById('loginError').style.display = 'block'; }
   checkAuth();
   setLang(currentLang);
 });
