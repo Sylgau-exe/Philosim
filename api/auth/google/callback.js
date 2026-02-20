@@ -11,9 +11,7 @@ export default async function handler(req, res) {
   try {
     const clientId = process.env.GOOGLE_CLIENT_ID;
     const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-    const host = req.headers.host;
-    const protocol = host?.includes('localhost') ? 'http' : 'https';
-    const redirectUri = process.env.GOOGLE_REDIRECT_URI || `${protocol}://${host}/api/auth/google/callback`;
+    const redirectUri = process.env.GOOGLE_REDIRECT_URI || `https://${req.headers.host}/api/auth/google/callback`;
 
     // Exchange code for tokens
     const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
@@ -31,9 +29,9 @@ export default async function handler(req, res) {
     const tokenData = await tokenResponse.json();
     if (!tokenResponse.ok) {
       console.error('Token exchange failed:', tokenData);
-      // invalid_grant often means a parallel request already used this code - redirect cleanly
       if (tokenData.error === 'invalid_grant') {
-        return res.redirect('/');
+        // Parallel request likely succeeded and set cookie — redirect to app
+        return res.redirect('/app');
       }
       return res.redirect('/?error=token_exchange_failed');
     }
