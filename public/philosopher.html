@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhiloSim — Philosopher</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        :root{--bg:#05050a;--gold:#d4a853;--gold2:#b8923e;--gold-light:#e8c97a;--purple:#6366f1;--purple-light:#818cf8;--text:#f0ece4;--text2:#9b978f;--muted:#5a574f;--green:#22c55e;--border:rgba(255,255,255,0.06);--gborder:rgba(212,168,83,0.22);--gglow:rgba(212,168,83,0.15);}
+        body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;min-height:100vh;}
+        .hd{font-family:'Space Grotesk',sans-serif;}
+        ::selection{background:rgba(212,168,83,0.3);}
+
+        /* ===== HERO SECTION ===== */
+        .hero{position:relative;width:100%;height:100vh;min-height:700px;overflow:hidden;display:flex;align-items:center;}
+
+        .hero-bg{position:absolute;inset:0;z-index:1;}
+        .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 15%;}
+        .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,5,10,0.92) 0%,rgba(5,5,10,0.75) 40%,rgba(5,5,10,0.3) 70%,rgba(5,5,10,0.1) 100%);}
+
+        /* ===== HERO CONTENT ===== */
+        .hero-content{position:relative;z-index:2;padding:0 60px;max-width:680px;width:100%;}
+
+        .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--text2);font-size:13px;font-weight:500;text-decoration:none;margin-bottom:32px;transition:color 0.2s;}
+        .back-link:hover{color:var(--gold);}
+        .back-link svg{width:16px;height:16px;}
+
+        .status-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:20px;}
+        .status-badge.live{background:rgba(34,197,94,0.12);color:var(--green);}
+        .status-badge.live::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+        .status-badge.coming{background:rgba(99,102,241,0.12);color:var(--purple-light);}
+        @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+        .hero-name{font-family:'Space Grotesk';font-size:clamp(48px,7vw,80px);font-weight:700;letter-spacing:-0.03em;line-height:1.05;margin-bottom:8px;}
+        .hero-name span{background:linear-gradient(135deg,var(--gold-light),var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+        .hero-era{font-size:16px;color:var(--muted);font-weight:500;margin-bottom:24px;letter-spacing:0.02em;}
+
+        .hero-tagline{font-size:22px;color:var(--gold);font-weight:600;margin-bottom:16px;line-height:1.4;letter-spacing:0.01em;}
+
+        .hero-desc{font-size:16px;color:var(--text2);line-height:1.7;margin-bottom:32px;max-width:520px;}
+
+        /* ===== PHILOSOPHY PILLARS ===== */
+        .pillars{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:40px;}
+        .pillar{display:flex;align-items:center;gap:7px;padding:8px 16px;background:rgba(212,168,83,0.06);border:1px solid rgba(212,168,83,0.12);border-radius:10px;font-size:13px;font-weight:600;color:var(--gold);transition:all 0.2s;}
+        .pillar::before{content:'✦';font-size:10px;opacity:0.6;}
+        .coming .pillar{background:rgba(99,102,241,0.05);border-color:rgba(99,102,241,0.12);color:var(--purple-light);}
+        .coming .pillar::before{color:var(--purple-light);}
+
+        /* ===== CTA BUTTONS ===== */
+        .hero-actions{display:flex;gap:14px;flex-wrap:wrap;align-items:center;}
+
+        .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 36px;border:none;border-radius:10px;font-family:'Space Grotesk';font-size:17px;font-weight:700;cursor:pointer;transition:all 0.25s;text-decoration:none;}
+
+        .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0a0a0a;}
+        .btn-gold:hover{box-shadow:0 6px 30px var(--gglow);transform:translateY(-2px);}
+
+        .btn-outline{background:transparent;color:var(--text2);border:1px solid var(--border);padding:15px 35px;}
+        .btn-outline:hover{border-color:var(--gborder);color:var(--gold);}
+
+        .btn-notify{background:rgba(99,102,241,0.12);color:var(--purple-light);border:1px solid rgba(99,102,241,0.25);}
+        .btn-notify:hover{background:rgba(99,102,241,0.2);border-color:rgba(99,102,241,0.4);transform:translateY(-2px);}
+
+        .btn-notified{background:rgba(34,197,94,0.1);color:var(--green);border:1px solid rgba(34,197,94,0.2);cursor:default;}
+
+        .btn svg{width:18px;height:18px;}
+
+        /* ===== QUOTE ===== */
+        .hero-quote{margin-top:40px;padding:16px 0 0;border-top:1px solid rgba(255,255,255,0.06);max-width:480px;}
+        .hero-quote p{font-style:italic;font-size:15px;color:var(--text2);line-height:1.6;opacity:0.8;}
+
+        /* ===== TOAST ===== */
+        .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:#0d0d14;border:1px solid rgba(34,197,94,0.3);border-radius:12px;padding:14px 24px;display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600;color:var(--green);z-index:300;opacity:0;transition:all 0.4s ease;white-space:nowrap;box-shadow:0 8px 30px rgba(0,0,0,0.4);}
+        .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+
+        /* ===== LANG TOGGLE ===== */
+        .lang-float{position:fixed;top:20px;right:20px;z-index:50;display:flex;gap:3px;padding:3px;background:rgba(13,13,20,0.8);backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:8px;}
+        .lang-float button{padding:5px 12px;font-size:12px;font-weight:700;background:transparent;color:var(--muted);border:none;border-radius:6px;cursor:pointer;font-family:'DM Sans';transition:all 0.2s;}
+        .lang-float button.active{background:rgba(212,168,83,0.12);color:var(--gold);}
+
+        /* ===== FADE IN ===== */
+        .fade-in{opacity:0;transform:translateY(16px);animation:fadeIn 0.6s ease forwards;}
+        @keyframes fadeIn{to{opacity:1;transform:translateY(0);}}
+        .fade-in:nth-child(2){animation-delay:0.1s;}
+        .fade-in:nth-child(3){animation-delay:0.15s;}
+        .fade-in:nth-child(4){animation-delay:0.2s;}
+        .fade-in:nth-child(5){animation-delay:0.25s;}
+        .fade-in:nth-child(6){animation-delay:0.3s;}
+        .fade-in:nth-child(7){animation-delay:0.35s;}
+        .fade-in:nth-child(8){animation-delay:0.4s;}
+        .fade-in:nth-child(9){animation-delay:0.45s;}
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width:768px){
+            .hero{min-height:100vh;min-height:100dvh;}
+            .hero-bg img{object-position:70% center;}
+            .hero-bg::after{background:linear-gradient(0deg,rgba(5,5,10,0.95) 0%,rgba(5,5,10,0.8) 40%,rgba(5,5,10,0.4) 70%,rgba(5,5,10,0.2) 100%);}
+            .hero-content{padding:0 24px;max-width:100%;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:40px;height:100%;}
+            .hero-name{font-size:40px;}
+            .hero-tagline{font-size:18px;}
+            .hero-desc{font-size:15px;}
+            .pillars{gap:8px;}
+            .pillar{padding:6px 12px;font-size:12px;}
+            .btn{padding:14px 28px;font-size:15px;width:100%;}
+            .hero-actions{flex-direction:column;}
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Lang Toggle -->
+    <div class="lang-float">
+        <button onclick="setLang('en')">EN</button>
+        <button onclick="setLang('fr')">FR</button>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero" id="heroSection">
+        <div class="hero-bg">
+            <img id="heroImg" src="" alt="">
+        </div>
+        <div class="hero-content" id="heroContent">
+            <!-- Populated by JS -->
+        </div>
+    </section>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"><span id="toastMsg"></span></div>
+
+<script>
+// ===== COOKIE → LOCALSTORAGE BRIDGE =====
+(function(){
+    const cookies = document.cookie.split(';');
+    for (const c of cookies) {
+        const [key, val] = c.trim().split('=');
+        if (key === 'auth_token' && val) {
+            localStorage.setItem('auth_token', val);
+            document.cookie = 'auth_token=; path=/; max-age=0';
+            break;
+        }
+    }
+})();
+
+const token = localStorage.getItem('auth_token');
+let currentLang = localStorage.getItem('philosim_lang') || 'en';
+
+// ===== PHILOSOPHER DATA =====
+const data = {
+    socrates: {
+        status: 'live',
+        avatar: '/socrates.png',
+        name: { en: 'Socrates', fr: 'Socrate' },
+        era: { en: '469–399 BC', fr: '469–399 av. J.-C.' },
+        tagline: { en: 'Approach your work like Socrates', fr: 'Abordez votre travail comme Socrate' },
+        description: {
+            en: 'Master the Socratic method through real-world dilemmas. Socrates will challenge your assumptions, question your beliefs, and guide you toward deeper self-knowledge through relentless inquiry.',
+            fr: 'Maîtrisez la méthode socratique à travers des dilemmes du monde réel. Socrate remettra en question vos hypothèses, interrogera vos croyances et vous guidera vers une connaissance plus profonde de vous-même.'
+        },
+        pillars: {
+            en: ['Critical Questioning', 'Self-Knowledge', 'Ethics', 'Dialogue', 'Examined Life'],
+            fr: ['Questionnement critique', 'Connaissance de soi', 'Éthique', 'Dialogue', 'Vie examinée']
+        },
+        quote: {
+            en: '"The unexamined life is not worth living."',
+            fr: '« Une vie sans examen ne vaut pas la peine d\'être vécue. »'
+        }
+    },
+    plato: {
+        status: 'coming',
+        avatar: '/plato.png',
+        name: { en: 'Plato', fr: 'Platon' },
+        era: { en: '428–348 BC', fr: '428–348 av. J.-C.' },
+        tagline: { en: 'See beyond the shadows', fr: 'Voyez au-delà des ombres' },
+        description: {
+            en: 'Explore the world of Forms and ideal governance. Plato will lead you through allegories of justice, truth, and the nature of reality — training you to see beyond appearances to what truly matters.',
+            fr: 'Explorez le monde des Formes et de la gouvernance idéale. Platon vous guidera à travers des allégories sur la justice, la vérité et la nature de la réalité — vous entraînant à voir au-delà des apparences.'
+        },
+        pillars: {
+            en: ['Justice', 'Ideal Forms', 'Governance', 'Truth', 'The Good'],
+            fr: ['Justice', 'Formes idéales', 'Gouvernance', 'Vérité', 'Le Bien']
+        },
+        quote: {
+            en: '"The measure of a man is what he does with power."',
+            fr: '« La mesure d\'un homme est ce qu\'il fait du pouvoir. »'
+        }
+    },
+    aristotle: {
+        status: 'coming',
+        avatar: '/aristotle.png',
+        name: { en: 'Aristotle', fr: 'Aristote' },
+        era: { en: '384–322 BC', fr: '384–322 av. J.-C.' },
+        tagline: { en: 'Build character through action', fr: 'Forgez votre caractère par l\'action' },
+        description: {
+            en: 'Develop practical wisdom through the pursuit of virtue. Aristotle will guide you to find the golden mean in every decision, building excellence not as an act but as a habit.',
+            fr: 'Développez la sagesse pratique par la recherche de la vertu. Aristote vous guidera pour trouver le juste milieu dans chaque décision, forgeant l\'excellence non comme un acte mais comme une habitude.'
+        },
+        pillars: {
+            en: ['Virtue Ethics', 'Practical Wisdom', 'Leadership', 'Golden Mean', 'Flourishing'],
+            fr: ['Éthique de la vertu', 'Sagesse pratique', 'Leadership', 'Juste milieu', 'Épanouissement']
+        },
+        quote: {
+            en: '"We are what we repeatedly do. Excellence, then, is not an act, but a habit."',
+            fr: '« Nous sommes ce que nous faisons de manière répétée. L\'excellence n\'est donc pas un acte, mais une habitude. »'
+        }
+    },
+    kant: {
+        status: 'coming',
+        avatar: '/kant.png',
+        name: { en: 'Immanuel Kant', fr: 'Emmanuel Kant' },
+        era: { en: '1724–1804', fr: '1724–1804' },
+        tagline: { en: 'Act on principle, not impulse', fr: 'Agissez par principe, non par impulsion' },
+        description: {
+            en: 'Navigate moral duty through the categorical imperative. Kant will test your reasoning with scenarios where duty, consequences, and universal principles collide — revealing whether you act from reason or convenience.',
+            fr: 'Naviguez le devoir moral à travers l\'impératif catégorique. Kant mettra votre raisonnement à l\'épreuve dans des scénarios où devoir, conséquences et principes universels s\'affrontent.'
+        },
+        pillars: {
+            en: ['Moral Duty', 'Universal Law', 'Reason', 'Autonomy', 'Categorical Imperative'],
+            fr: ['Devoir moral', 'Loi universelle', 'Raison', 'Autonomie', 'Impératif catégorique']
+        },
+        quote: {
+            en: '"Act only according to that maxim whereby you can will it become a universal law."',
+            fr: '« Agis seulement selon la maxime qui fait que tu puisses vouloir qu\'elle devienne une loi universelle. »'
+        }
+    },
+    nietzsche: {
+        status: 'coming',
+        avatar: '/nietzsche.png',
+        name: { en: 'Friedrich Nietzsche', fr: 'Friedrich Nietzsche' },
+        era: { en: '1844–1900', fr: '1844–1900' },
+        tagline: { en: 'Forge your own meaning', fr: 'Forgez votre propre sens' },
+        description: {
+            en: 'Confront the will to power and the creation of meaning. Nietzsche will push you beyond comfort to overcome yourself and forge your own values in a world that offers no guarantees.',
+            fr: 'Affrontez la volonté de puissance et la création de sens. Nietzsche vous poussera au-delà du confort pour vous surpasser et forger vos propres valeurs dans un monde sans garanties.'
+        },
+        pillars: {
+            en: ['Will to Power', 'Self-Overcoming', 'Eternal Return', 'Authenticity', 'Amor Fati'],
+            fr: ['Volonté de puissance', 'Dépassement de soi', 'Éternel retour', 'Authenticité', 'Amor Fati']
+        },
+        quote: {
+            en: '"He who has a why to live can bear almost any how."',
+            fr: '« Celui qui a un pourquoi de vivre peut supporter presque n\'importe quel comment. »'
+        }
+    },
+    beauvoir: {
+        status: 'coming',
+        avatar: '/beauvoir.png',
+        name: { en: 'Simone de Beauvoir', fr: 'Simone de Beauvoir' },
+        era: { en: '1908–1986', fr: '1908–1986' },
+        tagline: { en: 'Choose who you become', fr: 'Choisissez qui vous devenez' },
+        description: {
+            en: 'Explore freedom, responsibility, and the ethics of ambiguity. Beauvoir will challenge you to embrace radical freedom while confronting the weight of existence and the meaning you create for yourself.',
+            fr: 'Explorez la liberté, la responsabilité et l\'éthique de l\'ambiguïté. Beauvoir vous poussera à embrasser la liberté radicale tout en affrontant le poids de l\'existence et le sens que vous créez.'
+        },
+        pillars: {
+            en: ['Freedom', 'Existentialism', 'Ethics of Ambiguity', 'Identity', 'Responsibility'],
+            fr: ['Liberté', 'Existentialisme', 'Éthique de l\'ambiguïté', 'Identité', 'Responsabilité']
+        },
+        quote: {
+            en: '"One is not born, but rather becomes, a woman."',
+            fr: '« On ne naît pas femme, on le devient. »'
+        }
+    }
+};
+
+const ui = {
+    en: {
+        back: '← Back to Mentors',
+        live: 'Available Now',
+        coming: 'Coming Soon',
+        start: 'Start Simulation',
+        learn_more: 'How It Works',
+        notify: 'Notify Me When Ready',
+        notified: 'You\'ll Be Notified!',
+        toast_notify: 'You\'ll be notified when {name} is available!',
+        register_first: 'Sign Up to Get Notified',
+        register_start: 'Sign Up to Begin'
+    },
+    fr: {
+        back: '← Retour aux Mentors',
+        live: 'Disponible',
+        coming: 'Bientôt disponible',
+        start: 'Commencer la Simulation',
+        learn_more: 'Comment ça marche',
+        notify: 'Me Prévenir',
+        notified: 'Vous serez prévenu!',
+        toast_notify: 'Vous serez prévenu quand {name} sera disponible!',
+        register_first: 'Inscrivez-vous pour être prévenu',
+        register_start: 'Inscrivez-vous pour commencer'
+    }
+};
+
+function t(key) { return ui[currentLang][key] || ui.en[key] || key; }
+function l(obj) { return obj[currentLang] || obj.en; }
+
+// ===== GET PHILOSOPHER ID =====
+const params = new URLSearchParams(window.location.search);
+const philosopherId = params.get('id') || 'socrates';
+const phil = data[philosopherId];
+
+if (!phil) { window.location.href = '/choose'; }
+
+// ===== NOTIFIED STATE =====
+let notified = JSON.parse(localStorage.getItem('philosim_notified') || '[]');
+
+// ===== RENDER =====
+function render() {
+    const p = phil;
+    const isLive = p.status === 'live';
+    const isNotified = notified.includes(philosopherId);
+    const isLoggedIn = !!token;
+
+    document.title = `PhiloSim — ${l(p.name)}`;
+    document.getElementById('heroImg').src = p.avatar;
+    document.getElementById('heroImg').alt = l(p.name);
+
+    // Build CTA
+    let ctaHtml = '';
+    if (isLive) {
+        if (isLoggedIn) {
+            ctaHtml = `
+                <a href="/app" class="btn btn-gold">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5,3 19,12 5,21"/></svg>
+                    ${t('start')}
+                </a>
+                <a href="/#phases" class="btn btn-outline">${t('learn_more')}</a>`;
+        } else {
+            ctaHtml = `
+                <a href="/?action=register" class="btn btn-gold">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5,3 19,12 5,21"/></svg>
+                    ${t('register_start')}
+                </a>
+                <a href="/#phases" class="btn btn-outline">${t('learn_more')}</a>`;
+        }
+    } else {
+        if (isNotified) {
+            ctaHtml = `
+                <button class="btn btn-notified" disabled>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                    ${t('notified')}
+                </button>`;
+        } else if (isLoggedIn) {
+            ctaHtml = `
+                <button class="btn btn-notify" onclick="doNotify()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+                    ${t('notify')}
+                </button>`;
+        } else {
+            ctaHtml = `
+                <a href="/?action=register&notify=${philosopherId}" class="btn btn-notify">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+                    ${t('register_first')}
+                </a>`;
+        }
+    }
+
+    document.getElementById('heroContent').innerHTML = `
+        <a href="/choose" class="back-link fade-in">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15,18 9,12 15,6"/></svg>
+            ${t('back')}
+        </a>
+        <div class="status-badge ${isLive ? 'live' : 'coming'} fade-in">${isLive ? t('live') : t('coming')}</div>
+        <h1 class="hero-name hd fade-in"><span>${l(p.name)}</span></h1>
+        <div class="hero-era fade-in">${l(p.era)}</div>
+        <div class="hero-tagline fade-in">${l(p.tagline)}</div>
+        <p class="hero-desc fade-in">${l(p.description)}</p>
+        <div class="pillars ${isLive ? '' : 'coming'} fade-in">
+            ${l(p.pillars).map(pi => `<span class="pillar">${pi}</span>`).join('')}
+        </div>
+        <div class="hero-actions fade-in">${ctaHtml}</div>
+        <div class="hero-quote fade-in"><p>${l(p.quote)}</p></div>
+    `;
+
+    // Update lang buttons
+    document.querySelectorAll('.lang-float button').forEach(b =>
+        b.classList.toggle('active', b.textContent.trim() === currentLang.toUpperCase())
+    );
+}
+
+// ===== NOTIFY =====
+async function doNotify() {
+    try {
+        await fetch('/api/notify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify({ philosopher_id: philosopherId })
+        });
+    } catch(e) { console.warn('Notify API error:', e); }
+
+    notified.push(philosopherId);
+    localStorage.setItem('philosim_notified', JSON.stringify(notified));
+
+    const msg = t('toast_notify').replace('{name}', l(phil.name));
+    showToast(msg);
+    render();
+}
+
+function showToast(msg) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3500);
+}
+
+// ===== LANG =====
+function setLang(lang) {
+    currentLang = lang;
+    localStorage.setItem('philosim_lang', lang);
+    render();
+}
+
+// ===== INIT =====
+render();
+</script>
+</body>
+</html>

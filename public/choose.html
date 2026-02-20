@@ -600,6 +600,7 @@
                 status_available: 'Available Now',
                 status_coming: 'Coming Soon',
                 btn_begin: 'Begin Journey',
+                btn_discover: 'Discover',
                 btn_notify: 'Notify Me When Ready',
                 btn_notified: 'You\'ll Be Notified!',
                 modal_cancel: 'Cancel',
@@ -618,6 +619,7 @@
                 status_available: 'Disponible',
                 status_coming: 'Bientôt disponible',
                 btn_begin: 'Commencer le Parcours',
+                btn_discover: 'Découvrir',
                 btn_notify: 'Me Prévenir',
                 btn_notified: 'Vous serez prévenu!',
                 modal_cancel: 'Annuler',
@@ -787,20 +789,15 @@
 
                 let actionBtn;
                 if (isAvailable) {
-                    actionBtn = `<a href="/app" class="btn-begin primary">
+                    actionBtn = `<a href="/philosopher?id=${p.id}" class="btn-begin primary">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5,3 19,12 5,21"/></svg>
                         ${t('btn_begin')}
                     </a>`;
-                } else if (isNotified) {
-                    actionBtn = `<button class="btn-begin notify notified" disabled>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
-                        ${t('btn_notified')}
-                    </button>`;
                 } else {
-                    actionBtn = `<button class="btn-begin notify" onclick="openNotifyModal('${p.id}')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-                        ${t('btn_notify')}
-                    </button>`;
+                    actionBtn = `<a href="/philosopher?id=${p.id}" class="btn-begin notify">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M10 14L21 3"/><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/></svg>
+                        ${t('btn_discover')}
+                    </a>`;
                 }
 
                 card.innerHTML = `
