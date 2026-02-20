@@ -1,0 +1,257 @@
+<!--
+  ============================================================
+  PHILOSOPHER PREVIEW SECTION — Insert into index.html
+  ============================================================
+  
+  WHERE TO INSERT: 
+  Place this section between the existing "phases" section and 
+  the "pricing" section on the landing page (index.html).
+  
+  ALSO ADD: 
+  1. The CSS block below into your existing <style> tag
+  2. The i18n translations into your existing i18n object
+  ============================================================
+-->
+
+<!-- ===== ADD THIS CSS to your existing <style> tag ===== -->
+<!--
+.mentors-section {
+    padding: 100px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.mentors-section .section-label {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #6366f1;
+    margin-bottom: 12px;
+}
+
+.mentors-section .section-title {
+    text-align: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: #f0ece4;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+}
+
+.mentors-section .section-subtitle {
+    text-align: center;
+    font-size: 16px;
+    color: #9b978f;
+    max-width: 520px;
+    margin: 0 auto 48px;
+    line-height: 1.6;
+}
+
+.mentors-scroll {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 16px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.mentors-scroll::-webkit-scrollbar { height: 4px; }
+.mentors-scroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); border-radius: 2px; }
+.mentors-scroll::-webkit-scrollbar-thumb { background: rgba(212,168,83,0.2); border-radius: 2px; }
+
+.mentor-preview-card {
+    min-width: 260px;
+    max-width: 260px;
+    background: #0d0d14;
+    border: 1px solid rgba(212,168,83,0.1);
+    border-radius: 14px;
+    padding: 24px 20px;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.mentor-preview-card:hover {
+    border-color: rgba(212,168,83,0.25);
+    transform: translateY(-2px);
+}
+
+.mentor-preview-card.active-mentor {
+    border-color: rgba(212,168,83,0.35);
+}
+
+.mentor-preview-card .mp-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(212,168,83,0.12), rgba(99,102,241,0.08));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 14px;
+    border: 1.5px solid rgba(212,168,83,0.15);
+    overflow: hidden;
+}
+
+.mentor-preview-card .mp-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.mentor-preview-card h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #f0ece4;
+    margin-bottom: 2px;
+}
+
+.mentor-preview-card .mp-era {
+    font-size: 12px;
+    color: #5a574f;
+    margin-bottom: 10px;
+}
+
+.mentor-preview-card .mp-focus {
+    font-size: 13px;
+    color: #9b978f;
+    line-height: 1.55;
+    margin-bottom: 14px;
+}
+
+.mentor-preview-card .mp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.mp-badge.available {
+    background: rgba(34,197,94,0.1);
+    color: #22c55e;
+}
+
+.mp-badge.available::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #22c55e;
+    animation: pulse 2s infinite;
+}
+
+.mp-badge.coming {
+    background: rgba(99,102,241,0.08);
+    color: #818cf8;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+@media (max-width: 768px) {
+    .mentors-section .section-title { font-size: 28px; }
+    .mentor-preview-card { min-width: 230px; max-width: 230px; }
+}
+-->
+
+
+<!-- ===== ADD THIS HTML SECTION to index.html ===== -->
+
+<section class="mentors-section" id="mentors">
+    <div class="section-label" data-i18n="mentors_label">Your Mentors</div>
+    <h2 class="section-title" data-i18n="mentors_title">Wisdom Across the Ages</h2>
+    <p class="section-subtitle" data-i18n="mentors_subtitle">Learn from history's greatest minds. Each philosopher brings a unique approach to life's toughest questions.</p>
+    
+    <div class="mentors-scroll">
+        <!-- Socrates — ACTIVE -->
+        <div class="mentor-preview-card active-mentor">
+            <div class="mp-avatar"><img src="/socrates.png" alt="Socrates" onerror="this.parentElement.textContent='🏛️'"></div>
+            <h4>Socrates</h4>
+            <div class="mp-era">469–399 BC</div>
+            <div class="mp-focus" data-i18n="mentor_socrates_focus">Master critical questioning through real-world ethical dilemmas.</div>
+            <span class="mp-badge available" data-i18n="mentors_available">Available Now</span>
+        </div>
+
+        <!-- Plato -->
+        <div class="mentor-preview-card">
+            <div class="mp-avatar">📜</div>
+            <h4 data-i18n="mentor_plato_name">Plato</h4>
+            <div class="mp-era">428–348 BC</div>
+            <div class="mp-focus" data-i18n="mentor_plato_focus">Explore justice, truth, and the nature of reality through allegory.</div>
+            <span class="mp-badge coming" data-i18n="mentors_coming">Coming Soon</span>
+        </div>
+
+        <!-- Kant -->
+        <div class="mentor-preview-card">
+            <div class="mp-avatar">⚖️</div>
+            <h4 data-i18n="mentor_kant_name">Immanuel Kant</h4>
+            <div class="mp-era">1724–1804</div>
+            <div class="mp-focus" data-i18n="mentor_kant_focus">Navigate moral duty where principles and consequences collide.</div>
+            <span class="mp-badge coming" data-i18n="mentors_coming">Coming Soon</span>
+        </div>
+
+        <!-- Nietzsche -->
+        <div class="mentor-preview-card">
+            <div class="mp-avatar">🔥</div>
+            <h4>Friedrich Nietzsche</h4>
+            <div class="mp-era">1844–1900</div>
+            <div class="mp-focus" data-i18n="mentor_nietzsche_focus">Confront the creation of meaning and forge your own values.</div>
+            <span class="mp-badge coming" data-i18n="mentors_coming">Coming Soon</span>
+        </div>
+
+        <!-- Simone de Beauvoir -->
+        <div class="mentor-preview-card">
+            <div class="mp-avatar">✊</div>
+            <h4>Simone de Beauvoir</h4>
+            <div class="mp-era">1908–1986</div>
+            <div class="mp-focus" data-i18n="mentor_beauvoir_focus">Embrace radical freedom and the ethics of ambiguity.</div>
+            <span class="mp-badge coming" data-i18n="mentors_coming">Coming Soon</span>
+        </div>
+    </div>
+</section>
+
+
+<!-- ===== ADD THESE i18n TRANSLATIONS to your existing i18n object ===== -->
+<!--
+// EN translations — add to i18n.en:
+mentors_label: 'Your Mentors',
+mentors_title: 'Wisdom Across the Ages',
+mentors_subtitle: 'Learn from history\'s greatest minds. Each philosopher brings a unique approach to life\'s toughest questions.',
+mentors_available: 'Available Now',
+mentors_coming: 'Coming Soon',
+mentor_socrates_focus: 'Master critical questioning through real-world ethical dilemmas.',
+mentor_plato_name: 'Plato',
+mentor_plato_focus: 'Explore justice, truth, and the nature of reality through allegory.',
+mentor_kant_name: 'Immanuel Kant',
+mentor_kant_focus: 'Navigate moral duty where principles and consequences collide.',
+mentor_nietzsche_focus: 'Confront the creation of meaning and forge your own values.',
+mentor_beauvoir_focus: 'Embrace radical freedom and the ethics of ambiguity.',
+
+// FR translations — add to i18n.fr:
+mentors_label: 'Vos Mentors',
+mentors_title: 'La Sagesse à Travers les Âges',
+mentors_subtitle: 'Apprenez des plus grands esprits de l\'histoire. Chaque philosophe apporte une approche unique aux questions les plus difficiles de la vie.',
+mentors_available: 'Disponible',
+mentors_coming: 'Bientôt disponible',
+mentor_socrates_focus: 'Maîtrisez le questionnement critique à travers des dilemmes éthiques du monde réel.',
+mentor_plato_name: 'Platon',
+mentor_plato_focus: 'Explorez la justice, la vérité et la nature de la réalité à travers l\'allégorie.',
+mentor_kant_name: 'Emmanuel Kant',
+mentor_kant_focus: 'Naviguez le devoir moral quand principes et conséquences s\'affrontent.',
+mentor_nietzsche_focus: 'Affrontez la création de sens et forgez vos propres valeurs.',
+mentor_beauvoir_focus: 'Embrassez la liberté radicale et l\'éthique de l\'ambiguïté.',
+-->
