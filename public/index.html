@@ -477,7 +477,7 @@ window.addEventListener('DOMContentLoaded', () => {
   if (params.get('token')) {
     localStorage.setItem('auth_token', params.get('token'));
     window.history.replaceState({}, '', '/');
-    if (params.get('newUser') === 'true') { window.location.href = '/app'; return; }
+    window.location.href = '/app'; return;
   }
   // Password reset
   if (params.get('reset_token')) { showModal('reset'); }
