@@ -110,7 +110,7 @@ philosim-saas/
 | `STRIPE_WEBHOOK_SECRET` | From Stripe webhook endpoint (whsec_...) |
 | `STRIPE_PRICE_THINKER` | Price ID for $19/mo subscription (price_...) |
 | `STRIPE_PRICE_PHILOSOPHER` | Price ID for $149 lifetime (price_...) |
-| `NEXT_PUBLIC_URL` | Your domain (https://philosim.vercel.app) |
+| `NEXT_PUBLIC_URL` | Your domain (https://philosim.app) |
 
 ---
 

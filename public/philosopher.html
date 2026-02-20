@@ -8,15 +8,15 @@
     <meta property="og:title" content="PhiloSim — Philosopher Mentor">
     <meta property="og:description" content="AI-powered philosophical mentorship. Walk through real decisions with history's greatest minds.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://philosim.vercel.app/philosopher">
-    <meta property="og:image" content="https://philosim.vercel.app/hero-socrates.png">
+    <meta property="og:url" content="https://philosim.app/philosopher">
+    <meta property="og:image" content="https://philosim.app/hero-socrates.png">
     <meta name="twitter:card" content="summary_large_image">
-    <link rel="canonical" href="https://philosim.vercel.app/philosopher">
+    <link rel="canonical" href="https://philosim.app/philosopher">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
-    <!-- Google Analytics 4 — Replace G-XXXXXXXXXX with your GA4 Measurement ID -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
+    <!-- Google Analytics 4 — Replace G-13L2NPBC3E with your GA4 Measurement ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-13L2NPBC3E"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-13L2NPBC3E');</script>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
         *{margin:0;padding:0;box-sizing:border-box;}
@@ -335,11 +335,11 @@ function render() {
     const ogDesc = document.querySelector('meta[property="og:description"]');
     if (ogDesc) ogDesc.content = l(p.tagline);
     const ogUrl = document.querySelector('meta[property="og:url"]');
-    if (ogUrl) ogUrl.content = `https://philosim.vercel.app/philosopher?id=${philosopherId}`;
+    if (ogUrl) ogUrl.content = `https://philosim.app/philosopher?id=${philosopherId}`;
     const ogImg = document.querySelector('meta[property="og:image"]');
-    if (ogImg) ogImg.content = `https://philosim.vercel.app${p.avatar}`;
+    if (ogImg) ogImg.content = `https://philosim.app${p.avatar}`;
     const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) canonical.href = `https://philosim.vercel.app/philosopher?id=${philosopherId}`;
+    if (canonical) canonical.href = `https://philosim.app/philosopher?id=${philosopherId}`;
 
     document.getElementById('heroImg').src = p.avatar;
     document.getElementById('heroImg').alt = name;

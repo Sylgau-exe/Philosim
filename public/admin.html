@@ -187,7 +187,7 @@
             <input id="utmCampaign" placeholder="e.g. launch-feb, socrates-promo, spring-2026" style="flex:1;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:14px;font-family:'DM Sans';">
           </div>
         </div>
-        <div style="background:var(--bg);border:1px solid var(--gborder);border-radius:8px;padding:12px;font-size:13px;font-family:monospace;color:var(--gold);word-break:break-all;" id="utmResult">https://philosim.vercel.app/?utm_source=...&utm_medium=...&utm_campaign=...</div>
+        <div style="background:var(--bg);border:1px solid var(--gborder);border-radius:8px;padding:12px;font-size:13px;font-family:monospace;color:var(--gold);word-break:break-all;" id="utmResult">https://philosim.app/?utm_source=...&utm_medium=...&utm_campaign=...</div>
         <div style="display:flex;gap:8px;margin-top:10px;">
           <button class="btn-sm btn-gold-sm" onclick="buildUTM()">Generate Link</button>
           <button class="btn-sm btn-out-sm" onclick="copyUTM()">Copy</button>
@@ -197,7 +197,7 @@
 
     <div class="section" style="margin-top:20px;">
       <div class="section-title">📊 Google Analytics</div>
-      <p style="color:var(--text2);font-size:14px;">For visitor count and traffic sources, set up Google Analytics 4. Add your GA4 Measurement ID in the code (search for <code style="color:var(--gold);">G-XXXXXXXXXX</code>).</p>
+      <p style="color:var(--text2);font-size:14px;">For visitor count and traffic sources, set up Google Analytics 4. Add your GA4 Measurement ID in the code (search for <code style="color:var(--gold);">G-13L2NPBC3E</code>).</p>
     </div>
   </div>
 </div>
@@ -398,7 +398,7 @@ function buildUTM() {
   const s = document.getElementById('utmSource').value.trim();
   const m = document.getElementById('utmMedium').value.trim();
   const c = document.getElementById('utmCampaign').value.trim();
-  let url = 'https://philosim.vercel.app/';
+  let url = 'https://philosim.app/';
   const params = [];
   if (s) params.push('utm_source=' + encodeURIComponent(s));
   if (m) params.push('utm_medium=' + encodeURIComponent(m));
