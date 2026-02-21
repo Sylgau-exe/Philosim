@@ -1,0 +1,47 @@
+# PhiloSim
+
+> AI-powered philosophy apprenticeship — learn by thinking alongside history's greatest minds
+
+## About
+
+PhiloSim (philosim.app) is an AI-powered philosophy simulation platform developed by Panda Projet (pandaprojet.com). Users don't just study philosophy — they experience it through AI-embodied philosophers who respond as their historical counterparts would, using authentic methods, reasoning styles, and worldviews. Each philosopher guides users through real-world ethical dilemmas and decision scenarios using their unique philosophical approach.
+
+## Philosophers
+
+1. **Socrates** (Active) — The Socratic Method master. Questions assumptions, exposes contradictions, guides users to discover truth through dialogue. Specializes in ethics, self-examination, and critical thinking.
+2. **Plato** (Coming Soon) — Theory of Forms, ideal justice, the examined life. Explores truth, beauty, and the nature of reality through dialectic.
+3. **Aristotle** (Coming Soon) — Virtue ethics, practical wisdom, the golden mean. Focuses on character development, logic, and flourishing.
+4. **Kant** (Coming Soon) — Categorical imperative, duty ethics, universal moral law. Challenges users with questions of duty, autonomy, and moral reasoning.
+5. **Nietzsche** (Coming Soon) — Will to power, eternal recurrence, beyond good and evil. Provokes users to question conventional morality and create their own values.
+6. **Simone de Beauvoir** (Coming Soon) — Existentialist feminism, freedom, the ethics of ambiguity. Explores authenticity, oppression, and the meaning of liberation.
+
+## How It Works
+
+Users select a philosopher and enter a scenario — a real-world ethical dilemma or decision. The AI philosopher engages in authentic dialogue using their historical method:
+- Socrates asks probing questions and exposes contradictions
+- Each session builds a critical thinking scorecard
+- Users receive analysis of their reasoning quality
+- Bilingual English/French throughout
+
+## Pricing
+
+- Explorer (Free): Limited sessions with Socrates
+- Thinker (Monthly): $19 CAD/month, all philosophers
+- Philosopher (Lifetime): $149 CAD one-time, forever access
+
+## Languages
+
+Fully bilingual English and French.
+
+## Part of Panda Projet
+
+PhiloSim is one of four AI-powered simulation platforms by Panda Projet:
+- BizSimHub (bizsimlive.com) — Project management simulation with AI coach Anna
+- MarketSim (marketsimlive.com) — Marketing strategy simulation with AI advisor ARGUS
+- NegotiateSim (negotiatesim.com) — Negotiation training with AI coach Louis
+- PhiloSim (philosim.app) — Philosophy apprenticeship with 6 AI-embodied philosophers
+
+## Contact
+
+- Website: https://philosim.app
+- Parent company: https://pandaprojet.com

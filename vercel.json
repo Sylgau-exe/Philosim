@@ -1,29 +1,66 @@
 {
   "outputDirectory": "public",
   "rewrites": [
-    { "source": "/choose", "destination": "/choose.html" },
-    { "source": "/philosopher", "destination": "/philosopher.html" },
-    { "source": "/dashboard", "destination": "/dashboard.html" },
-    { "source": "/admin", "destination": "/admin.html" },
-    { "source": "/app", "destination": "/app.html" }
+    {
+      "source": "/choose",
+      "destination": "/choose.html"
+    },
+    {
+      "source": "/philosopher",
+      "destination": "/philosopher.html"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/dashboard.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/app",
+      "destination": "/app.html"
+    }
   ],
   "headers": [
     {
       "source": "/(.*).png",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=2592000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000, immutable"
+        }
       ]
     },
     {
       "source": "/robots.txt",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
       ]
     },
     {
       "source": "/sitemap.xml",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    },
+    {
+      "source": "/llms.txt",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
       ]
     }
   ],
