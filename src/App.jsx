@@ -387,6 +387,77 @@ export default function PhiloSim() {
     setSimComplete(true);
   };
 
+  const RadarChart = ({ virtue, reasoning, selfAware, epistemic }) => {
+    const cx = 140, cy = 140, R = 105;
+    const dims = [
+      { score: virtue, label: t.virtue, color: C.accentSuccess, angle: -Math.PI / 2 },
+      { score: reasoning, label: t.reasoning, color: C.accentPrimary, angle: 0 },
+      { score: selfAware, label: t.selfAware, color: C.accentSecondary, angle: Math.PI / 2 },
+      { score: epistemic, label: t.epistemic, color: S.gold, angle: Math.PI },
+    ];
+    const pt = (angle, r) => `${cx + r * Math.cos(angle)},${cy + r * Math.sin(angle)}`;
+    const gridPoly = (r) => dims.map(d => pt(d.angle, r)).join(" ");
+    const dataPoly = dims.map(d => pt(d.angle, R * d.score / 100)).join(" ");
+    const lblOffset = 22;
+    const positions = [
+      { x: cx, y: cy - R - lblOffset, anchor: "middle", baseline: "auto" },
+      { x: cx + R + lblOffset, y: cy, anchor: "start", baseline: "middle" },
+      { x: cx, y: cy + R + lblOffset + 4, anchor: "middle", baseline: "auto" },
+      { x: cx - R - lblOffset, y: cy, anchor: "end", baseline: "middle" },
+    ];
+    return (
+      <div style={{ background: C.bgCard, border: `1px solid ${S.border}`, borderRadius: 16, padding: "20px 0 12px", marginBottom: 16, textAlign: "center" }}>
+        <div style={{ fontFamily: FD, fontWeight: 700, fontSize: 14, color: S.gold, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }}>
+          {lang === "fr" ? "Profil de Sagesse" : "Wisdom Profile"}
+        </div>
+        <svg viewBox="0 0 280 280" width="260" height="260" style={{ display: "block", margin: "0 auto" }}>
+          <defs>
+            <radialGradient id="radarGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor={S.gold} stopOpacity="0.12" />
+              <stop offset="100%" stopColor={S.gold} stopOpacity="0" />
+            </radialGradient>
+            <filter id="glowFilter">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+          </defs>
+          {/* Background glow */}
+          <circle cx={cx} cy={cy} r={R + 10} fill="url(#radarGlow)" />
+          {/* Grid rings */}
+          {[0.25, 0.5, 0.75, 1].map((pct, i) => (
+            <polygon key={i} points={gridPoly(R * pct)} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth={i === 3 ? 1.5 : 0.8} />
+          ))}
+          {/* Axis lines */}
+          {dims.map((d, i) => (
+            <line key={i} x1={cx} y1={cy} x2={parseFloat(pt(d.angle, R).split(",")[0])} y2={parseFloat(pt(d.angle, R).split(",")[1])} stroke="rgba(255,255,255,0.1)" strokeWidth="0.8" />
+          ))}
+          {/* Data polygon fill */}
+          <polygon points={dataPoly} fill={`${S.gold}18`} stroke="none" />
+          {/* Data polygon border with glow */}
+          <polygon points={dataPoly} fill="none" stroke={S.gold} strokeWidth="2" strokeLinejoin="round" filter="url(#glowFilter)" />
+          {/* Data points */}
+          {dims.map((d, i) => {
+            const r = R * d.score / 100;
+            const x = cx + r * Math.cos(d.angle);
+            const y = cy + r * Math.sin(d.angle);
+            return (
+              <g key={i}>
+                <circle cx={x} cy={y} r="6" fill={d.color} stroke="#fff" strokeWidth="2" />
+                <text x={x} y={y - 12} textAnchor="middle" fill="#fff" fontSize="11" fontWeight="700" fontFamily="Space Grotesk">{d.score}</text>
+              </g>
+            );
+          })}
+          {/* Labels */}
+          {dims.map((d, i) => (
+            <text key={`lbl-${i}`} x={positions[i].x} y={positions[i].y} textAnchor={positions[i].anchor} dominantBaseline={positions[i].baseline} fill={d.color} fontSize="11" fontWeight="600" fontFamily="DM Sans">
+              {d.label}
+            </text>
+          ))}
+        </svg>
+      </div>
+    );
+  };
+
   const ScoreBar = ({ label, score, color }) => (
     <div style={{ marginBottom: 14 }}>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
@@ -741,6 +812,7 @@ export default function PhiloSim() {
           <div style={{ fontSize: 48, fontFamily: FD, fontWeight: 700, color: r.overall >= 80 ? C.accentSuccess : r.overall >= 60 ? S.gold : C.accentWarning, marginBottom: 4 }}>{r.overall}/100</div>
           <div style={{ fontSize: 14, color: C.textMuted, textTransform: "uppercase", fontWeight: 700 }}>{t.overallScore}</div>
         </div>
+        <RadarChart virtue={r.virtue} reasoning={r.reasoning} selfAware={r.selfAware} epistemic={r.epistemic} />
         <div style={{ background: C.bgCard, border: `1px solid ${C.borderSubtle}`, borderRadius: 16, padding: 24, marginBottom: 16 }}>
           <ScoreBar label={t.virtue} score={r.virtue} color={C.accentSuccess} />
           <ScoreBar label={t.reasoning} score={r.reasoning} color={C.accentPrimary} />
