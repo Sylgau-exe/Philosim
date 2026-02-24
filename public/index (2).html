@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#05050a">
+  <title>PhiloSim — What if Socrates could sit beside you today?</title>
+  <meta name="description" content="PhiloSim: What if Socrates could sit beside you today? AI companions that let you experience the world through history's greatest philosophical minds.">
+  <meta name="keywords" content="philosophy simulation, Socratic method, Socrates AI, Plato, Aristotle, Kant, Nietzsche, Simone de Beauvoir, leadership training, critical thinking, business ethics, decision making, AI mentor, philosophy education, executive training, philosophical coaching, simulation apprentissage, philosophie IA">
+  <meta name="author" content="Panda Projet Inc.">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <meta property="og:title" content="PhiloSim — Don't just study philosophy. Live it.">
+  <meta property="og:description" content="AI companions that let you experience the world through history's greatest philosophical minds.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://philosim.app">
+  <meta property="og:image" content="https://philosim.app/philosim.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PhiloSim — Don't just study philosophy. Live it.">
+  <meta name="twitter:description" content="AI companions that let you experience the world through history's greatest philosophical minds.">
+  <meta name="twitter:image" content="https://philosim.app/philosim.png">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+  <link rel="canonical" href="https://philosim.app">
+  <link rel="alternate" hreflang="en" href="https://philosim.app">
+  <link rel="alternate" hreflang="fr" href="https://philosim.app">
+  <link rel="alternate" hreflang="x-default" href="https://philosim.app">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">{
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "PhiloSim",
+    "url": "https://philosim.app",
+    "description": "AI-powered philosophy simulations where you learn from Socrates, Plato, Aristotle, Kant, Nietzsche, and Simone de Beauvoir through real-world decision scenarios.",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Web",
+    "inLanguage": ["en", "fr"],
+    "author": {
+      "@type": "Organization",
+      "name": "Panda Projet",
+      "url": "https://pandaprojet.com"
+    },
+    "creator": {
+      "@type": "Person",
+      "name": "Sylvain Gauthier",
+      "url": "https://sylvainpmo.com",
+      "jobTitle": "Founder & CEO"
+    },
+    "offers": [
+      {"@type": "Offer", "price": "0", "priceCurrency": "CAD", "name": "Explorer (Free)"},
+      {"@type": "Offer", "price": "19", "priceCurrency": "CAD", "name": "Thinker (Monthly)", "priceSpecification": {"@type": "UnitPriceSpecification", "billingDuration": "P1M"}},
+      {"@type": "Offer", "price": "149", "priceCurrency": "CAD", "name": "Philosopher (Lifetime)"}
+    ],
+    "featureList": ["Socratic Method Simulation", "AI Philosophical Mentors", "Decision-Making Training", "Bilingual English/French", "6 Philosopher Mentors"]
+  }</script>
+  <!-- Google Analytics 4 — Replace G-13L2NPBC3E with your GA4 Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-13L2NPBC3E"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-13L2NPBC3E');</script>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    :root{--bg:#05050a;--bg2:#0d0d14;--card:#141420;--card2:#1a1a28;--text:#fff;--text2:#9ca3af;--muted:#6b7280;--gold:#d4a853;--gold2:#b8923e;--purple:#6366f1;--purple2:#8b5cf6;--green:#10b981;--warn:#f59e0b;--err:#ef4444;--cyan:#06b6d4;--border:rgba(255,255,255,0.06);--gborder:rgba(212,168,83,0.22);--gglow:rgba(212,168,83,0.15);}
+    body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;}
+    a{color:var(--gold);text-decoration:none;}
+    .hd{font-family:'Space Grotesk',sans-serif;}
+    ::selection{background:rgba(212,168,83,0.3);}
+    ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:4px;}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,5,10,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+    .nav-brand{display:flex;align-items:center;gap:10px;}
+    .nav-brand img{width:36px;height:36px;border-radius:10px;border:1.5px solid var(--gold);}
+    .nav-brand span{font-family:'Space Grotesk';font-weight:700;font-size:22px;}
+    .nav-brand small{font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:0.05em;display:block;margin-top:-4px;}
+    .nav-links{display:flex;gap:28px;align-items:center;}
+    .nav-links a{color:var(--text2);font-size:15px;font-weight:500;transition:color 0.2s;}
+    .nav-links a:hover{color:var(--gold);}
+    .btn{display:inline-block;padding:10px 24px;border-radius:8px;font-weight:600;font-size:15px;cursor:pointer;transition:all 0.2s;border:none;font-family:'DM Sans';}
+    .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0a0a0a;}
+    .btn-gold:hover{box-shadow:0 4px 20px var(--gglow);transform:translateY(-1px);}
+    .btn-outline{background:transparent;color:var(--text2);border:1px solid var(--border);}
+    .btn-outline:hover{border-color:var(--gborder);color:var(--gold);}
+    .btn-purple{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;}
+    .btn-green{background:linear-gradient(135deg,var(--green),#059669);color:#fff;}
+
+    /* HERO */
+    .hero{display:flex;flex-direction:column;align-items:center;padding-top:80px;position:relative;overflow:hidden;}
+    .hero-banner{width:100%;max-width:1200px;margin:0 auto;position:relative;border-radius:16px;overflow:hidden;box-shadow:0 8px 60px rgba(212,168,83,0.08);}
+    .hero-banner img{width:100%;height:auto;display:block;}
+    .hero-content{text-align:center;padding:36px 40px 60px;max-width:700px;}
+    .hero h1{font-family:'Space Grotesk';font-size:clamp(36px,6vw,64px);font-weight:700;letter-spacing:-0.03em;margin-bottom:12px;}
+    .hero h1 span{background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .hero p.sub{font-size:22px;color:var(--gold);font-weight:600;margin-bottom:8px;letter-spacing:0.02em;}
+    .hero p.desc{font-size:18px;color:var(--text2);max-width:560px;margin:0 auto 32px;line-height:1.7;}
+    .hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+
+    /* 3-PHASE */
+    .phases{padding:80px 40px;max-width:1000px;margin:0 auto;}
+    .phases h2{font-family:'Space Grotesk';font-size:36px;font-weight:700;text-align:center;margin-bottom:12px;}
+    .phases p.sub{text-align:center;color:var(--text2);font-size:18px;margin-bottom:48px;}
+    .phase-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+    .phase-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px 24px;text-align:center;transition:all 0.3s;}
+    .phase-card:hover{border-color:var(--gborder);transform:translateY(-4px);}
+    .phase-card .num{font-family:'Space Grotesk';font-size:14px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;}
+    .phase-card .icon{font-size:40px;margin-bottom:12px;}
+    .phase-card h3{font-family:'Space Grotesk';font-size:22px;font-weight:700;margin-bottom:8px;}
+    .phase-card p{color:var(--text2);font-size:15px;line-height:1.6;}
+
+    /* PRICING */
+    .pricing{padding:80px 40px;background:var(--bg2);}
+    .pricing h2{font-family:'Space Grotesk';font-size:36px;font-weight:700;text-align:center;margin-bottom:12px;}
+    .pricing p.sub{text-align:center;color:var(--text2);font-size:18px;margin-bottom:48px;}
+    .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1000px;margin:0 auto;}
+    .price-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;position:relative;transition:all 0.3s;}
+    .price-card.featured{border-color:var(--gold);box-shadow:0 0 40px var(--gglow);}
+    .price-card .badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0a0a0a;padding:4px 16px;border-radius:20px;font-size:12px;font-weight:700;text-transform:uppercase;}
+    .price-card h3{font-family:'Space Grotesk';font-size:22px;font-weight:700;margin-bottom:4px;}
+    .price-card .price{font-family:'Space Grotesk';font-size:42px;font-weight:700;margin:12px 0 4px;}
+    .price-card .price span{font-size:16px;color:var(--text2);font-weight:400;}
+    .price-card .note{font-size:14px;color:var(--muted);margin-bottom:20px;}
+    .price-card ul{list-style:none;margin-bottom:24px;}
+    .price-card ul li{padding:8px 0;font-size:15px;color:var(--text2);border-bottom:1px solid var(--border);}
+    .price-card ul li::before{content:'✦ ';color:var(--gold);}
+    .price-card .btn{width:100%;text-align:center;display:block;}
+
+    /* FOOTER */
+    /* CONTACT */
+    .contact-section{padding:80px 40px;text-align:center;}
+    .contact-form{max-width:520px;margin:32px auto 0;display:flex;flex-direction:column;gap:14px;}
+    .contact-row{display:flex;gap:14px;}
+    .contact-row > *{flex:1;}
+    .contact-form input,.contact-form select,.contact-form textarea{width:100%;padding:12px 16px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;font-family:inherit;}
+    .contact-form input:focus,.contact-form select:focus,.contact-form textarea:focus{outline:none;border-color:var(--gold);}
+    .contact-form textarea{min-height:120px;resize:vertical;}
+    .contact-form select{appearance:none;cursor:pointer;}
+    .contact-form select option{background:var(--card);}
+    .contact-success{text-align:center;padding:40px;color:var(--gold);font-size:18px;display:none;}
+
+    footer{padding:40px;text-align:center;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
+    footer a{color:var(--gold);}
+
+    /* AUTH MODAL */
+    .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);z-index:200;align-items:center;justify-content:center;}
+    .modal-bg.show{display:flex;}
+    .modal{background:var(--card);border:1px solid var(--gborder);border-radius:20px;padding:36px;width:100%;max-width:420px;position:relative;animation:fadeUp 0.3s ease;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+    .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;}
+    .modal h2{font-family:'Space Grotesk';font-size:26px;font-weight:700;margin-bottom:4px;text-align:center;}
+    .modal p.sub{text-align:center;color:var(--text2);font-size:15px;margin-bottom:24px;}
+    .modal .google-btn{width:100%;padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px;transition:all 0.2s;font-family:'DM Sans';}
+    .modal .google-btn:hover{border-color:var(--gborder);background:var(--card2);}
+    .modal .divider{display:flex;align-items:center;gap:12px;margin-bottom:16px;color:var(--muted);font-size:13px;}
+    .modal .divider::before,.modal .divider::after{content:'';flex:1;height:1px;background:var(--border);}
+    .modal label{display:block;font-size:14px;font-weight:600;color:var(--text2);margin-bottom:6px;}
+    .modal input{width:100%;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:16px;font-family:'DM Sans';margin-bottom:14px;outline:none;transition:border 0.2s;}
+    .modal input:focus{border-color:var(--gold);}
+    .modal .submit-btn{width:100%;padding:14px;font-size:16px;font-weight:700;border:none;border-radius:10px;cursor:pointer;font-family:'Space Grotesk';transition:all 0.2s;}
+    .modal .submit-btn.gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0a0a0a;}
+    .modal .submit-btn.gold:hover{box-shadow:0 4px 20px var(--gglow);}
+    .modal .switch{text-align:center;margin-top:16px;font-size:14px;color:var(--text2);}
+    .modal .switch a{cursor:pointer;color:var(--gold);font-weight:600;}
+    .modal .forgot{text-align:right;margin-top:-8px;margin-bottom:14px;}
+    .modal .forgot a{font-size:13px;color:var(--gold);cursor:pointer;}
+    .modal .error{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:var(--err);padding:10px 14px;border-radius:8px;font-size:14px;margin-bottom:14px;display:none;}
+    .modal .success{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:var(--green);padding:10px 14px;border-radius:8px;font-size:14px;margin-bottom:14px;display:none;}
+
+    /* LOGGED-IN STATE */
+    .logged-out{display:flex;gap:10px;align-items:center;}
+    .logged-in{display:none;align-items:center;gap:12px;}
+    .logged-in .user-name{color:var(--text2);font-size:14px;font-weight:500;}
+    .logged-in .avatar{width:32px;height:32px;border-radius:50%;background:var(--purple);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;}
+
+    /* MENTORS PREVIEW */
+    .mentors{padding:80px 40px;max-width:1100px;margin:0 auto;}
+    .mentors .sec-label{text-align:center;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--purple);margin-bottom:10px;}
+    .mentors h2{font-family:'Space Grotesk';font-size:36px;font-weight:700;text-align:center;margin-bottom:10px;}
+    .mentors p.sub{text-align:center;color:var(--text2);font-size:17px;max-width:520px;margin:0 auto 44px;line-height:1.6;}
+    .mentors-wrap{position:relative;}
+    .mentors-scroll{display:flex;gap:18px;overflow-x:auto;padding-bottom:12px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;}
+    .mentors-scroll::-webkit-scrollbar{height:3px;}.mentors-scroll::-webkit-scrollbar-track{background:transparent;}.mentors-scroll::-webkit-scrollbar-thumb{background:rgba(212,168,83,0.15);border-radius:2px;}
+    .scroll-arrow{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;background:rgba(13,13,20,0.9);border:1px solid var(--gborder);color:var(--gold);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;transition:all 0.2s;backdrop-filter:blur(8px);}
+    .scroll-arrow:hover{background:rgba(212,168,83,0.15);box-shadow:0 2px 12px var(--gglow);}
+    .scroll-arrow.left{left:-12px;}
+    .scroll-arrow.right{right:-12px;}
+    .scroll-arrow svg{width:18px;height:18px;}
+    .m-card{min-width:210px;max-width:210px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 18px;scroll-snap-align:start;flex-shrink:0;transition:all 0.3s;cursor:pointer;}
+    .m-card:hover{border-color:var(--gborder);transform:translateY(-3px);}
+    .m-card.m-active{border-color:rgba(212,168,83,0.3);}
+    .m-card .m-av{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,rgba(212,168,83,0.1),rgba(99,102,241,0.06));display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:12px;border:1.5px solid rgba(212,168,83,0.12);overflow:hidden;}
+    .m-card .m-av img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+    .m-card h4{font-family:'Space Grotesk';font-size:16px;font-weight:700;margin-bottom:2px;}
+    .m-card .m-era{font-size:11px;color:var(--muted);margin-bottom:8px;}
+    .m-card .m-focus{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:12px;}
+    .m-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px;}
+    .m-badge.avail{background:rgba(16,185,129,0.1);color:var(--green);}
+    .m-badge.avail::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);animation:mpulse 2s infinite;}
+    .m-badge.soon{background:rgba(99,102,241,0.08);color:#818cf8;}
+    @keyframes mpulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+    .m-card .m-cta{display:block;margin-top:10px;font-size:12px;font-weight:700;color:var(--gold);opacity:0;transition:opacity 0.2s;}
+    .m-card:hover .m-cta{opacity:1;}
+    .m-card .m-cta.soon-cta{color:#818cf8;}
+    .m-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--card);border:1px solid rgba(16,185,129,0.3);border-radius:10px;padding:12px 20px;display:flex;align-items:center;gap:8px;font-size:14px;color:var(--green);z-index:300;opacity:0;transition:all 0.4s ease;white-space:nowrap;}
+    .m-toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+    @media(max-width:768px){
+      nav{padding:12px 20px;}
+      .nav-links a.desk{display:none;}
+      .hero{padding-top:70px;}
+      .hero-banner{border-radius:0;}
+      .hero-content{padding:28px 20px 40px;}
+      .phase-grid,.price-grid{grid-template-columns:1fr;}
+      .pricing,.phases,.mentors{padding:60px 20px;}
+      .m-card{min-width:190px;max-width:190px;}
+      .scroll-arrow{display:none;}
+    }
+    .lang-toggle{display:flex;gap:2px;margin-right:8px;}
+    .lang-toggle button{padding:4px 10px;font-size:12px;font-weight:700;background:transparent;color:var(--muted);border:1px solid transparent;border-radius:6px;cursor:pointer;font-family:'DM Sans';transition:all 0.2s;}
+    .lang-toggle button.active{background:rgba(212,168,83,0.12);color:var(--gold);border-color:var(--gborder);}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <img src="/socrates.png" alt="PhiloSim">
+    <div><span class="hd">PhiloSim</span><small>by Panda Projet</small></div>
+  </div>
+  <div class="nav-links">
+    <div class="lang-toggle">
+      <button class="active" onclick="setLang('en')">EN</button>
+      <button onclick="setLang('fr')">FR</button>
+    </div>
+    <a href="#phases" class="desk" data-i18n="nav_how">How It Works</a>
+    <a href="#mentors" class="desk" data-i18n="nav_mentors">Mentors</a>
+    <a href="#pricing" class="desk" data-i18n="nav_pricing">Pricing</a>
+    <a href="#contact" class="desk" data-i18n="nav_contact">Contact</a>
+    <div class="logged-out" id="loggedOut">
+      <button class="btn btn-outline" onclick="showModal('login')" data-i18n="btn_login">Log In</button>
+      <button class="btn btn-gold" onclick="showModal('register')" data-i18n="btn_signup">Sign Up Free</button>
+    </div>
+    <div class="logged-in" id="loggedIn">
+      <a href="/dashboard" class="btn btn-outline" style="padding:8px 16px;font-size:13px;" data-i18n="nav_dashboard">Dashboard</a>
+      <a href="/choose" class="btn btn-gold" style="padding:8px 16px;font-size:13px;" data-i18n="nav_play">Play →</a>
+      <div class="avatar" id="userAvatar"></div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-banner">
+    <img id="heroBanner" src="/philosim.png" alt="Don't Read Philosophy. JUST LIVE IT! — PhiloSim AI-Powered Philosophy Training">
+  </div>
+  <div class="hero-content">
+    <p class="sub" data-i18n="hero_sub">What if Socrates could sit beside you today?</p>
+    <p class="desc" data-i18n="hero_desc">AI companions that let you experience the world through history's greatest philosophical minds — walking beside you through real decisions.</p>
+    <div class="hero-btns">
+      <button class="btn btn-gold" style="padding:16px 36px;font-size:18px;" onclick="handleCTA()" data-i18n="hero_cta">Start Free Simulation →</button>
+      <a href="#phases" class="btn btn-outline" style="padding:16px 36px;font-size:18px;" data-i18n="hero_how">See How It Works</a>
+    </div>
+  </div>
+</section>
+
+<!-- 3 PHASES -->
+<section class="phases" id="phases">
+  <h2 class="hd" data-i18n="phases_title">Three Phases. One Transformation.</h2>
+  <p class="sub" data-i18n="phases_sub">Each simulation takes you through a complete learning journey.</p>
+  <div class="phase-grid">
+    <div class="phase-card">
+      <div class="num" data-i18n="phase1_num">Phase 1</div>
+      <div class="icon">📖</div>
+      <h3 class="hd" data-i18n="phase1_title">The Philosophy</h3>
+      <p data-i18n="phase1_desc">Watch the origin story. Study 5 core pillars. Understand the thinker's method before you try to use it.</p>
+    </div>
+    <div class="phase-card">
+      <div class="num" data-i18n="phase2_num">Phase 2</div>
+      <div class="icon">🧠</div>
+      <h3 class="hd" data-i18n="phase2_title">Do You Get It?</h3>
+      <p data-i18n="phase2_desc">4 scenario-based questions test whether you actually internalized the philosophy — or just memorized words.</p>
+    </div>
+    <div class="phase-card">
+      <div class="num" data-i18n="phase3_num">Phase 3</div>
+      <div class="icon">⚡</div>
+      <h3 class="hd" data-i18n="phase3_title">Apply Under Pressure</h3>
+      <p data-i18n="phase3_desc">5 high-stakes decisions. Your mentor reacts to every choice. A philosophical report reveals your true patterns.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MENTORS PREVIEW -->
+<section class="mentors" id="mentors">
+  <div class="sec-label" data-i18n="mentors_label">Your Mentors</div>
+  <h2 class="hd" data-i18n="mentors_title">Wisdom Across the Ages</h2>
+  <p class="sub" data-i18n="mentors_subtitle">Learn from history's greatest minds. Each philosopher brings a unique approach to life's toughest questions.</p>
+  <div class="mentors-wrap">
+    <button class="scroll-arrow left" onclick="scrollMentors(-1)" aria-label="Scroll left">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15,18 9,12 15,6"/></svg>
+    </button>
+    <button class="scroll-arrow right" onclick="scrollMentors(1)" aria-label="Scroll right">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9,6 15,12 9,18"/></svg>
+    </button>
+    <div class="mentors-scroll" id="mentorsScroll">
+    <div class="m-card m-active" onclick="window.location.href='/philosopher?id=socrates'">
+      <div class="m-av"><img src="/socrates.png" alt="Socrates" onerror="this.parentElement.textContent='🏛️'"></div>
+      <h4 data-i18n="m_socrates">Socrates</h4>
+      <div class="m-era" data-i18n="m_socrates_era">469–399 BC</div>
+      <div class="m-focus" data-i18n="m_socrates_focus">Master critical questioning through real-world ethical dilemmas.</div>
+      <span class="m-badge avail" data-i18n="m_available">Available Now</span>
+      <span class="m-cta" data-i18n="m_cta_start">▸ Start Journey</span>
+    </div>
+    <div class="m-card" onclick="window.location.href='/philosopher?id=plato'">
+      <div class="m-av"><img src="/plato.png" alt="Plato" onerror="this.parentElement.textContent='📜'"></div>
+      <h4 data-i18n="m_plato">Plato</h4>
+      <div class="m-era" data-i18n="m_plato_era">428–348 BC</div>
+      <div class="m-focus" data-i18n="m_plato_focus">Explore justice, truth, and the nature of reality through allegory.</div>
+      <span class="m-badge soon" data-i18n="m_coming">Coming Soon</span>
+      <span class="m-cta soon-cta" data-i18n="m_cta_notify">▸ Get Notified</span>
+    </div>
+    <div class="m-card" onclick="window.location.href='/philosopher?id=aristotle'">
+      <div class="m-av"><img src="/aristotle.png" alt="Aristotle" onerror="this.parentElement.textContent='📚'"></div>
+      <h4 data-i18n="m_aristotle">Aristotle</h4>
+      <div class="m-era" data-i18n="m_aristotle_era">384–322 BC</div>
+      <div class="m-focus" data-i18n="m_aristotle_focus">Build character through virtue and practical wisdom for everyday decisions.</div>
+      <span class="m-badge soon" data-i18n="m_coming">Coming Soon</span>
+      <span class="m-cta soon-cta" data-i18n="m_cta_notify">▸ Get Notified</span>
+    </div>
+    <div class="m-card" onclick="window.location.href='/philosopher?id=kant'">
+      <div class="m-av"><img src="/kant.png" alt="Kant" onerror="this.parentElement.textContent='⚖️'"></div>
+      <h4 data-i18n="m_kant">Immanuel Kant</h4>
+      <div class="m-era">1724–1804</div>
+      <div class="m-focus" data-i18n="m_kant_focus">Navigate moral duty where principles and consequences collide.</div>
+      <span class="m-badge soon" data-i18n="m_coming">Coming Soon</span>
+      <span class="m-cta soon-cta" data-i18n="m_cta_notify">▸ Get Notified</span>
+    </div>
+    <div class="m-card" onclick="window.location.href='/philosopher?id=nietzsche'">
+      <div class="m-av"><img src="/nietzsche.png" alt="Nietzsche" onerror="this.parentElement.textContent='🔥'"></div>
+      <h4>Friedrich Nietzsche</h4>
+      <div class="m-era">1844–1900</div>
+      <div class="m-focus" data-i18n="m_nietzsche_focus">Confront the creation of meaning and forge your own values.</div>
+      <span class="m-badge soon" data-i18n="m_coming">Coming Soon</span>
+      <span class="m-cta soon-cta" data-i18n="m_cta_notify">▸ Get Notified</span>
+    </div>
+    <div class="m-card" onclick="window.location.href='/philosopher?id=beauvoir'">
+      <div class="m-av"><img src="/beauvoir.png" alt="Simone de Beauvoir" onerror="this.parentElement.textContent='✊'"></div>
+      <h4>Simone de Beauvoir</h4>
+      <div class="m-era">1908–1986</div>
+      <div class="m-focus" data-i18n="m_beauvoir_focus">Embrace radical freedom and the ethics of ambiguity.</div>
+      <span class="m-badge soon" data-i18n="m_coming">Coming Soon</span>
+      <span class="m-cta soon-cta" data-i18n="m_cta_notify">▸ Get Notified</span>
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <h2 class="hd" data-i18n="pricing_title">Choose Your Path</h2>
+  <p class="sub" data-i18n="pricing_sub">Start free. Upgrade when you want the full mentorship experience.</p>
+  <div class="price-grid">
+    <div class="price-card">
+      <h3 class="hd" data-i18n="plan_explorer">Explorer</h3>
+      <div class="price">$0 <span data-i18n="plan_forever">/ forever</span></div>
+      <div class="note" data-i18n="plan_explorer_note">Get started instantly</div>
+      <ul>
+        <li data-i18n="feat_socrates1">Socrates: 1 scenario</li>
+        <li data-i18n="feat_journey">Full 3-phase journey</li>
+        <li data-i18n="feat_report">Basic philosophical report</li>
+        <li data-i18n="feat_bilingual">Bilingual (EN/FR)</li>
+      </ul>
+      <button class="btn btn-outline" style="width:100%;" onclick="handleCTA()" data-i18n="btn_start_free">Start Free →</button>
+    </div>
+    <div class="price-card featured">
+      <div class="badge" data-i18n="badge_popular">Most Popular</div>
+      <h3 class="hd" style="color:var(--gold);" data-i18n="plan_thinker">Thinker</h3>
+      <div class="price" style="color:var(--gold);">$19 <span data-i18n="plan_month">/ month</span></div>
+      <div class="note" data-i18n="plan_thinker_note">Full access to all mentors</div>
+      <ul>
+        <li data-i18n="feat_all_mentors">All mentors & scenarios</li>
+        <li data-i18n="feat_analysis">Detailed decision analysis</li>
+        <li data-i18n="feat_tracking">Progress tracking dashboard</li>
+        <li data-i18n="feat_pdf">PDF report export</li>
+        <li data-i18n="feat_priority">Priority new content</li>
+      </ul>
+      <button class="btn btn-gold" onclick="handleCTA('thinker')" data-i18n="btn_thinker">Get Thinker Plan →</button>
+    </div>
+    <div class="price-card">
+      <h3 class="hd" data-i18n="plan_philosopher">Philosopher</h3>
+      <div class="price">$149 <span data-i18n="plan_lifetime">/ lifetime</span></div>
+      <div class="note" data-i18n="plan_philosopher_note">One payment, forever access</div>
+      <ul>
+        <li data-i18n="feat_everything">Everything in Thinker</li>
+        <li data-i18n="feat_future">All future mentors included</li>
+        <li data-i18n="feat_team">Team/classroom sharing</li>
+        <li data-i18n="feat_beta">Early beta access</li>
+        <li data-i18n="feat_updates">Lifetime updates</li>
+      </ul>
+      <button class="btn btn-purple" onclick="handleCTA('philosopher')" data-i18n="btn_philosopher">Get Lifetime Access →</button>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="label" data-i18n="contact_label">Get in Touch</div>
+  <h2 class="hd" data-i18n="contact_title">Contact Us</h2>
+  <p style="color:var(--text2);max-width:460px;margin:8px auto 0;" data-i18n="contact_subtitle">Found a bug? Have a question? Want to partner with us? We'd love to hear from you.</p>
+  <form class="contact-form" id="contactForm" onsubmit="handleContact(event)">
+    <div class="contact-row">
+      <input type="text" id="contactName" placeholder="Your name" required>
+      <input type="email" id="contactEmail" placeholder="Your email" required>
+    </div>
+    <select id="contactType">
+      <option value="bug">🐛 Bug Report</option>
+      <option value="feedback">💡 Feedback</option>
+      <option value="question">❓ Question</option>
+      <option value="partnership">🤝 Partnership</option>
+      <option value="other">📩 Other</option>
+    </select>
+    <textarea id="contactMessage" placeholder="Your message..." required></textarea>
+    <button type="submit" class="btn btn-gold" id="contactBtn" data-i18n="contact_send">Send Message →</button>
+  </form>
+  <div class="contact-success" id="contactSuccess" data-i18n="contact_thanks">✅ Message sent! We'll get back to you soon.</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 PhiloSim by <a href="https://pandaprojet.com" target="_blank">Panda Projet</a> · <a href="https://sylvainpmo.com" target="_blank">Sylvain PMO Consulting</a></p>
+  <p style="margin-top:8px;" data-i18n="footer_tagline">Montreal, QC · Built for thinkers, by thinkers.</p>
+</footer>
+
+<!-- AUTH MODAL -->
+<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+
+    <!-- LOGIN -->
+    <div id="loginForm">
+      <h2 class="hd" data-i18n="login_title">Welcome Back</h2>
+      <p class="sub" data-i18n="login_sub">Continue your philosophical journey</p>
+      <div class="error" id="loginError"></div>
+      <button class="google-btn" onclick="googleLogin()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        <span data-i18n="google_continue">Continue with Google</span>
+      </button>
+      <div class="divider" data-i18n="divider_email">or sign in with email</div>
+      <label data-i18n="label_email">Email</label>
+      <input type="email" id="loginEmail" placeholder="you@example.com">
+      <label data-i18n="label_password">Password</label>
+      <input type="password" id="loginPassword" placeholder="">
+      <div class="forgot"><a onclick="showModal('forgot')" data-i18n="forgot_link">Forgot password?</a></div>
+      <button class="submit-btn gold" onclick="doLogin()" data-i18n="btn_signin">Sign In</button>
+      <div class="switch"><span data-i18n="switch_no_account">Don't have an account?</span> <a onclick="showModal('register')" data-i18n="switch_signup">Sign up free</a></div>
+    </div>
+
+    <!-- REGISTER -->
+    <div id="registerForm" style="display:none">
+      <h2 class="hd" data-i18n="register_title">Start Your Journey</h2>
+      <p class="sub" data-i18n="register_sub">Create your free PhiloSim account</p>
+      <div class="error" id="registerError"></div>
+      <button class="google-btn" onclick="googleLogin()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        <span data-i18n="google_signup">Sign up with Google</span>
+      </button>
+      <div class="divider" data-i18n="divider_or_email">or use email</div>
+      <label data-i18n="label_name">Full Name</label>
+      <input type="text" id="registerName" placeholder="">
+      <label data-i18n="label_email">Email</label>
+      <input type="email" id="registerEmail" placeholder="you@example.com">
+      <label data-i18n="label_password">Password</label>
+      <input type="password" id="registerPassword" placeholder="">
+      <button class="submit-btn gold" onclick="doRegister()" data-i18n="btn_create">Create Account</button>
+      <div class="switch"><span data-i18n="switch_has_account">Already have an account?</span> <a onclick="showModal('login')" data-i18n="switch_signin">Sign in</a></div>
+    </div>
+
+    <!-- FORGOT PASSWORD -->
+    <div id="forgotForm" style="display:none">
+      <h2 class="hd" data-i18n="forgot_title">Reset Password</h2>
+      <p class="sub" data-i18n="forgot_sub">Enter your email and we'll send a reset link</p>
+      <div class="error" id="forgotError"></div>
+      <div class="success" id="forgotSuccess"></div>
+      <label data-i18n="label_email">Email</label>
+      <input type="email" id="forgotEmail" placeholder="you@example.com">
+      <button class="submit-btn gold" onclick="doForgot()" data-i18n="btn_reset_link">Send Reset Link</button>
+      <div class="switch"><a onclick="showModal('login')" data-i18n="back_login">← Back to login</a></div>
+    </div>
+
+    <!-- RESET PASSWORD -->
+    <div id="resetForm" style="display:none">
+      <h2 class="hd" data-i18n="reset_title">New Password</h2>
+      <p class="sub" data-i18n="reset_sub">Choose a new password for your account</p>
+      <div class="error" id="resetError"></div>
+      <div class="success" id="resetSuccess"></div>
+      <label data-i18n="label_new_password">New Password</label>
+      <input type="password" id="resetPassword" placeholder="">
+      <label data-i18n="label_confirm_password">Confirm Password</label>
+      <input type="password" id="resetConfirm" placeholder="">
+      <button class="submit-btn gold" onclick="doReset()" data-i18n="btn_set_password">Set New Password</button>
+    </div>
+  </div>
+</div>
+
+<!-- MENTOR TOAST -->
+<div class="m-toast" id="mentorToast">✓ <span id="mentorToastMsg"></span></div>
+
+<script>
+const API = '';
+let currentUser = null;
+let currentLang = localStorage.getItem('philosim_lang') || 'en';
+
+// ── i18n Translations ──
+const i18n = {
+  en: {
+    nav_how: 'How It Works', nav_pricing: 'Pricing',
+    nav_dashboard: 'Dashboard', nav_play: 'Play →',
+    btn_login: 'Log In', btn_signup: 'Sign Up Free',
+    hero_sub: 'What if Socrates could sit beside you today?',
+    hero_desc: 'AI companions that let you experience the world through history\'s greatest philosophical minds — walking beside you through real decisions.',
+    hero_cta: 'Start Free Simulation →', hero_how: 'See How It Works',
+    phases_title: 'Three Phases. One Transformation.',
+    phases_sub: 'Each simulation takes you through a complete learning journey.',
+    phase1_num: 'Phase 1', phase1_title: 'The Philosophy',
+    phase1_desc: 'Watch the origin story. Study 5 core pillars. Understand the thinker\'s method before you try to use it.',
+    phase2_num: 'Phase 2', phase2_title: 'Do You Get It?',
+    phase2_desc: '4 scenario-based questions test whether you actually internalized the philosophy — or just memorized words.',
+    phase3_num: 'Phase 3', phase3_title: 'Apply Under Pressure',
+    phase3_desc: '5 high-stakes decisions. Your mentor reacts to every choice. A philosophical report reveals your true patterns.',
+    pricing_title: 'Choose Your Path',
+    pricing_sub: 'Start free. Upgrade when you want the full mentorship experience.',
+    plan_explorer: 'Explorer', plan_forever: '/ forever',
+    plan_explorer_note: 'Get started instantly',
+    feat_socrates1: 'Socrates: 1 scenario', feat_journey: 'Full 3-phase journey',
+    feat_report: 'Basic philosophical report', feat_bilingual: 'Bilingual (EN/FR)',
+    btn_start_free: 'Start Free →',
+    badge_popular: 'Most Popular',
+    plan_thinker: 'Thinker', plan_month: '/ month',
+    plan_thinker_note: 'Full access to all mentors',
+    feat_all_mentors: 'All mentors & scenarios', feat_analysis: 'Detailed decision analysis',
+    feat_tracking: 'Progress tracking dashboard', feat_pdf: 'PDF report export',
+    feat_priority: 'Priority new content', btn_thinker: 'Get Thinker Plan →',
+    plan_philosopher: 'Philosopher', plan_lifetime: '/ lifetime',
+    plan_philosopher_note: 'One payment, forever access',
+    feat_everything: 'Everything in Thinker', feat_future: 'All future mentors included',
+    feat_team: 'Team/classroom sharing', feat_beta: 'Early beta access',
+    feat_updates: 'Lifetime updates', btn_philosopher: 'Get Lifetime Access →',
+    footer_tagline: 'Montreal, QC · Built for thinkers, by thinkers.',
+    nav_contact: 'Contact',
+    contact_label: 'Get in Touch', contact_title: 'Contact Us',
+    contact_subtitle: 'Found a bug? Have a question? Want to partner with us? We\'d love to hear from you.',
+    contact_send: 'Send Message →', contact_thanks: '✅ Message sent! We\'ll get back to you soon.',
+    // Mentors
+    nav_mentors: 'Mentors',
+    mentors_label: 'Your Mentors', mentors_title: 'Wisdom Across the Ages',
+    mentors_subtitle: 'Learn from history\'s greatest minds. Each philosopher brings a unique approach to life\'s toughest questions.',
+    m_available: 'Available Now', m_coming: 'Coming Soon',
+    m_cta_start: '▸ Start Journey', m_cta_notify: '▸ Get Notified',
+    // Error messages
+    err_fill_all: 'Please fill in all fields',
+    err_fill_both: 'Please fill in both fields',
+    err_enter_email: 'Please enter your email',
+    err_login_failed: 'Login failed',
+    err_register_failed: 'Registration failed',
+    err_reset_failed: 'Reset failed',
+    err_connection: 'Connection error',
+    err_pw_min: 'Password must be at least 8 characters',
+    err_pw_match: 'Passwords do not match',
+    err_pw_short: 'Minimum 8 characters',
+    err_google: 'Google sign-in failed. Try again.',
+    err_checkout: 'Checkout failed. Please try again.',
+    suc_reset_sent: 'If an account exists, a reset link has been sent to your email.',
+    suc_pw_reset: 'Password reset! Redirecting to login...',
+    m_socrates: 'Socrates', m_socrates_era: '469–399 BC',
+    m_socrates_focus: 'Master critical questioning through real-world ethical dilemmas.',
+    m_plato: 'Plato', m_plato_era: '428–348 BC',
+    m_plato_focus: 'Explore justice, truth, and the nature of reality through allegory.',
+    m_kant: 'Immanuel Kant',
+    m_kant_focus: 'Navigate moral duty where principles and consequences collide.',
+    m_aristotle: 'Aristotle', m_aristotle_era: '384–322 BC',
+    m_aristotle_focus: 'Build character through virtue and practical wisdom for everyday decisions.',
+    m_nietzsche_focus: 'Confront the creation of meaning and forge your own values.',
+    m_beauvoir_focus: 'Embrace radical freedom and the ethics of ambiguity.',
+    // Modals
+    login_title: 'Welcome Back', login_sub: 'Continue your philosophical journey',
+    google_continue: 'Continue with Google', divider_email: 'or sign in with email',
+    label_email: 'Email', label_password: 'Password', label_name: 'Full Name',
+    forgot_link: 'Forgot password?', btn_signin: 'Sign In',
+    switch_no_account: "Don't have an account?", switch_signup: 'Sign up free',
+    register_title: 'Start Your Journey', register_sub: 'Create your free PhiloSim account',
+    google_signup: 'Sign up with Google', divider_or_email: 'or use email',
+    btn_create: 'Create Account',
+    switch_has_account: 'Already have an account?', switch_signin: 'Sign in',
+    forgot_title: 'Reset Password', forgot_sub: "Enter your email and we'll send a reset link",
+    btn_reset_link: 'Send Reset Link', back_login: '← Back to login',
+    reset_title: 'New Password', reset_sub: 'Choose a new password for your account',
+    label_new_password: 'New Password', label_confirm_password: 'Confirm Password',
+    btn_set_password: 'Set New Password',
+  },
+  fr: {
+    nav_how: 'Comment ça marche', nav_pricing: 'Tarifs',
+    nav_dashboard: 'Tableau de bord', nav_play: 'Jouer →',
+    btn_login: 'Connexion', btn_signup: 'S\'inscrire',
+    hero_sub: 'Et si Socrate pouvait s\'asseoir à vos côtés aujourd\'hui?',
+    hero_desc: 'Des compagnons IA qui vous permettent de vivre le monde à travers les plus grands esprits philosophiques de l\'histoire — marchant à vos côtés dans vos décisions réelles.',
+    hero_cta: 'Simulation gratuite →', hero_how: 'Comment ça marche',
+    phases_title: 'Trois phases. Une transformation.',
+    phases_sub: 'Chaque simulation vous guide à travers un parcours d\'apprentissage complet.',
+    phase1_num: 'Phase 1', phase1_title: 'La Philosophie',
+    phase1_desc: 'Découvrez l\'histoire d\'origine. Étudiez les 5 piliers fondamentaux. Comprenez la méthode du penseur avant de l\'utiliser.',
+    phase2_num: 'Phase 2', phase2_title: 'Avez-vous compris?',
+    phase2_desc: '4 questions basées sur des scénarios testent si vous avez vraiment intégré la philosophie — ou simplement mémorisé des mots.',
+    phase3_num: 'Phase 3', phase3_title: 'Appliquer sous pression',
+    phase3_desc: '5 décisions à enjeux élevés. Votre mentor réagit à chaque choix. Un rapport philosophique révèle vos véritables schémas.',
+    pricing_title: 'Choisissez votre parcours',
+    pricing_sub: 'Commencez gratuitement. Passez au niveau supérieur quand vous le souhaitez.',
+    plan_explorer: 'Explorateur', plan_forever: '/ à vie',
+    plan_explorer_note: 'Commencez immédiatement',
+    feat_socrates1: 'Socrate : 1 scénario', feat_journey: 'Parcours complet en 3 phases',
+    feat_report: 'Rapport philosophique de base', feat_bilingual: 'Bilingue (EN/FR)',
+    btn_start_free: 'Commencer gratuitement →',
+    badge_popular: 'Le plus populaire',
+    plan_thinker: 'Penseur', plan_month: '/ mois',
+    plan_thinker_note: 'Accès complet à tous les mentors',
+    feat_all_mentors: 'Tous les mentors et scénarios', feat_analysis: 'Analyse détaillée des décisions',
+    feat_tracking: 'Tableau de bord de progression', feat_pdf: 'Export PDF du rapport',
+    feat_priority: 'Contenu prioritaire', btn_thinker: 'Plan Penseur →',
+    plan_philosopher: 'Philosophe', plan_lifetime: '/ à vie',
+    plan_philosopher_note: 'Un seul paiement, accès permanent',
+    feat_everything: 'Tout le plan Penseur inclus', feat_future: 'Tous les futurs mentors inclus',
+    feat_team: 'Partage équipe/classe', feat_beta: 'Accès bêta anticipé',
+    feat_updates: 'Mises à jour à vie', btn_philosopher: 'Accès à vie →',
+    footer_tagline: 'Montréal, QC · Conçu par des penseurs, pour des penseurs.',
+    nav_contact: 'Contact',
+    contact_label: 'Contactez-nous', contact_title: 'Nous contacter',
+    contact_subtitle: 'Trouvé un bogue ? Une question ? Vous voulez collaborer avec nous ? Nous aimerions vous entendre.',
+    contact_send: 'Envoyer →', contact_thanks: '✅ Message envoyé ! Nous vous répondrons bientôt.',
+    // Mentors
+    nav_mentors: 'Mentors',
+    mentors_label: 'Vos Mentors', mentors_title: 'La Sagesse à Travers les Âges',
+    mentors_subtitle: 'Apprenez des plus grands esprits de l\'histoire. Chaque philosophe apporte une approche unique aux questions les plus difficiles.',
+    m_available: 'Disponible', m_coming: 'Bientôt disponible',
+    m_cta_start: '▸ Commencer le parcours', m_cta_notify: '▸ Être prévenu',
+    // Error messages
+    err_fill_all: 'Veuillez remplir tous les champs',
+    err_fill_both: 'Veuillez remplir les deux champs',
+    err_enter_email: 'Veuillez entrer votre courriel',
+    err_login_failed: 'Échec de la connexion',
+    err_register_failed: 'Échec de l\'inscription',
+    err_reset_failed: 'Échec de la réinitialisation',
+    err_connection: 'Erreur de connexion',
+    err_pw_min: 'Le mot de passe doit contenir au moins 8 caractères',
+    err_pw_match: 'Les mots de passe ne correspondent pas',
+    err_pw_short: 'Minimum 8 caractères',
+    err_google: 'Échec de la connexion Google. Réessayez.',
+    err_checkout: 'Échec du paiement. Veuillez réessayer.',
+    suc_reset_sent: 'Si un compte existe, un lien de réinitialisation a été envoyé à votre courriel.',
+    suc_pw_reset: 'Mot de passe réinitialisé! Redirection...',
+    m_socrates: 'Socrate', m_socrates_era: '469–399 av. J.-C.',
+    m_socrates_focus: 'Maîtrisez le questionnement critique à travers des dilemmes éthiques du monde réel.',
+    m_plato: 'Platon', m_plato_era: '428–348 av. J.-C.',
+    m_plato_focus: 'Explorez la justice, la vérité et la nature de la réalité à travers l\'allégorie.',
+    m_kant: 'Emmanuel Kant',
+    m_kant_focus: 'Naviguez le devoir moral quand principes et conséquences s\'affrontent.',
+    m_aristotle: 'Aristote', m_aristotle_era: '384–322 av. J.-C.',
+    m_aristotle_focus: 'Développez votre caractère par la vertu et la sagesse pratique pour les décisions du quotidien.',
+    m_nietzsche_focus: 'Affrontez la création de sens et forgez vos propres valeurs.',
+    m_beauvoir_focus: 'Embrassez la liberté radicale et l\'éthique de l\'ambiguïté.',
+    // Modals
+    login_title: 'Bon retour', login_sub: 'Poursuivez votre parcours philosophique',
+    google_continue: 'Continuer avec Google', divider_email: 'ou par courriel',
+    label_email: 'Courriel', label_password: 'Mot de passe', label_name: 'Nom complet',
+    forgot_link: 'Mot de passe oublié?', btn_signin: 'Se connecter',
+    switch_no_account: "Pas encore de compte?", switch_signup: "S'inscrire",
+    register_title: 'Commencez votre parcours', register_sub: 'Créez votre compte PhiloSim gratuit',
+    google_signup: "S'inscrire avec Google", divider_or_email: 'ou par courriel',
+    btn_create: 'Créer un compte',
+    switch_has_account: 'Déjà un compte?', switch_signin: 'Se connecter',
+    forgot_title: 'Réinitialiser le mot de passe', forgot_sub: 'Entrez votre courriel et nous vous enverrons un lien',
+    btn_reset_link: 'Envoyer le lien', back_login: '← Retour à la connexion',
+    reset_title: 'Nouveau mot de passe', reset_sub: 'Choisissez un nouveau mot de passe',
+    label_new_password: 'Nouveau mot de passe', label_confirm_password: 'Confirmer le mot de passe',
+    btn_set_password: 'Définir le mot de passe',
+  }
+};
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('philosim_lang', lang);
+  document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.toggle('active', b.textContent.trim() === lang.toUpperCase()));
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (i18n[lang][key]) el.textContent = i18n[lang][key];
+  });
+  // Swap hero banner
+  const banner = document.getElementById('heroBanner');
+  if (banner) banner.src = '/philosim.png';
+}
+
+function tr(key) { return (i18n[currentLang] && i18n[currentLang][key]) || i18n.en[key] || key; }
+
+function scrollMentors(dir) {
+  const el = document.getElementById('mentorsScroll');
+  if (el) el.scrollBy({ left: dir * 240, behavior: 'smooth' });
+}
+
+
+// ── Contact ──
+async function handleContact(e) {
+  e.preventDefault();
+  const btn = document.getElementById('contactBtn');
+  btn.disabled = true;
+  btn.textContent = currentLang === 'fr' ? 'Envoi...' : 'Sending...';
+  try {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: document.getElementById('contactName').value,
+        email: document.getElementById('contactEmail').value,
+        type: document.getElementById('contactType').value,
+        message: document.getElementById('contactMessage').value
+      })
+    });
+    if (res.ok) {
+      document.getElementById('contactForm').style.display = 'none';
+      document.getElementById('contactSuccess').style.display = 'block';
+    } else {
+      const data = await res.json();
+      alert(data.error || 'Failed to send');
+      btn.disabled = false;
+      btn.textContent = currentLang === 'fr' ? 'Envoyer →' : 'Send Message →';
+    }
+  } catch(err) {
+    alert('Failed to send message');
+    btn.disabled = false;
+    btn.textContent = currentLang === 'fr' ? 'Envoyer →' : 'Send Message →';
+  }
+}
+
+// ── Modal ──
+function showModal(type) {
+  document.getElementById('modalBg').classList.add('show');
+  ['loginForm','registerForm','forgotForm','resetForm'].forEach(f => document.getElementById(f).style.display = 'none');
+  document.querySelectorAll('.error,.success').forEach(e => e.style.display = 'none');
+  document.getElementById(type + 'Form').style.display = 'block';
+}
+function closeModal() { document.getElementById('modalBg').classList.remove('show'); }
+
+// ── Auth Actions ──
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginError');
+  errEl.style.display = 'none';
+  if (!email || !password) { errEl.textContent = tr('err_fill_all'); errEl.style.display = 'block'; return; }
+  try {
+    const r = await fetch(API + '/api/auth/login', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({email,password}) });
+    const data = await r.json();
+    if (!r.ok) { errEl.textContent = data.error || tr('err_login_failed'); errEl.style.display = 'block'; return; }
+    localStorage.setItem('auth_token', data.token);
+    closeModal(); checkAuth();
+    if (pendingPlan) { const p = pendingPlan; pendingPlan = null; startCheckout(p); return; }
+    if (handlePendingMentor()) return;
+    window.location.href = '/choose';
+  } catch(e) { errEl.textContent = tr('err_connection'); errEl.style.display = 'block'; }
+}
+
+async function doRegister() {
+  const name = document.getElementById('registerName').value;
+  const email = document.getElementById('registerEmail').value;
+  const password = document.getElementById('registerPassword').value;
+  const errEl = document.getElementById('registerError');
+  errEl.style.display = 'none';
+  if (!name || !email || !password) { errEl.textContent = tr('err_fill_all'); errEl.style.display = 'block'; return; }
+  if (password.length < 8) { errEl.textContent = tr('err_pw_min'); errEl.style.display = 'block'; return; }
+  try {
+    const utm_source = localStorage.getItem('utm_source') || '';
+    const utm_medium = localStorage.getItem('utm_medium') || '';
+    const utm_campaign = localStorage.getItem('utm_campaign') || '';
+    const r = await fetch(API + '/api/auth/register', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({name,email,password,utm_source,utm_medium,utm_campaign}) });
+    const data = await r.json();
+    if (!r.ok) { errEl.textContent = data.error || tr('err_register_failed'); errEl.style.display = 'block'; return; }
+    localStorage.setItem('auth_token', data.token);
+    closeModal(); checkAuth();
+    if (pendingPlan) { const p = pendingPlan; pendingPlan = null; startCheckout(p); return; }
+    if (handlePendingMentor()) return;
+    window.location.href = '/choose';
+  } catch(e) { errEl.textContent = tr('err_connection'); errEl.style.display = 'block'; }
+}
+
+async function doForgot() {
+  const email = document.getElementById('forgotEmail').value;
+  const errEl = document.getElementById('forgotError');
+  const sucEl = document.getElementById('forgotSuccess');
+  errEl.style.display = 'none'; sucEl.style.display = 'none';
+  if (!email) { errEl.textContent = tr('err_enter_email'); errEl.style.display = 'block'; return; }
+  try {
+    const r = await fetch(API + '/api/auth/forgot-password', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({email}) });
+    const data = await r.json();
+    sucEl.textContent = tr('suc_reset_sent');
+    sucEl.style.display = 'block';
+  } catch(e) { errEl.textContent = tr('err_connection'); errEl.style.display = 'block'; }
+}
+
+async function doReset() {
+  const password = document.getElementById('resetPassword').value;
+  const confirm = document.getElementById('resetConfirm').value;
+  const errEl = document.getElementById('resetError');
+  const sucEl = document.getElementById('resetSuccess');
+  errEl.style.display = 'none'; sucEl.style.display = 'none';
+  if (!password || !confirm) { errEl.textContent = tr('err_fill_both'); errEl.style.display = 'block'; return; }
+  if (password !== confirm) { errEl.textContent = tr('err_pw_match'); errEl.style.display = 'block'; return; }
+  if (password.length < 8) { errEl.textContent = tr('err_pw_short'); errEl.style.display = 'block'; return; }
+  const token = new URLSearchParams(window.location.search).get('reset_token');
+  try {
+    const r = await fetch(API + '/api/auth/reset-password', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({token,password}) });
+    const data = await r.json();
+    if (!r.ok) { errEl.textContent = data.error || tr('err_reset_failed'); errEl.style.display = 'block'; return; }
+    sucEl.textContent = tr('suc_pw_reset');
+    sucEl.style.display = 'block';
+    setTimeout(() => showModal('login'), 2000);
+  } catch(e) { errEl.textContent = tr('err_connection'); errEl.style.display = 'block'; }
+}
+
+let _googlePending = false;
+function googleLogin() {
+  if (_googlePending) return;
+  _googlePending = true;
+  const utmParams = ['utm_source','utm_medium','utm_campaign'].map(k => {
+    const v = localStorage.getItem(k);
+    return v ? `${k}=${encodeURIComponent(v)}` : '';
+  }).filter(Boolean).join('&');
+  window.location.href = API + '/api/auth/google' + (utmParams ? '?' + utmParams : '');
+}
+
+// ── Auth State ──
+async function checkAuth() {
+  const token = localStorage.getItem('auth_token');
+  if (!token) { showLoggedOut(); return; }
+  try {
+    const r = await fetch(API + '/api/auth/me', { headers: {'Authorization':'Bearer ' + token} });
+    if (!r.ok) { showLoggedOut(); return; }
+    const data = await r.json();
+    currentUser = data.user;
+    showLoggedIn(data.user);
+  } catch(e) { showLoggedOut(); }
+}
+
+function showLoggedIn(user) {
+  document.getElementById('loggedOut').style.display = 'none';
+  document.getElementById('loggedIn').style.display = 'flex';
+  document.getElementById('userAvatar').textContent = (user.name || user.email)[0].toUpperCase();
+  if (user.isAdmin) {
+    const dash = document.querySelector('a[href="/dashboard"]');
+    if (dash) dash.insertAdjacentHTML('beforebegin', '<a href="/admin" class="btn btn-outline" style="padding:8px 16px;font-size:13px;border-color:var(--warn);color:var(--warn);">Admin</a>');
+  }
+}
+
+function showLoggedOut() {
+  document.getElementById('loggedOut').style.display = 'flex';
+  document.getElementById('loggedIn').style.display = 'none';
+  currentUser = null;
+}
+
+let pendingPlan = null;
+let pendingMentor = null;
+
+// ── Mentor Click (Landing Page) ──
+const mentorNames = { socrates:'Socrates', plato:'Plato', aristotle:'Aristotle', kant:'Kant', nietzsche:'Nietzsche', beauvoir:'Beauvoir' };
+const mentorNamesFr = { socrates:'Socrate', plato:'Platon', aristotle:'Aristote', kant:'Kant', nietzsche:'Nietzsche', beauvoir:'Beauvoir' };
+
+function handleMentor(id, status) {
+  const token = localStorage.getItem('auth_token');
+  if (status === 'active') {
+    // Socrates — go to simulation
+    if (token && currentUser) { window.location.href = '/choose'; }
+    else { pendingMentor = { id, status }; showModal('register'); }
+  } else {
+    // Coming Soon — notify
+    if (token && currentUser) { notifyMentor(id); }
+    else { pendingMentor = { id, status }; showModal('register'); }
+  }
+}
+
+async function notifyMentor(id) {
+  const token = localStorage.getItem('auth_token');
+  try {
+    await fetch('/api/notify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ philosopher_id: id })
+    });
+  } catch(e) { console.warn('Notify API error:', e); }
+  const name = (currentLang === 'fr' ? mentorNamesFr : mentorNames)[id] || id;
+  const msg = currentLang === 'fr'
+    ? `Vous serez prévenu quand ${name} sera disponible!`
+    : `You'll be notified when ${name} is available!`;
+  showMentorToast(msg);
+}
+
+function showMentorToast(msg) {
+  const t = document.getElementById('mentorToast');
+  document.getElementById('mentorToastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+function handlePendingMentor() {
+  if (!pendingMentor) return false;
+  const m = pendingMentor;
+  pendingMentor = null;
+  if (m.status === 'active') { window.location.href = '/choose'; }
+  else { notifyMentor(m.id); }
+  return true;
+}
+
+function handleCTA(plan) {
+  const token = localStorage.getItem('auth_token');
+  if (!plan || plan === 'free') {
+    // Free plan — just go to app or register
+    if (token && currentUser) { window.location.href = '/choose'; }
+    else { showModal('register'); }
+    return;
+  }
+  // Paid plan — need to be logged in first
+  if (!token || !currentUser) {
+    pendingPlan = plan;
+    showModal('register');
+    return;
+  }
+  // Already logged in — go to Stripe checkout
+  startCheckout(plan);
+}
+
+async function startCheckout(plan) {
+  const token = localStorage.getItem('auth_token');
+  if (!token) return;
+  try {
+    const r = await fetch('/api/stripe/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ plan })
+    });
+    const data = await r.json();
+    if (data.url) { window.location.href = data.url; }
+    else { alert(data.error || tr('err_checkout')); }
+  } catch (e) { alert(tr('err_connection')); }
+}
+
+// ── Init ──
+window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  // Capture UTM params from URL (e.g. from social media campaigns)
+  ['utm_source','utm_medium','utm_campaign'].forEach(k => {
+    if (params.get(k)) localStorage.setItem(k, params.get(k));
+  });
+  // Check cookie first (set by Google OAuth callback)
+  const cookieMatch = document.cookie.match(/(?:^|;\s*)auth_token=([^;]*)/);
+  if (cookieMatch) {
+    localStorage.setItem('auth_token', cookieMatch[1]);
+    document.cookie = 'auth_token=; Path=/; Max-Age=0';
+    window.location.href = '/choose';
+    return;
+  }
+  // Google OAuth callback - token in URL
+  if (params.get('token')) {
+    localStorage.setItem('auth_token', params.get('token'));
+    window.history.replaceState({}, '', '/');
+    window.location.href = '/choose';
+    return;
+  }
+  // Password reset
+  if (params.get('reset_token')) { showModal('reset'); }
+  // Error from Google
+  if (params.get('error') && params.get('error') !== 'auth_timeout') { showModal('login'); document.getElementById('loginError').textContent = tr('err_google'); document.getElementById('loginError').style.display = 'block'; }
+  checkAuth();
+  setLang(currentLang);
+});
+
+// Enter key on inputs
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  if (document.getElementById('loginForm').style.display !== 'none') doLogin();
+  else if (document.getElementById('registerForm').style.display !== 'none') doRegister();
+  else if (document.getElementById('forgotForm').style.display !== 'none') doForgot();
+  else if (document.getElementById('resetForm').style.display !== 'none') doReset();
+});
+</script>
+</body>
+</html>
