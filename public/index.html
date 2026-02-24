@@ -121,6 +121,18 @@
     .price-card .btn{width:100%;text-align:center;display:block;}
 
     /* FOOTER */
+    /* CONTACT */
+    .contact-section{padding:80px 40px;text-align:center;}
+    .contact-form{max-width:520px;margin:32px auto 0;display:flex;flex-direction:column;gap:14px;}
+    .contact-row{display:flex;gap:14px;}
+    .contact-row > *{flex:1;}
+    .contact-form input,.contact-form select,.contact-form textarea{width:100%;padding:12px 16px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;font-family:inherit;}
+    .contact-form input:focus,.contact-form select:focus,.contact-form textarea:focus{outline:none;border-color:var(--gold);}
+    .contact-form textarea{min-height:120px;resize:vertical;}
+    .contact-form select{appearance:none;cursor:pointer;}
+    .contact-form select option{background:var(--card);}
+    .contact-success{text-align:center;padding:40px;color:var(--gold);font-size:18px;display:none;}
+
     footer{padding:40px;text-align:center;border-top:1px solid var(--border);color:var(--muted);font-size:14px;}
     footer a{color:var(--gold);}
 
@@ -218,6 +230,7 @@
     <a href="#phases" class="desk" data-i18n="nav_how">How It Works</a>
     <a href="#mentors" class="desk" data-i18n="nav_mentors">Mentors</a>
     <a href="#pricing" class="desk" data-i18n="nav_pricing">Pricing</a>
+    <a href="#contact" class="desk" data-i18n="nav_contact">Contact</a>
     <div class="logged-out" id="loggedOut">
       <button class="btn btn-outline" onclick="showModal('login')" data-i18n="btn_login">Log In</button>
       <button class="btn btn-gold" onclick="showModal('register')" data-i18n="btn_signup">Sign Up Free</button>
@@ -383,6 +396,29 @@
   </div>
 </section>
 
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="label" data-i18n="contact_label">Get in Touch</div>
+  <h2 class="hd" data-i18n="contact_title">Contact Us</h2>
+  <p style="color:var(--text2);max-width:460px;margin:8px auto 0;" data-i18n="contact_subtitle">Found a bug? Have a question? Want to partner with us? We'd love to hear from you.</p>
+  <form class="contact-form" id="contactForm" onsubmit="handleContact(event)">
+    <div class="contact-row">
+      <input type="text" id="contactName" placeholder="Your name" required>
+      <input type="email" id="contactEmail" placeholder="Your email" required>
+    </div>
+    <select id="contactType">
+      <option value="bug">🐛 Bug Report</option>
+      <option value="feedback">💡 Feedback</option>
+      <option value="question">❓ Question</option>
+      <option value="partnership">🤝 Partnership</option>
+      <option value="other">📩 Other</option>
+    </select>
+    <textarea id="contactMessage" placeholder="Your message..." required></textarea>
+    <button type="submit" class="btn btn-gold" id="contactBtn" data-i18n="contact_send">Send Message →</button>
+  </form>
+  <div class="contact-success" id="contactSuccess" data-i18n="contact_thanks">✅ Message sent! We'll get back to you soon.</div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <p>© 2026 PhiloSim by <a href="https://pandaprojet.com" target="_blank">Panda Projet</a> · <a href="https://sylvainpmo.com" target="_blank">Sylvain PMO Consulting</a></p>
@@ -504,6 +540,10 @@ const i18n = {
     feat_team: 'Team/classroom sharing', feat_beta: 'Early beta access',
     feat_updates: 'Lifetime updates', btn_philosopher: 'Get Lifetime Access →',
     footer_tagline: 'Montreal, QC · Built for thinkers, by thinkers.',
+    nav_contact: 'Contact',
+    contact_label: 'Get in Touch', contact_title: 'Contact Us',
+    contact_subtitle: 'Found a bug? Have a question? Want to partner with us? We\'d love to hear from you.',
+    contact_send: 'Send Message →', contact_thanks: '✅ Message sent! We\'ll get back to you soon.',
     // Mentors
     nav_mentors: 'Mentors',
     mentors_label: 'Your Mentors', mentors_title: 'Wisdom Across the Ages',
@@ -585,6 +625,10 @@ const i18n = {
     feat_team: 'Partage équipe/classe', feat_beta: 'Accès bêta anticipé',
     feat_updates: 'Mises à jour à vie', btn_philosopher: 'Accès à vie →',
     footer_tagline: 'Montréal, QC · Conçu par des penseurs, pour des penseurs.',
+    nav_contact: 'Contact',
+    contact_label: 'Contactez-nous', contact_title: 'Nous contacter',
+    contact_subtitle: 'Trouvé un bogue ? Une question ? Vous voulez collaborer avec nous ? Nous aimerions vous entendre.',
+    contact_send: 'Envoyer →', contact_thanks: '✅ Message envoyé ! Nous vous répondrons bientôt.',
     // Mentors
     nav_mentors: 'Mentors',
     mentors_label: 'Vos Mentors', mentors_title: 'La Sagesse à Travers les Âges',
@@ -655,6 +699,39 @@ function scrollMentors(dir) {
   if (el) el.scrollBy({ left: dir * 240, behavior: 'smooth' });
 }
 
+
+// ── Contact ──
+async function handleContact(e) {
+  e.preventDefault();
+  const btn = document.getElementById('contactBtn');
+  btn.disabled = true;
+  btn.textContent = currentLang === 'fr' ? 'Envoi...' : 'Sending...';
+  try {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: document.getElementById('contactName').value,
+        email: document.getElementById('contactEmail').value,
+        type: document.getElementById('contactType').value,
+        message: document.getElementById('contactMessage').value
+      })
+    });
+    if (res.ok) {
+      document.getElementById('contactForm').style.display = 'none';
+      document.getElementById('contactSuccess').style.display = 'block';
+    } else {
+      const data = await res.json();
+      alert(data.error || 'Failed to send');
+      btn.disabled = false;
+      btn.textContent = currentLang === 'fr' ? 'Envoyer →' : 'Send Message →';
+    }
+  } catch(err) {
+    alert('Failed to send message');
+    btn.disabled = false;
+    btn.textContent = currentLang === 'fr' ? 'Envoyer →' : 'Send Message →';
+  }
+}
 
 // ── Modal ──
 function showModal(type) {
